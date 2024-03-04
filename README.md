@@ -1,17 +1,17 @@
-# LOFIII - Flutter Open Source Music Streaming App
+# LOFIII - Flutter Open Source Music Streaming App for Lo-Fi lovers 
 
 ![LOFIII Logo](assets/lofiii_dark_mode.svg)
 
-LOFIII is a beautiful and intuitive music streaming app built with Flutter. It allows users to discover and listen to their favorite music on the go. With a sleek design and seamless user experience, LOFIII is your ultimate companion for enjoying music effortlessly.
+LOFIII is a beautiful and intuitive music streaming app built with Flutter. It allows users to discover and listen to their favorite Lo-Fi version music on the go. With a sleek design and seamless user experience, LOFIII is your ultimate companion for enjoying music effortlessly.
 
 ## Features
 
-- **Stream Music:** Enjoy a vast library of songs from various genres and artists.
-- **Create Playlists:** Curate your own playlists and organize your music collection.
-- **Search Functionality:** Easily find your favorite tracks, albums, or artists with our powerful search feature.
+- **Stream Music:** Enjoy a Only Lo-Fi library of songs from various genres and artists.
+- **Create Playlists:** Create your own playlists and organize your music collection.
+- **Search Functionality:** Easily find your favorite tracks, albums, or artists with our search feature.
 - **Offline Mode:** Download songs and playlists to listen to them offline, anytime, anywhere.
 - **Customizable Interface:** Personalize your listening experience with customizable themes and layout options.
-- **Cross-Platform Compatibility:** Available for Android devices, with plans for iOS support in the future.
+- **Cross-Platform Compatibility:** Available for Android devices, with plans for iOS,Web support in the future.
 
 ## Screenshots
 
@@ -40,11 +40,6 @@ We'd love to hear your feedback on LOFIII. If you encounter any bugs, have featu
 
 For support or any inquiries, feel free to contact us at [furqanuddin@programmer.net](mailto:furqanuddin@programmer.net).
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 **Note:** LOFIII is still under active development, and new features and improvements are being added regularly. Stay tuned for updates! 
 
