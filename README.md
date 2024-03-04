@@ -48,4 +48,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Note:** LOFIII is still under active development, and new features and improvements are being added regularly. Stay tuned for updates! 
 
-Enjoy your music with LOFIII! 🎵✨"THE
+Enjoy your music with LOFIII! 🎵✨
