@@ -4,8 +4,8 @@ part of 'user_profile_bloc.dart';
 class UserProfileState extends Equatable {
   const UserProfileState({required this.username, required this.profileImageFilePath});
 
-  final username;
-  final profileImageFilePath;
+  final String username;
+  final String profileImageFilePath;
 
   UserProfileState copyWith({username, profileImageFilePath}){
     return UserProfileState(username: username??this.username, profileImageFilePath: profileImageFilePath??this.profileImageFilePath);

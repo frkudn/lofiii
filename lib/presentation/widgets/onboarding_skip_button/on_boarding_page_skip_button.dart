@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../resources/hive/hive_resources.dart';
 import '../../pages/initial/initial_page.dart';
@@ -16,7 +17,16 @@ class OnBoardingSkipButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.topRight,
         child: TextButton(
-          onPressed: () {
+          onPressed: () async{
+
+            if (!(await Permission.manageExternalStorage.isGranted)) {
+              await Permission.manageExternalStorage.request();
+            }
+            if (!(await Permission.storage.isGranted)) {
+              await Permission.storage
+                  .request();
+            }
+
             ///---! Don't Show this screen after restarting app
             MyHiveBoxes.settingBox.put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
 
@@ -30,4 +40,5 @@ class OnBoardingSkipButton extends StatelessWidget {
       ),
     );
   }
+
 }

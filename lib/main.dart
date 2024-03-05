@@ -1,4 +1,3 @@
-// Importing necessary packages for the application
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +51,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     // MultiBlocProvider for managing multiple BLoCs
     return MultiBlocProvider(
       providers: _providers(),
@@ -94,7 +95,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  //!///////////////////////////////////////////////////////////////////
   ///?----------------   B L O C   P R O V I D E R S   -------------///
   //!/////////////////////////////////////////////////////////////////
   List<SingleChildWidget> _providers() {

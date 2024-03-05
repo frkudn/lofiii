@@ -12,7 +12,6 @@ class MusicData extends MusicDataKeys{
   Future<List> getLOFIIISpecialMusic() async {
     try {
       final response = await _dio.get(lofiiiSpecialUrl);
-      log(response.toString());
       return response.data;
     } catch (e) {
       log("Error fetching LOFIII Special Music: $e");
@@ -24,7 +23,6 @@ class MusicData extends MusicDataKeys{
   Future<List> getLOFIIIPopularMusic() async {
     try {
       final response = await _dio.get(lofiiiPopularUrl);
-      log(response.toString());
       return response.data;
     } catch (e) {
       log("Error fetching LOFIII Popular Music: $e");
@@ -36,7 +34,6 @@ class MusicData extends MusicDataKeys{
   Future<List> getLOFIIITopPicksMusic() async {
     try {
       final response = await _dio.get(lofiiiTopPicksUrl);
-      log(response.toString());
       return response.data;
     } catch (e) {
       log("Error fetching LOFIII TopPicks Music: $e");
@@ -49,7 +46,6 @@ class MusicData extends MusicDataKeys{
   Future<List> getArtistsData() async {
     try {
       final response = await _dio.get(artistsUrl);
-      log(response.toString());
       return response.data;
     } catch (e) {
       log("Error fetching Artists Data: $e");

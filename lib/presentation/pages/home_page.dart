@@ -16,10 +16,10 @@ import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_event.dart'
 import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_state.dart';
 import '../../resources/my_assets/my_assets.dart';
 import '../../resources/spinkit_animation_indicators/spinkit_indicators.dart';
-import '../widgets/home/artists_circle_cards_list_widget.dart';
-import '../widgets/home/heading_with_view_more_button_widget.dart';
-import '../widgets/home/home_app_bar.dart';
-import '../widgets/home/music_cards_list_widget.dart';
+import '../widgets/artists_circle_avatar_list/artists_circle_cards_list_widget.dart';
+import '../widgets/heading_with_view_more_button/heading_with_view_more_button_widget.dart';
+import '../widgets/home_page_app_bar/home_app_bar.dart';
+import '../widgets/music_cards_list/music_cards_list_widget.dart';
 import '../widgets/lottie_animation/no_internet_lottie_animation_widget.dart';
 
 class HomePage extends StatefulWidget {

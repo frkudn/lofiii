@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +47,7 @@ class AboutPage extends StatelessWidget {
           ),
 
           // Version
-          const Text("version : 1.0 beta"),
+          const Text("v1.0 beta", style: TextStyle(fontWeight: FontWeight.w500),),
 
           Gap(0.05.sh),
 
@@ -78,7 +80,7 @@ class AboutPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6.sp),
             child: Text(
-              "If you liked my work\nshow some ❤️ and star the repo",
+              "If you liked my work\nshow some ❤️ and ⭐ the repo",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16.sp),
             ),

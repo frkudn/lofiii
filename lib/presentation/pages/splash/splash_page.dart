@@ -56,13 +56,14 @@ class _SplashPageState extends State<SplashPage> {
   Future goToNextPage() async {
     ///----!  Fetch Bool value from Hive database , to show OnBoarding Screen or not
     final bool onBoarding = await MyHiveBoxes.settingBox
-        .get(MyHiveKeys.showOnBoardingScreenHiveKey)??true;
+            .get(MyHiveKeys.showOnBoardingScreenHiveKey) ??
+        true;
 
     ///!-----    Navigate To Next Screen
     Future.delayed(const Duration(seconds: 2), () {
       if (onBoarding) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const OnBoardingPage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const OnBoardingPage()));
       } else {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const InitialPage()));
@@ -70,8 +71,7 @@ class _SplashPageState extends State<SplashPage> {
     });
   }
 
-
-  _fetchMusic(){
+  _fetchMusic() {
     ///?-----------Fetch LOFIII Special Music ------___--------///
     context.read<LofiiiSpecialMusicBloc>().add(LOFIIISpecialMusicFetchEvent());
 
@@ -89,4 +89,7 @@ class _SplashPageState extends State<SplashPage> {
     ///?-------------Update Home Page Greeting Message -------/////
     context.read<GreetingCubit>().updateGreeting();
   }
+
+
+
 }
