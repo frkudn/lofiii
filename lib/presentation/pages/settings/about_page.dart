@@ -47,7 +47,7 @@ class AboutPage extends StatelessWidget {
           ),
 
           // Version
-          const Text("v1.0 beta", style: TextStyle(fontWeight: FontWeight.w500),),
+          const Text("v1.01 beta", style: TextStyle(fontWeight: FontWeight.w500),),
 
           Gap(0.05.sh),
 

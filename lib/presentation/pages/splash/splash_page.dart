@@ -39,13 +39,28 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: BlocBuilder<ThemeModeCubit, ThemeModeState>(
         builder: (context, state) {
-          return Center(
-            child: SvgPicture.asset(
-              state.isDarkMode
-                  ? MyAssets.lofiiiLogoDarkMode
-                  : MyAssets.lofiiiLogoLightMode,
-              fit: BoxFit.contain,
-            ),
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              
+              ///! Logo
+              Center(
+                child: SvgPicture.asset(
+                  state.isDarkMode
+                      ? MyAssets.lofiiiLogoDarkMode
+                      : MyAssets.lofiiiLogoLightMode,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text("Beta-v1.01"),
+                ),
+              )
+            ],
           );
         },
       ),

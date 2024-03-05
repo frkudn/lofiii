@@ -94,14 +94,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           backgroundColor: Colors.white,
                           child: IconButton(
                             onPressed: () async {
-                              if (!(await Permission
-                                  .manageExternalStorage.isGranted)) {
-                                await Permission.manageExternalStorage
-                                    .request();
-                              }
-                              if (!(await Permission.storage.isGranted)) {
-                                await Permission.storage.request();
-                              }
+                              await Permission.manageExternalStorage.request();
+
+                              await Permission.storage.request();
+
                               context.read<UserProfileBloc>().add(
                                   UserProfileChangeUserProfilePictureEvent());
                             },
