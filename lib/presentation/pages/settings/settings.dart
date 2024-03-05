@@ -1,16 +1,18 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/presentation/pages/settings/privacy_policy.dart';
 import 'package:lofiii/presentation/pages/settings/profile_page.dart';
-
+import 'package:lofiii/resources/my_assets/my_assets.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/theme/colors_palates.dart';
-import '../../widgets/settings/settings_list_tile_widget.dart';
+import '../../widgets/settings_list_tile/settings_list_tile_widget.dart';
 import 'about_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -115,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfilePage(),
+                        builder: (context) => const ProfilePage(),
                       ));
                 },
               ),
@@ -123,10 +125,14 @@ class _SettingsPageState extends State<SettingsPage> {
               _divider(),
 
               ///-------------------Equalizer-----------------------------///
-              SettingsListTileWidget(
-                title: "Equalizer",
-                iconData: Icons.equalizer,
-                onTap: equalizerOnTap,
+              BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                builder: (context, state) {
+                  return SettingsListTileWidget(
+                    title: "Equalizer",
+                    iconData: Icons.equalizer,
+                    onTap: equalizerOnTap,
+                  );
+                },
               ),
 
               _divider(),
@@ -145,23 +151,31 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Privacy Policy",
                 iconData: Icons.policy,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage(),));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PrivacyPolicyPage(),
+                      ));
                 },
               ),
 
               _divider(),
 
               ///-------------------About-----------------------------///
-               SettingsListTileWidget(
-                  title: "About", iconData: CupertinoIcons.info,onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutPage(),));
-              }),
+              SettingsListTileWidget(
+                  title: "About",
+                  iconData: CupertinoIcons.info,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AboutPage(),
+                        ));
+                  }),
 
               SizedBox(
                 height: 0.1.sh,
               ),
-
-
             ],
           ),
         ),
@@ -170,85 +184,67 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Divider _divider() {
-    return Divider(
-      color: Colors.grey.shade300,
-    );
+    return const Divider();
   }
+  ////////////////////!//////////////////////////////////////////////////
+  ///?------------------            M E T H O D S  --------------------///
+  //!/////////////////////////////////////////////////////////////////////
 
-  ///------------------!             M E T H O D S  --------------------///
   _accentColorTileOnTap() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => ListView(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
-                child: Text(
-              "Select the Color",
-              style: TextStyle(fontWeight: FontWeight.w500),
-            )),
-          ),
-          _customListTile(
-              context: context, colorCode: MyColor.teal, label: "Teal"),
-          _customListTile(
-              context: context,
-              colorCode: MyColor.blueViolet,
-              label: "Blue-violet"),
-          _customListTile(
-              context: context,
-              colorCode: MyColor.blazeOrange,
-              label: "Blaze Orange"),
-          _customListTile(
-              context: context,
-              colorCode: MyColor.brightMagenta,
-              label: "Bright Magenta"),
-          _customListTile(
-              context: context,
-              colorCode: MyColor.cadmiumRed,
-              label: "Cadmium Red"),
-          _customListTile(
-              context: context,
-              colorCode: MyColor.goldenPoppy,
-              label: "Golden Poppy"),
-          _customListTile(
-              context: context,
-              colorCode: MyColor.parisGreen,
-              label: "Paris Green"),
-        ],
+
+      elevation: 1,
+      backgroundColor: Colors.transparent,
+      showDragHandle: true,
+      builder: (context) => GridView.builder(
+        itemCount: MyColor.colorHexCodesList.length,
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+        itemBuilder: (BuildContext context, int index) => _customGridTile(
+          context: context,
+          colorCode: MyColor.colorHexCodesList[index],
+        ),
       ),
     );
   }
 
   ///!---------------    Custom List of Accent Color
-  ListTile _customListTile(
-      {required BuildContext context, required colorCode, label}) {
-    return ListTile(
-      title: Text(
-        label ?? "",
-        style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            shadows: [Shadow(color: Colors.black, blurRadius: 1)]),
-      ),
+  _customGridTile({
+    required BuildContext context,
+    required colorCode,
+  }) {
+    return InkWell(
       onTap: () {
         context.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
         Navigator.pop(context);
       },
-      tileColor: Color(colorCode),
+      child: CircleAvatar(
+        backgroundColor: Color(colorCode),
+      ),
     );
   }
-  
-  
-  ///!       Equalizer On Tap
-  equalizerOnTap()async{
+
+  ///! -------     Equalizer On Tap
+  equalizerOnTap() async {
     showDialog(
-      builder: (context) => 
-        AlertDialog(
+      builder: (context) => AlertDialog(
         title: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text("This feature is currently not available", style: TextStyle(fontSize: 16.sp),),
-        ),
-      ), context: context,
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Column(
+                children: [
+                  Lottie.asset(MyAssets.lottieWorkInProgressAnimation),
+                  Text(
+                    "Work in progress, will be next update!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16.spMax),
+                  )
+                ],
+              ),
+            )),
+      ),
+      context: context,
     );
   }
 }

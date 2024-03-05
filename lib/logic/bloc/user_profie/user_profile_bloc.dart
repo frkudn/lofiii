@@ -15,7 +15,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
   UserProfileBloc({required this.picker})
       : super(UserProfileState(
             username: MyHiveBoxes.settingBox.get(MyHiveKeys.profileUsernameHiveKey) ??
-                "anonymous",
+                "Guest",
             profileImageFilePath:
             MyHiveBoxes.settingBox.get(MyHiveKeys.profilePicHiveKey) ?? "")) {
     on<UserProfileChangeUserProfilePictureEvent>(

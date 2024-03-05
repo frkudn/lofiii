@@ -8,8 +8,8 @@ import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
 import '../../logic/bloc/favorite_button/favorite_button_bloc.dart';
 import '../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
 import '../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
-import '../widgets/home/heading_with_view_more_button_widget.dart';
-import '../widgets/home/music_cards_list_widget.dart';
+import '../widgets/heading_with_view_more_button/heading_with_view_more_button_widget.dart';
+import '../widgets/music_cards_list/music_cards_list_widget.dart';
 import '../widgets/lottie_animation/no_internet_lottie_animation_widget.dart';
 
 class LibraryPage extends StatelessWidget {

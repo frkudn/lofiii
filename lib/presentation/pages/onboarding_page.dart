@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../logic/bloc/user_profie/user_profile_bloc.dart';
 import '../../resources/hive/hive_resources.dart';
@@ -29,6 +30,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     super.initState();
     usernameController = TextEditingController();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -91,8 +93,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
                           child: IconButton(
-                            onPressed: (){
-                              context.read<UserProfileBloc>().add(UserProfileChangeUserProfilePictureEvent());
+                            onPressed: () async {
+                              if (!(await Permission
+                                  .manageExternalStorage.isGranted)) {
+                                await Permission.manageExternalStorage
+                                    .request();
+                              }
+                              if (!(await Permission.storage.isGranted)) {
+                                await Permission.storage.request();
+                              }
+                              context.read<UserProfileBloc>().add(
+                                  UserProfileChangeUserProfilePictureEvent());
                             },
                             icon: const Icon(
                               EvaIcons.edit,
@@ -113,7 +124,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         color: Colors.black38,
                         borderRadius: BorderRadius.circular(15)),
                     child: TextField(
-
                       style: const TextStyle(color: Colors.white),
                       maxLines: 1,
                       controller: usernameController,
@@ -138,12 +148,20 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         backgroundColor: Colors.teal,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))),
+
                     ///!-----------------   Get Stared On Pressed
-                    onPressed: () {
+                    onPressed: () async {
+                      if (!(await Permission.manageExternalStorage.isGranted)) {
+                        await Permission.manageExternalStorage.request();
+                      }
+                      if (!(await Permission.storage.isGranted)) {
+                        await Permission.storage.request();
+                      }
+
                       ///-----!   Change User
-                      context
-                          .read<UserProfileBloc>()
-                          .add(UserProfileChangeUsernameEvent(username: usernameController.text));
+                      context.read<UserProfileBloc>().add(
+                          UserProfileChangeUsernameEvent(
+                              username: usernameController.text));
 
                       ///--!  Navigate to Initial Page
                       Navigator.pushReplacement(
@@ -153,7 +171,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           ));
 
                       ///---! Don't Show this screen after restarting app
-                      MyHiveBoxes.settingBox.put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
+                      MyHiveBoxes.settingBox
+                          .put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
                     },
                     child: Text(
                       "Get Started",
@@ -172,6 +191,4 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
     );
   }
-
-
 }

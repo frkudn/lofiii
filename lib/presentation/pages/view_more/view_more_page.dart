@@ -1,9 +1,13 @@
+import 'dart:ffi';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/gridview_max_count/gridview_max_cout_cubit.dart';
@@ -65,8 +69,6 @@ class _ViewMorePageState extends State<ViewMorePage> {
                   padding: EdgeInsets.all(5.spMax),
                   scrollDirection: Axis.vertical,
                   physics: const BouncingScrollPhysics(),
-                  addRepaintBoundaries: true,
-                  addAutomaticKeepAlives: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: maxCountState.maxCount,
                       crossAxisSpacing: maxCountState.maxCount == 2
@@ -80,68 +82,71 @@ class _ViewMorePageState extends State<ViewMorePage> {
                           : 0.01.sh
                           : 0.03.sh),
                   itemCount: widget.musicList.length,
-                  itemBuilder: (context, index) => Card(
-                    margin: EdgeInsets.zero,
-                    surfaceTintColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(20.spMax)),
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: (){
+                      playMusicMethod(index, context, widget.musicList);
+                    },
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ///----!Image
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              playMusicMethod(index, context, widget.musicList);
-                            },
-                            child: Card(
-                              color: Colors.transparent,
-                              elevation: 1,
-                              shadowColor: Colors.transparent,
-                              surfaceTintColor: Colors.transparent,
-                              margin: EdgeInsets.zero,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        widget.musicList[index].image),
-                                  ),
-                                ),
+                        Flexible(
+
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              image: DecorationImage(
+
+                                onError: (exception, stackTrace) => const Center(child: Icon(FontAwesomeIcons.music),),
+                                image: CachedNetworkImageProvider(
+                                    widget.musicList[index].image, ),
                               ),
                             ),
                           ),
                         ),
-              
+
                         Gap(0.01.sh),
-                        Text(
-                          widget.musicList[index].title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: maxCountState.maxCount == 1
-                                  ? 20.spMax
-                                  : maxCountState.maxCount == 3
-                                  ? 10.spMax
-                                  : 15.spMax,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          widget.musicList[index].artists
-                              .join(
-                            " ",
-                          )
-                              .toString(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: maxCountState.maxCount == 1
-                                ? 14.spMax
-                                : maxCountState.maxCount == 3
-                                ? 8.spMax
-                                : 10.spMax,
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                  widget.musicList[index].title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: maxCountState.maxCount == 1
+                                          ? 20.spMax
+                                          : maxCountState.maxCount == 3
+                                          ? 10.spMax
+                                          : 15.spMax,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  widget.musicList[index].artists
+                                      .join(
+                                    ", ",
+                                  )
+                                      .toString(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: maxCountState.maxCount == 1
+                                        ? 14.spMax
+                                        : maxCountState.maxCount == 3
+                                        ? 8.spMax
+                                        : 10.spMax,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        
+
                         Gap(0.005.sh)
                       ],
                     ),

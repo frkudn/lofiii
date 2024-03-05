@@ -29,7 +29,7 @@ class CustomBottomNavigationWidget extends StatelessWidget {
         color: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         margin: EdgeInsets.zero,
-        shadowColor: Colors.black12,
+        shadowColor: Colors.black38,
         // shadowColor: Colors.transparent,
         elevation: 1,
         shape: RoundedRectangleBorder(

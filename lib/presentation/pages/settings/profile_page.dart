@@ -1,16 +1,14 @@
 import 'dart:io';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-
-
 import '../../../logic/bloc/user_profie/user_profile_bloc.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/theme/colors_palates.dart';
+import '../../widgets/blur_background_profile_image_widget/blur_background_profile_image_widget.dart';
+import '../../widgets/custom_gradient_glass_card/custom_gradient_glass_card_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -51,135 +49,293 @@ class _ProfilePageState extends State<ProfilePage> {
             )),
         backgroundColor: Colors.transparent,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ///----------Profile Image---------///
-          BlocBuilder<ThemeModeCubit, ThemeModeState>(
-            builder: (context, state) {
-              return Container(
-                height: 0.3.sh,
-                decoration: BoxDecoration(
-                    color: Color(state.accentColor),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(13),
-                      bottomRight: Radius.circular(13),
-                    )),
-                child: Center(
-                  child: SizedBox(
-                    // color: Colors.amber,
-                    height: 0.4.sw,
-                    width: 0.4.sw,
-                    child: Stack(children: [
-                      ///! ----------   Profile Image
-                      BlocBuilder<UserProfileBloc, UserProfileState>(
-                        builder: (context, state) {
-                          if (state.profileImageFilePath != null) {
-                            return CircleAvatar(
-                              maxRadius: 100,
-                              minRadius: 30,
-                              backgroundImage:
-                                  FileImage(File(state.profileImageFilePath)),
-                            );
-                          } else {
-                            return const CircleAvatar(
-                              maxRadius: 100,
-                              minRadius: 30,
-                              backgroundColor: Color(MyColor.teal),
-                            );
-                          }
-                        },
-                      ),
+      body: Stack(
+          fit: StackFit.expand,
+          children: [
 
-                      ///!------  Profile Pic Change Button
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: CircleAvatar(
-                              child: IconButton(
-                                  onPressed: () {
-                                    context.read<UserProfileBloc>().add(
-                                        UserProfileChangeUserProfilePictureEvent());
-                                  },
-                                  icon: const Icon(
-                                    EvaIcons.edit,
-                                  ))),
-                        ),
-                      )
-                    ]),
-                  ),
+            ///!---------------------------------------------------//
+            ///?-----------------  Profile Image    --------- ///
+            ///!---------------------------------------------------//
+            const _ProfileImageCircleAvatarButton(),
+
+            ///!---------------------------------------------------//
+            ///?-----------------  Background Image    --------- ///
+            ///!---------------------------------------------------//
+            const BlurBackgroundProfileImageWidget(),
+
+            ///!---------------------------------------------------//
+            ///?------------   Main Center Box   -------------------////
+            ///!---------------------------------------------------//
+            Center(
+              child: CustomGradientGlassCardWidget(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    ///!---------------------------------------------------//
+                    ///?------------   Profile Image   -------------------////
+                    ///!---------------------------------------------------//
+                    const _ProfileImageWidget(),
+
+                    ///!---------------------------------------------------//
+                    ///?------------   Profile Name Field   -------------------////
+                    ///!---------------------------------------------------//
+
+                    _ProfileNameTextFieldWidget(
+                        usernameController: usernameController),
+
+                    ///!---------------------------------------------------//
+                    ///?------------   Save Button   -------------------////
+                    ///!---------------------------------------------------//
+                    _SaveButtonWidget(usernameController: usernameController)
+                  ],
                 ),
-              );
-            },
-          ),
-
-          ///!------------   User Name
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Text(
-              "Profile",
-              style:
-                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
+          ]),
+    );
+  }
+}
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<UserProfileBloc, UserProfileState>(
-              builder: (context, state) {
-                return TextField(
-                  maxLines: 1,
-                  onSubmitted: (value) {
-                    context.read<UserProfileBloc>().add(
-                        UserProfileChangeUsernameEvent(
-                            username: usernameController.text));
-                    Navigator.pop(context);
+///!---------------------------------------------------//
+///?-----------------  Profile Image    --------- ///
+///!---------------------------------------------------//
+
+class _ProfileImageCircleAvatarButton extends StatelessWidget {
+  const _ProfileImageCircleAvatarButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeModeCubit, ThemeModeState>(
+      builder: (context, state) {
+        return Container(
+          height: 0.3.sh,
+          decoration: BoxDecoration(
+              color: Color(state.accentColor),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(13),
+                bottomRight: Radius.circular(13),
+              )),
+          child: Center(
+            child: SizedBox(
+              // color: Colors.amber,
+              height: 0.4.sw,
+              width: 0.4.sw,
+              child: Stack(children: [
+
+                ///! ----------   Profile Image
+                BlocBuilder<UserProfileBloc, UserProfileState>(
+                  builder: (context, state) {
+                    if (state.profileImageFilePath != null) {
+                      return CircleAvatar(
+                        maxRadius: 100,
+                        minRadius: 30,
+                        backgroundImage:
+                        FileImage(File(state.profileImageFilePath)),
+                      );
+                    } else {
+                      return BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                        builder: (context, state) {
+                          return CircleAvatar(
+                            maxRadius: 100,
+                            minRadius: 30,
+                            backgroundColor: Color(state.accentColor),
+                          );
+                        },
+                      );
+                    }
                   },
-                  controller: usernameController,
-                  decoration:
-                      InputDecoration(hintText: state.username ?? "Your name"),
-                );
-              },
+                ),
+
+                ///!------  Profile Pic Change Button
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: CircleAvatar(
+                        child: IconButton(
+                            onPressed: () {
+                              context.read<UserProfileBloc>().add(
+                                  UserProfileChangeUserProfilePictureEvent());
+                            },
+                            icon: const Icon(
+                              EvaIcons.edit,
+                            ))),
+                  ),
+                )
+              ]),
             ),
           ),
+        );
+      },
+    );
+  }
+}
 
-          Gap(0.03.sh),
+///!---------------------------------------------------//
+///?------------   Profile Name Field   -------------------////
+///!---------------------------------------------------//
 
+class _ProfileNameTextFieldWidget extends StatelessWidget {
+  const _ProfileNameTextFieldWidget({
+    super.key,
+    required this.usernameController,
+  });
 
+  final TextEditingController usernameController;
 
-          //!---------------------     S A V E   B U T T O N
-          BlocBuilder<ThemeModeCubit, ThemeModeState>(
-            builder: (context, state) {
-              return GestureDetector(
-                onTap: () {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(13.spMax),
+      child: BlocBuilder<UserProfileBloc, UserProfileState>(
+        builder: (context, userProfileState) {
+          return Column(
+            children: [
+              Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    "Profile Name",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 15.spMax),
+                  )),
+              TextField(
+                maxLines: 1,
+                onSubmitted: (value) {
                   context.read<UserProfileBloc>().add(
                       UserProfileChangeUsernameEvent(
                           username: usernameController.text));
-
                   Navigator.pop(context);
                 },
-                child: Center(
-                  child: Container(
-                    width: 0.7.sw,
-                    height: 0.05.sh,
-                    decoration: BoxDecoration(
-                        color: Color(state.accentColor),
-                        borderRadius: BorderRadius.circular(30)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.spMax,
-                          color: Colors.white),
-                    ),
-                  ),
+                controller: usernameController,
+                decoration: InputDecoration(
+                  hintText: userProfileState.username,
+                  hintStyle: const TextStyle(color: Colors.white38),
+                  border: InputBorder.none,
+                  enabled: true,
                 ),
+                style: const TextStyle(color: Colors.white),
+                cursorColor: Colors.white,
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+///!---------------------------------------------------//
+///?------------   Profile Image   -------------------////
+///!---------------------------------------------------//
+class _ProfileImageWidget extends StatelessWidget {
+  const _ProfileImageWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.amber,
+      height: 0.4.sw,
+      width: 0.4.sw,
+      child: Stack(children: [
+        BlocBuilder<UserProfileBloc, UserProfileState>(
+          builder: (context, state) {
+            if (state.profileImageFilePath != null) {
+              return CircleAvatar(
+                maxRadius: 100,
+                minRadius: 30,
+                backgroundImage: FileImage(File(state.profileImageFilePath)),
               );
-            },
+            } else {
+              return BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                builder: (context, state) {
+                  return CircleAvatar(
+                    maxRadius: 100,
+                    minRadius: 30,
+                    backgroundColor: Color(state.accentColor),
+                  );
+                },
+              );
+            }
+          },
+        ),
+
+        ///!------  Profile Pic Change Button
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: CircleAvatar(
+                child: IconButton(
+                    onPressed: () {
+                      context
+                          .read<UserProfileBloc>()
+                          .add(UserProfileChangeUserProfilePictureEvent());
+                    },
+                    icon: const Icon(
+                      EvaIcons.edit,
+                    ))),
           ),
-        ],
+        )
+      ]),
+    );
+  }
+}
+
+///!---------------------------------------------------//
+///?------------   Save Button   -------------------////
+///!---------------------------------------------------//
+class _SaveButtonWidget extends StatelessWidget {
+  const _SaveButtonWidget({
+    super.key,
+    required this.usernameController,
+  });
+
+  final TextEditingController usernameController;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.read<UserProfileBloc>().add(
+            UserProfileChangeUsernameEvent(username: usernameController.text));
+        Navigator.pop(context);
+      },
+      child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
+        builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 13.spMax),
+            child: Card(
+              margin: EdgeInsets.zero,
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: Container(
+                constraints: BoxConstraints(
+                  minWidth: 0.5.sw,
+                  maxWidth: 0.8.sw,
+                  minHeight: 0.05.sh,
+                  maxHeight: 0.07.sh,
+                ),
+                decoration: BoxDecoration(
+                    color: Color(state.accentColor).withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(20)),
+                alignment: Alignment.center,
+                child: Text(
+                  "Save",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.spMax),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
