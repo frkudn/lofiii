@@ -17,20 +17,20 @@ class OnBoardingSkipButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.topRight,
         child: TextButton(
-          onPressed: () async{
+          onPressed: () async {
+            await Permission.manageExternalStorage.request();
 
-            if (!(await Permission.manageExternalStorage.isGranted)) {
-              await Permission.manageExternalStorage.request();
-            }
-            if (!(await Permission.storage.isGranted)) {
-              await Permission.storage
-                  .request();
-            }
+            await Permission.storage.request();
 
             ///---! Don't Show this screen after restarting app
-            MyHiveBoxes.settingBox.put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
+            MyHiveBoxes.settingBox
+                .put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
 
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const InitialPage(),));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const InitialPage(),
+                ));
           },
           child: const Text(
             "Skip",
@@ -40,5 +40,4 @@ class OnBoardingSkipButton extends StatelessWidget {
       ),
     );
   }
-
 }
