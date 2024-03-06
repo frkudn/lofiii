@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
 import '../../../logic/bloc/lofiii_all_music/lofiii_all_music_event.dart';
 import '../../../logic/bloc/lofiii_popular_music/lofiii_popular_music_bloc.dart';
@@ -52,12 +52,14 @@ class _SplashPageState extends State<SplashPage> {
                   fit: BoxFit.contain,
                 ),
               ),
-              
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+
+
+              ///---- App Version Info
+               Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text("Beta-v1.01"),
+                  child: Text("Beta-v1.0.2", style: TextStyle(fontSize: 12.sp),),
                 ),
               )
             ],
@@ -67,7 +69,7 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  ///!------- M E T H O D S ------------------////
+  ///!------------------------- M E T H O D S ------------------////
   Future goToNextPage() async {
     ///----!  Fetch Bool value from Hive database , to show OnBoarding Screen or not
     final bool onBoarding = await MyHiveBoxes.settingBox

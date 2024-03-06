@@ -3,10 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-
+import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 
 import '../../../data/models/music_model.dart';
 import '../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
@@ -15,14 +17,12 @@ import '../../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
-import '../../../resources/spinkit_animation_indicators/spinkit_indicators.dart';
 import '../../widgets/mini_player/mini_player_widget.dart';
 import '../../widgets/mysliverappbarpersistentdelegatewidget/my_sliver_appbar_persistent_delegate.dart';
 import '../player/player_page.dart'; // Import this for Colors
 
 class ArtistPage extends StatefulWidget {
-  const ArtistPage({Key? key, required this.artistName, required this.image})
-      : super(key: key);
+  const ArtistPage({super.key, required this.artistName, required this.image});
 
   final String artistName;
   final String image;
@@ -32,6 +32,8 @@ class ArtistPage extends StatefulWidget {
 }
 
 class _ArtistPageState extends State<ArtistPage> {
+  ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +54,13 @@ class _ArtistPageState extends State<ArtistPage> {
 
       ///!-----------    Body
       body: Stack(
+        fit: StackFit.expand,
         children: [
-
           ///--------------
           ///!--------------             C U S T O M  S C R O L L  V I E W
           ///--------------
           CustomScrollView(
+            controller: _scrollController,
             slivers: [
               ///?-----------------------------         Sliver Persistent  Header
               SliverPersistentHeader(
@@ -67,143 +70,140 @@ class _ArtistPageState extends State<ArtistPage> {
                 floating: true,
               ),
 
+              //
+              // SliverToBoxAdapter(
+              //   child: Gap(0.01.sh),
+              // ),
+
               SliverToBoxAdapter(
-                child: Gap(0.01.sh),
-              ),
-              
-              ///?-----------------------------           Artist Music List
-              SliverToBoxAdapter(
-                child: ShrinkWrappingViewport(
-                  offset: ViewportOffset.zero(),
-                  slivers: [
-                    BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
-                      builder: (context, state) {
-                        ///! ---------  All Music State is Success
-                        if (state is LofiiiAllMusicSuccessState) {
-                          ///! -------------  Filtered List    ----------////
-                          final List<MusicModel> filteredList = state.musicList
-                              .where((element) =>
-                                  element.artists.first.toLowerCase().contains(
-                                      widget.artistName.toString().toLowerCase()) ||
-                                  element.artists.last.toLowerCase().contains(
-                                      widget.artistName.toString().toLowerCase()))
-                              .toList();
+                child: BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
+                  builder: (context, state) {
+                    //?//////////////////////////////////////
+                    ///! ----------   If state is Sucess
+                    ////?///////////////////////////////////
+                    if (state is LofiiiAllMusicSuccessState) {
+                      ///////////////////////////////////////////////////!
+                      ///! -------------  Filtered List    ----------////
+                      //////////////////////////////////////////////////!
 
-                          ///?//////////////////////////////////////////////////////
+                      final List<MusicModel> filteredList = state.musicList
+                          .where((element) =>
+                              element.artists.first.toLowerCase().contains(
+                                  widget.artistName.toString().toLowerCase()) ||
+                              element.artists.last.toLowerCase().contains(
+                                  widget.artistName.toString().toLowerCase()))
+                          .toList();
 
-                          return SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              ///--------!      List Tile
-                              (context, index) => Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                child: ListTile(
-                                  ///-------------!         On Tap
-                                  onTap: () {
-                                    _listTileOnTap(context, filteredList, index);
-                                  },
+                      ////---------- ListView Builder -----------/////
+                      return ListView.builder(
+                        controller: _scrollController,
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: filteredList.length,
 
-                                  visualDensity:
-                                      VisualDensity.adaptivePlatformDensity,
-                                  contentPadding: const EdgeInsets.all(3),
+                        ///-------------------------------------------------------
+                        ////!---------------  Music Tile  Card--------------------- ///
+                        ////------------------------------------------------------
+                        itemBuilder: (context, index) => ListTile(
+                          ///-------------!         On Tap
+                          onTap: () {
+                            _listTileOnTap(context, filteredList, index);
+                          },
 
-                                  ///!------------------  Music Card Image
-                                  leading: Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      width: 0.1.sw,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                        image: DecorationImage(
-                                          image: CachedNetworkImageProvider(filteredList[index].image),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                          ///!-----------------   Music Title
+                          title: Text(
+                            filteredList[index].title,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
 
-                                  ///!-----------------   Music Title
-                                  title: Text(
-                                    filteredList[index].title,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                          ///! ------------------ Artists
+                          subtitle: Text(filteredList[index]
+                              .artists
+                              .join(", ")
+                              .toString()),
 
-                                  ///! ------------------ Artists
-                                  subtitle: Text(filteredList[index]
-                                      .artists
-                                      .join(", ")
-                                      .toString()),
-
-                                  ///!----------------------       Favorite Button Toggle  --------------///
-                                  trailing: BlocBuilder<FavoriteButtonBloc,
-                                      FavoriteButtonState>(
-                                    builder: (context, state) {
-                                      bool isFavorite = state.favoriteList
-                                          .contains(filteredList[index].title);
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            context.read<FavoriteButtonBloc>().add(
-                                                FavoriteButtonToggleEvent(
-                                                    title:
-                                                        filteredList[index].title));
-                                            setState(() {});
-                                          },
-                                          icon: Icon(
-                                            isFavorite
-                                                ? CupertinoIcons.heart_fill
-                                                : CupertinoIcons.heart,
-                                            color: Theme.of(context).textTheme.bodyMedium!.color,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  // tileColor: colors[index],
-                                ),
+                          ///!------------------  Music Card Image
+                          leading: Container(
+                            padding: const EdgeInsets.all(8),
+                            width: 0.1.sw,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                    filteredList[index].image),
                               ),
-
-                              ///!--------------  Artists Music Length
-                              childCount: filteredList.length,
                             ),
-                          );
-                        }
+                          ),
 
-                        ///! ----------   If state is Loading
-                        else if (state is LofiiiAllMusicLoadingState) {
-                          return   const SliverToBoxAdapter(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
+                          ///!----------------------       Favorite Button Toggle  --------------///
+                          trailing: BlocBuilder<FavoriteButtonBloc,
+                              FavoriteButtonState>(
+                            builder: (context, state) {
+                              bool isFavorite = state.favoriteList
+                                  .contains(filteredList[index].title);
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: IconButton(
+                                  onPressed: () {
+                                    context.read<FavoriteButtonBloc>().add(
+                                        FavoriteButtonToggleEvent(
+                                            title: filteredList[index].title));
+                                    setState(() {});
+                                  },
+                                  icon: Icon(
+                                    isFavorite
+                                        ? FontAwesomeIcons.heartPulse
+                                        : FontAwesomeIcons.heart,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .color,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }
 
-                        ///! -----------   Else
-                        else {
-                          return const SliverToBoxAdapter(
-                            child: Center(
-                              child: Text("Something went Wrong"),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                    //?//////////////////////////////////////
+                    ///! ----------   If state is Loading
+                    ////?///////////////////////////////////
+                    else if (state is LofiiiAllMusicLoadingState) {
+                      return SliverToBoxAdapter(
+                        child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                          builder: (context, themeState) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: Color(themeState.accentColor),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
 
-                   ///!----- Extra Bottom Space
-                    SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 0.1.sh,
-                      ),
-                    )
-
-
-                  ],
+                    //?//////////////////////////////////////
+                    ///! ----------   If state is not Loading nor Success
+                    ////?///////////////////////////////////
+                    else {
+                      return const SliverToBoxAdapter(
+                        child: Center(
+                          child: Text("Something went Wrong"),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
+
+
             ],
           ),
-
 
           //--------------
           ///?--------------             Mini Player
@@ -215,15 +215,15 @@ class _ArtistPageState extends State<ArtistPage> {
                   visible: state.showMiniPlayer,
                   child: FadeInUp(
                       child: MiniPlayerPageWidget(
-                        playerHeight: 0.1.sh,
-                        playerWidth: 1.sw,
-                        paddingBottom: 0.1,
-                        paddingTop: 0.0,
-                        bottomMargin: 0.0,
-                        playerAlignment: Alignment.bottomCenter,
-                        borderRadiusTopLeft: 0.0,
-                        borderRadiusTopRight: 0.0,
-                      )));
+                    playerHeight: 0.1.sh,
+                    playerWidth: 1.sw,
+                    paddingBottom: 0.1,
+                    paddingTop: 0.0,
+                    bottomMargin: 0.0,
+                    playerAlignment: Alignment.bottomCenter,
+                    borderRadiusTopLeft: 0.0,
+                    borderRadiusTopRight: 0.0,
+                  )));
             },
           ),
         ],
@@ -231,25 +231,23 @@ class _ArtistPageState extends State<ArtistPage> {
     );
   }
 
-
   ///?------------------               M E T H O D S            --------------------------///
-  void _listTileOnTap(BuildContext context, List<MusicModel> filteredList, int index) {
-      ///!----Initialize & Play Music ------///
-    context.read<MusicPlayerBloc>().add(
-        MusicPlayerInitializeEvent(url: filteredList[index].url));
-    
+  void _listTileOnTap(
+      BuildContext context, List<MusicModel> filteredList, int index) {
+    ///!----Initialize & Play Music ------///
+    context
+        .read<MusicPlayerBloc>()
+        .add(MusicPlayerInitializeEvent(url: filteredList[index].url));
+
     ///!-----Show Mini Player-----///
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();
-    
+
     ///!-----Send Current Music Data-----///
-    context
-        .read<CurrentlyPlayingMusicDataToPlayerCubit>()
-        .sendDataToPlayer(
+    context.read<CurrentlyPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
         musicIndex: index,
         imageUrl: filteredList[index].image.toString(),
-    fullMusicList: filteredList
-    );
-    
+        fullMusicList: filteredList);
+
     ///!-----Show Player Screen ----///
     showModalBottomSheet(
       showDragHandle: true,

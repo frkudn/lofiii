@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../logic/cubit/bottom_navigation_change_page_index/bottom_navigation_index_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
-import '../../../resources/theme/colors_palates.dart';
 
 class CustomBottomNavigationWidget extends StatelessWidget {
   CustomBottomNavigationWidget({super.key, required this.state});
@@ -38,53 +37,49 @@ class CustomBottomNavigationWidget extends StatelessWidget {
         child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
           builder: (context, state) {
             return Container(
-                margin: EdgeInsets.only(bottom: 0.01.sh),
-                height: 0.08.sh,
-                width: 0.8.sw,
-                decoration: BoxDecoration(
-                    color: state.isDarkMode
-                        ? Theme.of(context).primaryColor
-                        : Colors.white,
-                    // color: Colors.transparent,
-                    // border: Border.all(color: state.isDarkMode?Colors.white70:Colors.transparent),
-                    borderRadius: BorderRadius.circular(50)),
-                // duration: const Duration(milliseconds: 400),
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _icons.length,
-                  itemBuilder: (context, index) => Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0.045.sw),
-                      child: CircleAvatar(
-                        backgroundColor: state.isDarkMode
-                            ? bottomNavigationIndexState.pageIndex == index
-                                ? Color(state.accentColor)
-                                : Colors.transparent
-                            : bottomNavigationIndexState.pageIndex == index
-                                ? Color(state.accentColor)
-                                : Colors.transparent,
-                        child: IconButton(
-                            onPressed: () {
-                              context
-                                  .read<BottomNavigationIndexCubit>()
-                                  .changePageIndex(index: index);
-                            },
-                            icon: Icon(
-                              _icons[index],
-                              color: bottomNavigationIndexState.pageIndex ==
-                                      index
-                                  ? Colors.white
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .color,
-                            )),
+              margin: EdgeInsets.only(bottom: 0.01.sh),
+              height: 0.08.sh,
+              width: 0.8.sw,
+              decoration: BoxDecoration(
+                  color: state.isDarkMode
+                      ? Theme.of(context).primaryColor
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(50)),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: _icons.length,
+                ///Check Here
+                itemBuilder: (context, index) => Container(
+                  width: 0.2.sw,
+                  color: Colors.transparent,
+                  alignment: Alignment.center,
+                  child: CircleAvatar(
+                    backgroundColor: state.isDarkMode
+                        ? bottomNavigationIndexState.pageIndex == index
+                            ? Color(state.accentColor)
+                            : Colors.transparent
+                        : bottomNavigationIndexState.pageIndex == index
+                            ? Color(state.accentColor)
+                            : Colors.transparent,
+                    child: IconButton(
+                      onPressed: () {
+                        context
+                            .read<BottomNavigationIndexCubit>()
+                            .changePageIndex(index: index);
+                      },
+                      icon: Icon(
+                        _icons[index],
+                        color: bottomNavigationIndexState.pageIndex == index
+                            ? Colors.white
+                            : Theme.of(context).textTheme.bodyMedium!.color,
                       ),
                     ),
                   ),
-                ));
+                ),
+              ),
+            );
           },
         ),
       ),

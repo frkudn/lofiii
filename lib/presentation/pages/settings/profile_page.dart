@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../logic/bloc/user_profie/user_profile_bloc.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
-import '../../../resources/theme/colors_palates.dart';
 import '../../widgets/blur_background_profile_image_widget/blur_background_profile_image_widget.dart';
 import '../../widgets/custom_gradient_glass_card/custom_gradient_glass_card_widget.dart';
 
@@ -102,9 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
 ///!---------------------------------------------------//
 
 class _ProfileImageCircleAvatarButton extends StatelessWidget {
-  const _ProfileImageCircleAvatarButton({
-    super.key,
-  });
+  const _ProfileImageCircleAvatarButton();
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +125,7 @@ class _ProfileImageCircleAvatarButton extends StatelessWidget {
                 ///! ----------   Profile Image
                 BlocBuilder<UserProfileBloc, UserProfileState>(
                   builder: (context, state) {
-                    if (state.profileImageFilePath != null) {
+                    if (state.profileImageFilePath.isNotEmpty) {
                       return CircleAvatar(
                         maxRadius: 100,
                         minRadius: 30,
@@ -180,7 +177,6 @@ class _ProfileImageCircleAvatarButton extends StatelessWidget {
 
 class _ProfileNameTextFieldWidget extends StatelessWidget {
   const _ProfileNameTextFieldWidget({
-    super.key,
     required this.usernameController,
   });
 
@@ -231,20 +227,18 @@ class _ProfileNameTextFieldWidget extends StatelessWidget {
 ///?------------   Profile Image   -------------------////
 ///!---------------------------------------------------//
 class _ProfileImageWidget extends StatelessWidget {
-  const _ProfileImageWidget({
-    super.key,
-  });
+  const _ProfileImageWidget();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       // color: Colors.amber,
       height: 0.4.sw,
       width: 0.4.sw,
       child: Stack(children: [
         BlocBuilder<UserProfileBloc, UserProfileState>(
           builder: (context, state) {
-            if (state.profileImageFilePath != null) {
+            if (state.profileImageFilePath.isNotEmpty) {
               return CircleAvatar(
                 maxRadius: 100,
                 minRadius: 30,
@@ -291,7 +285,6 @@ class _ProfileImageWidget extends StatelessWidget {
 ///!---------------------------------------------------//
 class _SaveButtonWidget extends StatelessWidget {
   const _SaveButtonWidget({
-    super.key,
     required this.usernameController,
   });
 

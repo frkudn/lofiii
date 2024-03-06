@@ -101,7 +101,7 @@ class LibraryPage extends StatelessWidget {
                       child: SizedBox(
                         height: 0.30.sh,
                         width: 1.sw,
-                        child: Center(
+                        child: const Center(
                           child: CircularProgressIndicator(),
                         ),
                       ),

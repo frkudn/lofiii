@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/resources/my_assets/my_assets.dart';
 import 'package:lottie/lottie.dart';
 
@@ -22,7 +20,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
         child: Column(
           children: [
             Lottie.asset(MyAssets.lottieWorkInProgressAnimation),
-            Text("Work in progress...")
+            const Text("Work in progress...")
           ],
         ),
       ),

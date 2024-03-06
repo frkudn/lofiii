@@ -15,7 +15,6 @@ import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_bloc.dart';
 import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_event.dart';
 import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_state.dart';
 import '../../resources/my_assets/my_assets.dart';
-import '../../resources/spinkit_animation_indicators/spinkit_indicators.dart';
 import '../widgets/artists_circle_avatar_list/artists_circle_cards_list_widget.dart';
 import '../widgets/heading_with_view_more_button/heading_with_view_more_button_widget.dart';
 import '../widgets/home_page_app_bar/home_app_bar.dart';
@@ -89,9 +88,8 @@ class _HomePageState extends State<HomePage> {
                   return SliverToBoxAdapter(
                     child: SizedBox(
                       height: 0.30.sh,
-                      width: 1.sw,
                       child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.05.sw),
+                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
                       ),
                     ),
                   );
@@ -148,9 +146,8 @@ class _HomePageState extends State<HomePage> {
                   return SliverToBoxAdapter(
                     child: SizedBox(
                       height: 0.30.sh,
-                      width: 1.sw,
                       child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.05.sw),
+                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
                       ),
                     ),
                   );
@@ -191,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                   } else {
                     return SliverToBoxAdapter(
                       child: SizedBox(
-                        height: 0.4.sh,
+                        height: 0.2.sh,
                         child: const Center(
                             child:
                                 Text("Something went wrong, refresh the page")),
@@ -204,11 +201,11 @@ class _HomePageState extends State<HomePage> {
                 else if (state is ArtistsDataLoadingState) {
                   return SliverToBoxAdapter(
                     child: SizedBox(
-                      height: 0.3.sh,
+                      height: 0.2.sh,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
-                          child: Lottie.asset(MyAssets.lottieLoadingAnimation),
+                          child: Lottie.asset(MyAssets.lottieLoadingAnimation, width: 0.2.sw),
                         ),
                       ),
                     ),
@@ -267,9 +264,8 @@ class _HomePageState extends State<HomePage> {
                   return SliverToBoxAdapter(
                     child: SizedBox(
                       height: 0.30.sh,
-                      width: 1.sw,
                       child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.05.sw),
+                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
                       ),
                     ),
                   );

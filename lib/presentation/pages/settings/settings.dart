@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -16,7 +15,7 @@ import '../../widgets/settings_list_tile/settings_list_tile_widget.dart';
 import 'about_page.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -236,7 +235,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Lottie.asset(MyAssets.lottieWorkInProgressAnimation),
                   Text(
-                    "Work in progress, will be next update!",
+                    "Work in progress, will be in next update!",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16.spMax),
                   )

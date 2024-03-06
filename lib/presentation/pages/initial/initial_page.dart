@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,20 +23,18 @@ class InitialPage extends StatefulWidget {
 }
 
 class _InitialPageState extends State<InitialPage> {
-
-
   int backButtonPressCount = 0;
   @override
   Widget build(BuildContext context) {
     final pages = [
       const HomePage(),
       const LibraryPage(),
-      DownloadsPage(),
+      const DownloadsPage(),
       const SettingsPage()
     ];
 
     return PopScope(
-       canPop: false,
+      canPop: false,
       onPopInvoked: (didPop) {
         if (backButtonPressCount == 0) {
           //! Change the page index to 0
@@ -61,28 +58,29 @@ class _InitialPageState extends State<InitialPage> {
         },
         child:
             BlocBuilder<BottomNavigationIndexCubit, BottomNavigationIndexState>(
-          builder: (context, state) {
-            int index = state.pageIndex;
+          builder: (context, bottomNavState) {
+            int index = bottomNavState.pageIndex;
             return Scaffold(
-                body: Expanded(
-              child: Stack(children: [
-                ///-----Screens------///
+              body: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                ///!-----     Screens     ------///
                 pages[index],
 
-                ///------------Mini Player-------- ///
-                ///--------Show Mini Player First whenever music card is clicked
+                ///?------------Mini Player-------- ///
+                ///!--------Show Mini Player First whenever music card is clicked
                 BlocBuilder<ShowMiniPlayerCubit, ShowMiniPlayerState>(
                   builder: (context, state) {
                     return Visibility(
                         visible: state.showMiniPlayer,
-                        child: FadeInUp(child: MiniPlayerPageWidget()));
+                        child: FadeInUp(child: const MiniPlayerPageWidget()));
                   },
                 ),
 
-                ///--------Custom Bottom Navigation Bar------/////
-                CustomBottomNavigationWidget(state: state),
+                ///!--------Custom Bottom Navigation Bar------/////
+                CustomBottomNavigationWidget(state: bottomNavState),
               ]),
-            ));
+            );
           },
         ),
       ),
