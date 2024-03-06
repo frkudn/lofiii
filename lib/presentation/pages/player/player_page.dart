@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:just_audio/just_audio.dart';
-
-
 import '../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
@@ -23,8 +19,8 @@ import '../../widgets/player_screen_more_button/player_screen_more_button_widget
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PlayerPage> createState() => _PlayerPageState();
@@ -219,26 +215,28 @@ class _PlayerPageState extends State<PlayerPage> {
                                                         .musicIndex]
                                                 .title);
                                         return IconButton(
-                                            onPressed: () {
-                                              context
-                                                  .read<FavoriteButtonBloc>()
-                                                  .add(FavoriteButtonToggleEvent(
-                                                      title: fetchCurrentPlayingMusicState
-                                                          .fullMusicList[
-                                                              fetchCurrentPlayingMusicState
-                                                                  .musicIndex]
-                                                          .title));
-                                              setState(() {});
-                                            },
-                                            icon: Icon(
-                                              isFavorite
-                                                  ? CupertinoIcons.heart_fill
-                                                  : CupertinoIcons.heart,
-                                              color: isFavorite
-                                                  ? Color(
-                                                      themeState.accentColor)
-                                                  : Colors.white,
-                                            ));
+                                          onPressed: () {
+                                            context
+                                                .read<FavoriteButtonBloc>()
+                                                .add(FavoriteButtonToggleEvent(
+                                                    title: fetchCurrentPlayingMusicState
+                                                        .fullMusicList[
+                                                            fetchCurrentPlayingMusicState
+                                                                .musicIndex]
+                                                        .title));
+                                            setState(() {});
+                                          },
+                                          icon: Icon(
+                                            isFavorite
+                                                ? FontAwesomeIcons.heartPulse
+                                                : FontAwesomeIcons.heart,
+                                            color:
+                                            isFavorite
+                                                ? Color(themeState.accentColor)
+                                                :
+                                            Colors.white,
+                                          ),
+                                        );
                                       },
                                     );
                                   },

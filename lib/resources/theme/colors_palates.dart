@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class MyColor {
   static const teal = 0XFF008080;

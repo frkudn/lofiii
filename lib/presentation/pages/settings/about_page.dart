@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ import '../../../resources/my_assets/my_assets.dart';
 import '../../widgets/common/social_media_icon_button.dart';
 
 class AboutPage extends StatelessWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class AboutPage extends StatelessWidget {
           ),
 
           // Version
-          const Text("v1.01 beta", style: TextStyle(fontWeight: FontWeight.w500),),
+          const Text("v1.0.2 beta", style: TextStyle(fontWeight: FontWeight.w500),),
 
           Gap(0.05.sh),
 

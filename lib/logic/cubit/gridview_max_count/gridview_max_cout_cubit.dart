@@ -1,10 +1,12 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'gridview_max_cout_state.dart';
 
 class GridviewMaxCountCubit extends Cubit<GridviewMaxCountState> {
-  GridviewMaxCountCubit() : super(GridviewMaxCountState(maxCount: 2));
+  GridviewMaxCountCubit() : super(const GridviewMaxCountState(maxCount: 2));
 
 
   changeMaxCount(){

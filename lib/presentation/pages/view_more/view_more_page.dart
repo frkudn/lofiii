@@ -1,10 +1,9 @@
-import 'dart:ffi';
+// ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,12 +16,10 @@ import '../../widgets/mini_player/mini_player_widget.dart';
 
 class ViewMorePage extends StatefulWidget {
   const ViewMorePage({
-    super.key, required this.topHeading,
+    super.key,
+    required this.topHeading,
     required this.musicList,
   });
-
-
-
 
   final String topHeading;
   final musicList;
@@ -37,10 +34,14 @@ class _ViewMorePageState extends State<ViewMorePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-        }, icon: const Icon(CupertinoIcons.back)),
-        title: Text(widget.topHeading,),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(CupertinoIcons.back)),
+        title: Text(
+          widget.topHeading,
+        ),
         actions: [
           IconButton(onPressed: () {
             context.read<GridviewMaxCountCubit>().changeMaxCount();
@@ -58,15 +59,16 @@ class _ViewMorePageState extends State<ViewMorePage> {
         ],
       ),
       body: Stack(
+        fit: StackFit.expand,
         children: [
           ///? Music List --------------------///
-        BlocBuilder<GridviewMaxCountCubit,
-        GridviewMaxCountState>(
-        builder: (context, maxCountState) {
-          return Expanded(
-            child: FadeInDownBig(
-              child: GridView.builder(
-                  padding: EdgeInsets.all(5.spMax),
+          BlocBuilder<GridviewMaxCountCubit, GridviewMaxCountState>(
+            builder: (context, maxCountState) {
+              return FadeInDownBig(
+                child: GridView.builder(
+                  shrinkWrap: true,
+
+                  padding: EdgeInsets.fromLTRB(5.spMax, 1.spMax, 5.spMax, 60.spMax),
                   scrollDirection: Axis.vertical,
                   physics: const BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -74,16 +76,16 @@ class _ViewMorePageState extends State<ViewMorePage> {
                       crossAxisSpacing: maxCountState.maxCount == 2
                           ? 0.02.sw
                           : maxCountState.maxCount == 1
-                          ? 0.02.sw
-                          : 0.03.sw,
+                              ? 0.02.sw
+                              : 0.03.sw,
                       mainAxisSpacing: maxCountState.maxCount == 2
                           ? maxCountState.maxCount == 1
-                          ? 0.0.sh
-                          : 0.01.sh
+                              ? 0.0.sh
+                              : 0.01.sh
                           : 0.03.sh),
                   itemCount: widget.musicList.length,
                   itemBuilder: (context, index) => GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       playMusicMethod(index, context, widget.musicList);
                     },
                     child: Column(
@@ -93,15 +95,17 @@ class _ViewMorePageState extends State<ViewMorePage> {
                       children: [
                         ///----!Image
                         Flexible(
-
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
                               image: DecorationImage(
-
-                                onError: (exception, stackTrace) => const Center(child: Icon(FontAwesomeIcons.music),),
+                                onError: (exception, stackTrace) =>
+                                    const Center(
+                                  child: Icon(FontAwesomeIcons.music),
+                                ),
                                 image: CachedNetworkImageProvider(
-                                    widget.musicList[index].image, ),
+                                  widget.musicList[index].image,
+                                ),
                               ),
                             ),
                           ),
@@ -122,24 +126,23 @@ class _ViewMorePageState extends State<ViewMorePage> {
                                       fontSize: maxCountState.maxCount == 1
                                           ? 20.spMax
                                           : maxCountState.maxCount == 3
-                                          ? 10.spMax
-                                          : 15.spMax,
+                                              ? 10.spMax
+                                              : 15.spMax,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   widget.musicList[index].artists
                                       .join(
-                                    ", ",
-                                  )
-                                      .toString(),
+                                        ", ",
+                                      ).toString(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: maxCountState.maxCount == 1
                                         ? 14.spMax
                                         : maxCountState.maxCount == 3
-                                        ? 8.spMax
-                                        : 10.spMax,
+                                            ? 8.spMax
+                                            : 10.spMax,
                                   ),
                                 ),
                               ],
@@ -150,14 +153,14 @@ class _ViewMorePageState extends State<ViewMorePage> {
                         Gap(0.005.sh)
                       ],
                     ),
-                  )),
-            ),
-          );
-        },
-        ),
+                  ),
+                ),
+              );
+            },
+          ),
 
           ///? Mini Player ---------////
-          ///--------Show Mini Player First whenever music card is clicked
+          ///!--------Show Mini Player First whenever music card is clicked
           BlocBuilder<ShowMiniPlayerCubit, ShowMiniPlayerState>(
             builder: (context, state) {
               return Visibility(
@@ -181,8 +184,7 @@ class _ViewMorePageState extends State<ViewMorePage> {
   }
 
   ///? ----------------- M E T H O D S----------------///
-  void playMusicMethod(
-      int index, BuildContext context, musicList) {
+  void playMusicMethod(int index, BuildContext context, musicList) {
     ///!---------      Initialize & Play Music ------///
     context
         .read<MusicPlayerBloc>()
@@ -190,11 +192,10 @@ class _ViewMorePageState extends State<ViewMorePage> {
 
     ///!-----       Send Current Music Data-----///
     context.read<CurrentlyPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-        musicIndex: index,
-        imageUrl: musicList[index].image.toString(),
-    fullMusicList: musicList,
-
-    );
+          musicIndex: index,
+          imageUrl: musicList[index].image.toString(),
+          fullMusicList: musicList,
+        );
 
     ///!-----        Show Mini Player-----///
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();

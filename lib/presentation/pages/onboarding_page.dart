@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -46,11 +48,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         children: [
           ///!--------  LOFIII  Logo
           Opacity(
-              opacity: 0.2,
-              child: SvgPicture.asset(
-                MyAssets.lofiiiLogoDarkMode,
-                height: 1.sh,
-              )),
+            opacity: 0.2,
+            child: SvgPicture.asset(
+              MyAssets.lofiiiLogoDarkMode,
+              height: 1.sh,
+            ),
+          ),
 
           ///!------  SKIP Button
           const OnBoardingSkipButton(),
@@ -67,7 +70,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     ///! ----------   Profile Image
                     BlocBuilder<UserProfileBloc, UserProfileState>(
                       builder: (context, state) {
-                        if (state.profileImageFilePath != null) {
+                        if (state.profileImageFilePath.isNotEmpty) {
                           return CircleAvatar(
                             maxRadius: 100,
                             minRadius: 30,
@@ -94,12 +97,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           backgroundColor: Colors.white,
                           child: IconButton(
                             onPressed: () async {
-                              await Permission.manageExternalStorage.request();
-
-                              await Permission.storage.request();
-
-                              context.read<UserProfileBloc>().add(
-                                  UserProfileChangeUserProfilePictureEvent());
+                              await _profilePicPencilButtonOnTap(context);
                             },
                             icon: const Icon(
                               EvaIcons.edit,
@@ -147,28 +145,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
                     ///!-----------------   Get Stared On Pressed
                     onPressed: () async {
-                      if (!(await Permission.manageExternalStorage.isGranted)) {
-                        await Permission.manageExternalStorage.request();
-                      }
-                      if (!(await Permission.storage.isGranted)) {
-                        await Permission.storage.request();
-                      }
-
-                      ///-----!   Change User
-                      context.read<UserProfileBloc>().add(
-                          UserProfileChangeUsernameEvent(
-                              username: usernameController.text));
-
-                      ///--!  Navigate to Initial Page
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const InitialPage(),
-                          ));
-
-                      ///---! Don't Show this screen after restarting app
-                      MyHiveBoxes.settingBox
-                          .put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
+                      await _getStartedButtonOnTap(context);
                     },
                     child: Text(
                       "Get Started",
@@ -186,5 +163,47 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ],
       ),
     );
+  }
+
+  ///!///////////////////////////////////////////////////////
+  ///----------------------  M E T H O D S --------------////
+  ///!//////////////////////////////////////////////////////
+
+  ///----- Profile Change Button On Tap
+  Future<void> _profilePicPencilButtonOnTap(BuildContext context) async {
+    await Permission.mediaLibrary.request();
+    await Permission.photos.request();
+    context.read<UserProfileBloc>().add(UserProfileChangeUserProfilePictureEvent());
+  }
+
+  ///-------- Get Started Button On Tap
+  Future<void> _getStartedButtonOnTap(BuildContext context) async {
+    if (!(await Permission.manageExternalStorage.isGranted)) {
+      await Permission.manageExternalStorage.request();
+    }
+    if (!(await Permission.storage.isGranted)) {
+      await Permission.storage.request();
+    }
+    if (!(await Permission.accessMediaLocation.isGranted)) {
+      await Permission.accessMediaLocation.request();
+    }
+    if (!(await Permission.notification.isGranted)) {
+      await Permission.notification.request();
+    }
+
+    ///-----!   Change User
+    context
+        .read<UserProfileBloc>()
+        .add(UserProfileChangeUsernameEvent(username: usernameController.text));
+
+    ///--!  Navigate to Initial Page
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const InitialPage(),
+        ));
+
+    ///---! Don't Show this screen after restarting app
+    MyHiveBoxes.settingBox.put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
   }
 }

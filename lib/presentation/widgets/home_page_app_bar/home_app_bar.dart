@@ -42,7 +42,7 @@ class HomePageSliverAppBar extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => ProfilePage(),));
+                              builder: (context) => const ProfilePage(),));
                           },
 
                           ///!------------       User Profile Image     -------////
@@ -113,7 +113,7 @@ class HomePageSliverAppBar extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => GlobalMusicSearchPage(),
+                                builder: (context) => const GlobalMusicSearchPage(),
                               ));
                           log("\n Search Button is Pressed!");
                         },

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 class ArtistModel {
   String name;
   String img;
@@ -15,9 +17,9 @@ class ArtistModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['img'] = this.img;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['name'] = name;
+    data['img'] = img;
     return data;
   }
 }

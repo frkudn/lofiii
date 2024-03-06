@@ -17,5 +17,5 @@ final myCustomDragHandle = Container(
 
 
 ///!------  Disclaimer Message
-   final String disclaimerMessage =
+   const String disclaimerMessage =
        "Disclaimer: We respect your privacy more than anything else. All of your data is stored locally on your device only.";
