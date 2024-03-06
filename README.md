@@ -29,8 +29,10 @@ LOFIII is a beautiful and intuitive music streaming app built with Flutter. It a
 
 ## Screenshots
 
-![Screenshot 1](assets/lofiii_screenshot1.svg)
-
+![Screenshot 1](assets/screenshot1.svg)
+![Screenshot 2](assets/screenshot2.svg)
+![Screenshot 3](assets/screenshot3.svg)
+![Screenshot 4](assets/screenshot4.svg)
 
 ## Installation
 
