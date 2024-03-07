@@ -274,107 +274,49 @@ class _PlayerPageState extends State<PlayerPage> {
                                       stream: state
                                           .combinedStreamPositionAndDurationAndBufferedList,
                                       builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
+                                        if (snapshot.hasData &&
+                                                snapshot.connectionState ==
+                                                    ConnectionState.done ||
+                                            snapshot.connectionState ==
+                                                ConnectionState.active) {
                                           final positionSnapshot =
-                                              snapshot.data?.first;
+                                              snapshot.data!.first;
                                           final durationSnapshot =
-                                              snapshot.data?[1];
+                                              snapshot.data![1];
                                           final bufferedPositionSnapshot =
-                                              snapshot.data?.last;
-                                          return StreamBuilder(
-                                              stream: state.audioPlayer
-                                                  .bufferedPositionStream,
-                                              builder:
-                                                  (context, bufferedSnapshot) {
-                                                if (bufferedSnapshot.hasData) {
-                                                  ///!---------   If Music is Completed
-                                                  if (state.audioPlayer
-                                                          .processingState ==
-                                                      ProcessingState
-                                                          .completed) {
-                                                    return Slider(
-                                                        value: 0,
-                                                        min: 0,
-                                                        max: 0,
-                                                        activeColor: Color(
-                                                            themeState
-                                                                .accentColor),
-                                                        secondaryActiveColor:
-                                                            Color(themeState
-                                                                    .accentColor)
-                                                                .withOpacity(
-                                                                    0.6),
-                                                        onChanged: (val) {});
-                                                  }
+                                              snapshot.data!.last;
 
-                                                  ///!  ------------  If Music is Playing
-                                                  else {
-                                                    return Slider(
-                                                        activeColor: Color(
-                                                            themeState
-                                                                .accentColor),
-                                                        secondaryActiveColor:
-                                                            Color(themeState.accentColor)
-                                                                .withOpacity(
-                                                                    0.6),
-                                                        secondaryTrackValue:
-                                                            bufferedSnapshot
-                                                                    .data
-                                                                    ?.inSeconds
-                                                                    .toDouble() ??
-                                                                0,
-                                                        min: 0,
-                                                        max: durationSnapshot
-                                                                ?.inSeconds
-                                                                .toDouble() ??
-                                                            0.1,
-                                                        value: positionSnapshot
-                                                                ?.inSeconds
-                                                                .toDouble() ??
-                                                            0.1,
-                                                        onChanged: (value) {
-                                                          context
-                                                              .read<
-                                                                  MusicPlayerBloc>()
-                                                              .add(MusicPlayerSeekEvent(
-                                                                  position: value
-                                                                      .toInt()));
-                                                        });
-                                                  }
-                                                } else {
-                                                  return Slider(
-                                                      activeColor: Color(
-                                                          themeState
-                                                              .accentColor),
-                                                      secondaryActiveColor:
-                                                          Color(themeState
-                                                                  .accentColor)
-                                                              .withOpacity(0.6),
-                                                      min: 0,
-                                                      max: state
-                                                              .audioPlayer
-                                                              .duration
-                                                              ?.inSeconds
-                                                              .toDouble() ??
-                                                          0.1,
-                                                      value: positionSnapshot
-                                                              ?.inSeconds
-                                                              .toDouble() ??
-                                                          0.1,
-                                                      onChanged: (value) {
-                                                        context
-                                                            .read<
-                                                                MusicPlayerBloc>()
-                                                            .add(MusicPlayerSeekEvent(
-                                                                position: value
-                                                                    .toInt()));
-                                                      });
-                                                }
+                                          return Slider(
+                                              activeColor:
+                                                  Color(themeState.accentColor),
+                                              secondaryActiveColor:
+                                                  Color(themeState.accentColor)
+                                                      .withOpacity(0.6),
+                                              secondaryTrackValue:
+                                                  bufferedPositionSnapshot!
+                                                          .inSeconds
+                                                          .toDouble() ??
+                                                      0,
+                                              min: 0,
+                                              max: durationSnapshot!.inSeconds
+                                                      .toDouble() ??
+                                                  1,
+                                              value: positionSnapshot!.inSeconds
+                                                      .toDouble() ??
+                                                  0,
+                                              onChanged: (value) {
+                                                context
+                                                    .read<MusicPlayerBloc>()
+                                                    .add(MusicPlayerSeekEvent(
+                                                        position:
+                                                            value.toInt()));
                                               });
                                         } else {
                                           return Slider(
                                               activeColor: Colors.transparent,
                                               value: 0.0,
+                                              max: 1,
+                                              min: 0,
                                               onChanged: (v) {});
                                         }
                                       });
@@ -401,62 +343,39 @@ class _PlayerPageState extends State<PlayerPage> {
                                     stream: state
                                         .combinedStreamPositionAndDurationAndBufferedList,
                                     builder: (context, snapshot) {
-                                      if (state.audioPlayer.processingState !=
-                                          ProcessingState.completed) {
-                                        if (snapshot.hasData &&
-                                                snapshot.connectionState ==
-                                                    ConnectionState.active ||
-                                            snapshot.connectionState ==
-                                                ConnectionState.active) {
-                                          final positionSnapshot =
-                                              snapshot.data!.first;
-                                          final durationSnapshot =
-                                              snapshot.data![1];
-                                          final bufferedPositionSnapshot =
-                                              snapshot.data!.last;
+                                      if (snapshot.hasData &&
+                                              snapshot.connectionState ==
+                                                  ConnectionState.active ||
+                                          snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                        final positionSnapshot =
+                                            snapshot.data!.first;
+                                        final durationSnapshot =
+                                            snapshot.data![1];
+                                        final bufferedPositionSnapshot =
+                                            snapshot.data!.last;
 
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              ///!----  Position    ----///
-                                              Text(
-                                                FormatDuration.format(
-                                                    positionSnapshot),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ///!----  Position    ----///
+                                            Text(
+                                              FormatDuration.format(
+                                                  positionSnapshot),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
 
-                                              ///-!----    Duration Stream   -----////
-                                              Text(
-                                                FormatDuration.format(
-                                                    durationSnapshot),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          );
-                                        } else {
-                                          return const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              ///!----  Position    ----///
-                                              Text(
-                                                "00:00",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-
-                                              ///-!----    Duration Stream   -----////
-                                              Text(
-                                                "00:00",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          );
-                                        }
+                                            ///-!----    Duration Stream   -----////
+                                            Text(
+                                              FormatDuration.format(
+                                                  durationSnapshot),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        );
                                       } else {
                                         return const Row(
                                           mainAxisAlignment:
