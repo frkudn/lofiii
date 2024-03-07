@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
 import '../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/consts/consts.dart';
-import '../../../utils/custom_snackbar.dart';
 import '../../../utils/format_duration.dart';
 import '../../widgets/player_screen_more_button/player_screen_more_button_widget.dart';
 
@@ -38,17 +38,17 @@ class _PlayerPageState extends State<PlayerPage> {
         title: myCustomDragHandle,
         centerTitle: true,
         actions: const [
-          ////?-------------------    More   Button ---------/////
+          ////?-------------------  T O P  M O R E  B U T T O N -------------------/////
           PlayerScreenMoreButtonWidget(),
         ],
       ),
       extendBodyBehindAppBar: true,
 
-      ///?-----------------    B O D Y ------------------------///
+      ///?-----------------------------  B O D Y ------------------------///
       body: Stack(
         fit: StackFit.expand,
         children: [
-          ///!-------          IF LOADING SHOW THIS
+          ///!-------      IF LOADING SHOW THIS   ---------//
           BlocBuilder<ThemeModeCubit, ThemeModeState>(
             builder: (context, state) {
               return Container(
@@ -230,11 +230,9 @@ class _PlayerPageState extends State<PlayerPage> {
                                             isFavorite
                                                 ? FontAwesomeIcons.heartPulse
                                                 : FontAwesomeIcons.heart,
-                                            color:
-                                            isFavorite
+                                            color: isFavorite
                                                 ? Color(themeState.accentColor)
-                                                :
-                                            Colors.white,
+                                                : Colors.white,
                                           ),
                                         );
                                       },
@@ -273,9 +271,16 @@ class _PlayerPageState extends State<PlayerPage> {
                                   ThemeModeState>(
                                 builder: (context, themeState) {
                                   return StreamBuilder(
-                                      stream: state.positionStream,
+                                      stream: state
+                                          .combinedStreamPositionAndDurationAndBufferedList,
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
+                                          final positionSnapshot =
+                                              snapshot.data?.first;
+                                          final durationSnapshot =
+                                              snapshot.data?[1];
+                                          final bufferedPositionSnapshot =
+                                              snapshot.data?.last;
                                           return StreamBuilder(
                                               stream: state.audioPlayer
                                                   .bufferedPositionStream,
@@ -290,7 +295,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                                     return Slider(
                                                         value: 0,
                                                         min: 0,
-                                                        max: 1,
+                                                        max: 0,
                                                         activeColor: Color(
                                                             themeState
                                                                 .accentColor),
@@ -319,14 +324,12 @@ class _PlayerPageState extends State<PlayerPage> {
                                                                     .toDouble() ??
                                                                 0,
                                                         min: 0,
-                                                        max: state
-                                                                .audioPlayer
-                                                                .duration
+                                                        max: durationSnapshot
                                                                 ?.inSeconds
                                                                 .toDouble() ??
                                                             0.1,
-                                                        value: snapshot
-                                                                .data?.inSeconds
+                                                        value: positionSnapshot
+                                                                ?.inSeconds
                                                                 .toDouble() ??
                                                             0.1,
                                                         onChanged: (value) {
@@ -348,15 +351,14 @@ class _PlayerPageState extends State<PlayerPage> {
                                                                   .accentColor)
                                                               .withOpacity(0.6),
                                                       min: 0,
-                                                      max:
-                                                          state
-                                                                  .audioPlayer
-                                                                  .duration
-                                                                  ?.inSeconds
-                                                                  .toDouble() ??
-                                                              0.1,
-                                                      value: snapshot
-                                                              .data?.inSeconds
+                                                      max: state
+                                                              .audioPlayer
+                                                              .duration
+                                                              ?.inSeconds
+                                                              .toDouble() ??
+                                                          0.1,
+                                                      value: positionSnapshot
+                                                              ?.inSeconds
                                                               .toDouble() ??
                                                           0.1,
                                                       onChanged: (value) {
@@ -395,89 +397,88 @@ class _PlayerPageState extends State<PlayerPage> {
                               return Padding(
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 14.spMax),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ///!----  Position Stream    ----///
+                                child: StreamBuilder(
+                                    stream: state
+                                        .combinedStreamPositionAndDurationAndBufferedList,
+                                    builder: (context, snapshot) {
+                                      if (state.audioPlayer.processingState !=
+                                          ProcessingState.completed) {
+                                        if (snapshot.hasData &&
+                                                snapshot.connectionState ==
+                                                    ConnectionState.active ||
+                                            snapshot.connectionState ==
+                                                ConnectionState.active) {
+                                          final positionSnapshot =
+                                              snapshot.data!.first;
+                                          final durationSnapshot =
+                                              snapshot.data![1];
+                                          final bufferedPositionSnapshot =
+                                              snapshot.data!.last;
 
-                                    StreamBuilder(
-                                        stream: state.positionStream,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            ///?------ Position Stream Text
-                                            ///!-------  If Music is Playing
-                                            if (state.audioPlayer
-                                                    .processingState !=
-                                                ProcessingState.completed) {
-                                              return Text(
+                                          return Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              ///!----  Position    ----///
+                                              Text(
                                                 FormatDuration.format(
-                                                    snapshot.data),
+                                                    positionSnapshot),
                                                 style: const TextStyle(
                                                     color: Colors.white),
-                                              );
+                                              ),
 
-                                              ///!-------  If Music is Completed
-                                            } else {
-                                              return const Text(
+                                              ///-!----    Duration Stream   -----////
+                                              Text(
+                                                FormatDuration.format(
+                                                    durationSnapshot),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          );
+                                        } else {
+                                          return const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              ///!----  Position    ----///
+                                              Text(
                                                 "00:00",
                                                 style: TextStyle(
                                                     color: Colors.white),
-                                              );
-                                            }
-                                          }
+                                              ),
 
-                                          ///!-------  If Position snapshot hasn't any data
-                                          else {
-                                            return const Text(
+                                              ///-!----    Duration Stream   -----////
+                                              Text(
+                                                "00:00",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      } else {
+                                        return const Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ///!----  Position    ----///
+                                            Text(
                                               "00:00",
                                               style: TextStyle(
                                                   color: Colors.white),
-                                            );
-                                          }
-                                        }),
+                                            ),
 
-                                    ///-!----    Duration Stream   -----////
-
-                                    ///--! -----   If Music is Playing
-                                    if (state.audioPlayer.processingState !=
-                                        ProcessingState.completed)
-                                      StreamBuilder(
-                                          stream: state.durationStream,
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              ///!-------  If Music is Playing
-                                              if (state.audioPlayer
-                                                      .processingState !=
-                                                  ProcessingState.completed) {
-                                                return Text(
-                                                  FormatDuration.format(
-                                                      snapshot.data),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                );
-                                              }
-
-                                              ///!-------  If Music is Completed
-                                              else {
-                                                return const Text(
-                                                  "00:00",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                );
-                                              }
-
-                                              ///! -------   If Duration snapshot hasn't any data
-                                            } else {
-                                              return const Text(
-                                                "00:00",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              );
-                                            }
-                                          }),
-                                  ],
-                                ),
+                                            ///-!----    Duration Stream   -----////
+                                            Text(
+                                              "00:00",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    }),
                               );
                             }
 
@@ -717,19 +718,65 @@ class _PlayerPageState extends State<PlayerPage> {
                                     },
                                   ),
 
-                                  ///!--------------   Repeat Button
-                                  IconButton(
-                                    onPressed: () {
-                                      MyCustomSnackbars.showSimpleSnackbar(
-                                          context,
-                                          message:
-                                              "Repeat button will be fixed in next upcoming stable version");
+                                  ///--!------------  Repeat Button -------------///
+                                  BlocBuilder<RepeatMusicCubit,
+                                      RepeatMusicState>(
+                                    builder: (context, repeatState) {
+                                      return BlocBuilder<MusicPlayerBloc,
+                                          MusicPlayerState>(
+                                        builder: (context, musicPlayerState) {
+                                          if (musicPlayerState
+                                              is MusicPlayerSuccessState) {
+                                            //! Fetching current playing music data from the player state using context.watch
+                                            final fetchMusicState = context
+                                                .watch<
+                                                    CurrentlyPlayingMusicDataToPlayerCubit>()
+                                                .state;
+                                            //! Checking if the music playback is completed
+                                            musicPlayerState.audioPlayer
+                                                .processingStateStream
+                                                .listen((event) {
+                                              if (event ==
+                                                      ProcessingState
+                                                          .completed &&
+                                                  repeatState.repeatAll) {
+                                                _nextMusicButtonOnTap(
+                                                    fetchMusicState, context);
+                                              }
+                                            });
+                                            return IconButton(
+                                              onPressed: () {
+                                                context
+                                                    .read<RepeatMusicCubit>()
+                                                    .repeatAll();
+                                              },
+                                              icon: Icon(
+                                                repeatState.repeatAll
+                                                    ? EvaIcons.repeat
+                                                    : Icons.repeat_one,
+                                                color: Colors.white,
+                                              ),
+                                            );
+                                          } else {
+                                            // If the MusicPlayerBloc state is not MusicPlayerSuccessState, display a disabled repeat button
+                                            return IconButton(
+                                              onPressed: () {
+                                                context
+                                                    .read<RepeatMusicCubit>()
+                                                    .repeatAll();
+                                              },
+                                              icon: Icon(
+                                                repeatState.repeatAll
+                                                    ? EvaIcons.repeat
+                                                    : Icons.repeat_one,
+                                                color: Colors.white,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      );
                                     },
-                                    icon: const Icon(
-                                      EvaIcons.repeat,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  )
                                 ],
                               ),
                             ),

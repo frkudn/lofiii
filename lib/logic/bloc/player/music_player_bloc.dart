@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:meta/meta.dart';
+import 'package:rxdart/rxdart.dart';
 
 // Importing event and state classes.
 part 'music_player_event.dart';
@@ -15,7 +16,8 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
   late final AudioPlayer audioPlayer;
 
   // Constructor for the MusicPlayerBloc class, initializing it with AudioPlayer instance.
-  MusicPlayerBloc({required this.audioPlayer}) : super(MusicPlayerLoadingState()) {
+  MusicPlayerBloc({required this.audioPlayer})
+      : super(MusicPlayerLoadingState()) {
     on<MusicPlayerInitializeEvent>(_musicPlayerInitializeEvent);
     on<MusicPlayerTogglePlayPauseEvent>(_musicPlayerTogglePlayPauseEvent);
     on<MusicPlayerSeekEvent>(_musicPlayerSeekEvent);
@@ -36,11 +38,24 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
         preload: true,
       );
       audioPlayer.play();
+
+      //! Combine the position and duration and Buffered streams
+      final combinedStream = Rx.combineLatest3(
+        audioPlayer.positionStream,
+        audioPlayer.durationStream,
+        audioPlayer.bufferedPositionStream,
+        (position, duration, buffered) => [position, duration, buffered],
+      ).publish().autoConnect();
+      
+      
+
       emit(MusicPlayerSuccessState(
-          positionStream: audioPlayer.positionStream,
-          durationStream: audioPlayer.durationStream,
-          playingStream: audioPlayer.playingStream,
-          audioPlayer: audioPlayer));
+        positionStream: audioPlayer.positionStream,
+        durationStream: audioPlayer.durationStream,
+        playingStream: audioPlayer.playingStream,
+        audioPlayer: audioPlayer,
+        combinedStreamPositionAndDurationAndBufferedList: combinedStream,
+      ));
     } catch (e) {
       emit(MusicPlayerErrorState(errorMessage: e.toString()));
     }
@@ -100,11 +115,11 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     }
   }
 
-  FutureOr<void> _musicPlayerVolumeSetEvent(MusicPlayerVolumeSetEvent event, Emitter<MusicPlayerState> emit) {
+  FutureOr<void> _musicPlayerVolumeSetEvent(
+      MusicPlayerVolumeSetEvent event, Emitter<MusicPlayerState> emit) {
     audioPlayer.setVolume(event.volumeLevel);
   }
 
-  FutureOr<void> _musicPlayerForwardEvent(MusicPlayerForwardEvent event, Emitter<MusicPlayerState> emit) {
-
-  }
+  FutureOr<void> _musicPlayerForwardEvent(
+      MusicPlayerForwardEvent event, Emitter<MusicPlayerState> emit) {}
 }
