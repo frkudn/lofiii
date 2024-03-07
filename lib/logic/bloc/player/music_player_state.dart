@@ -19,13 +19,14 @@ class MusicPlayerSuccessState extends MusicPlayerState {
   final Stream<Duration> positionStream;
   final Stream<Duration?> durationStream;
   final Stream<bool> playingStream;
+  final Stream<List<Duration?>> combinedStreamPositionAndDurationAndBufferedList;
 
 
-  MusicPlayerSuccessState({required this.positionStream,required this.durationStream,required this.playingStream, required this.audioPlayer});
+  MusicPlayerSuccessState({required this.positionStream,required this.durationStream,required this.playingStream, required this.audioPlayer, required this.combinedStreamPositionAndDurationAndBufferedList});
 
   @override
   // TODO: implement props
-  List<Object?> get props => [audioPlayer, positionStream, durationStream, playingStream];
+  List<Object?> get props => [audioPlayer, positionStream, durationStream, playingStream, combinedStreamPositionAndDurationAndBufferedList];
 }
 
 class MusicPlayerErrorState extends MusicPlayerState{

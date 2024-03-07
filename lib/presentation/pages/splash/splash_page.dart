@@ -59,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text("Beta-v1.0.2", style: TextStyle(fontSize: 12.sp),),
+                  child: Text("Beta-v1.0.3", style: TextStyle(fontSize: 12.sp),),
                 ),
               )
             ],

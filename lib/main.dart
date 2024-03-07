@@ -1,4 +1,3 @@
-
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
 import 'package:lofiii/presentation/pages/splash/splash_page.dart';
 import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
@@ -53,8 +53,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     // MultiBlocProvider for managing multiple BLoCs
     return MultiBlocProvider(
       providers: _providers(),
@@ -149,6 +147,7 @@ class MyApp extends StatelessWidget {
             ChangeSystemVolumeCubit(volumeController: VolumeController()),
       ),
       BlocProvider(create: (context) => FavoriteButtonBloc()),
+      BlocProvider(create: (context) => RepeatMusicCubit()),
       BlocProvider(create: (context) => UserProfileBloc(picker: ImagePicker())),
     ];
   }

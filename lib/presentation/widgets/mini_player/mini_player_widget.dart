@@ -63,7 +63,6 @@ class MiniPlayerPageWidget extends StatelessWidget {
                     //?-----Show Player Screen-----///
                     showModalBottomSheet(
                       context: context,
-                      enableDrag: true,
                       isScrollControlled: true,
                       showDragHandle: true,
                       useRootNavigator: true,
@@ -110,7 +109,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
                             imageBuilder: (context, imageProvider) =>
                                 CircleAvatar(
                               backgroundImage: imageProvider,
-                                  radius: 19.spMax,
+                              radius: 19.spMax,
                             ),
                             errorWidget: (context, url, error) => CircleAvatar(
                               radius: 19.spMax,
@@ -168,77 +167,125 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                     MusicPlayerState>(
                                   builder: (context, state) {
                                     if (state is MusicPlayerSuccessState) {
-                                      return StreamBuilder(
-                                          stream: state
-                                              .audioPlayer.playerStateStream,
-                                          builder:
-                                              (context, playerStateSnapshot) {
-                                            if (playerStateSnapshot.hasData) {
-                                              ///!------------- If Music is Loading
-                                              if (playerStateSnapshot.data!
-                                                          .processingState ==
-                                                      ProcessingState.loading ||
-                                                  playerStateSnapshot.data!
+                                      return BlocBuilder<
+                                          CurrentlyPlayingMusicDataToPlayerCubit,
+                                          FetchCurrentPlayingMusicDataToPlayerState>(
+                                        builder:
+                                            (context, fetchCurrentMusicState) {
+                                          return StreamBuilder(
+                                              stream: state.audioPlayer
+                                                  .playerStateStream,
+                                              builder: (context,
+                                                  playerStateSnapshot) {
+                                                if (playerStateSnapshot
+                                                    .hasData) {
+                                                  ///!---  if Music Playing is Completed shows then show stop button
+                                                  if (playerStateSnapshot.data!
                                                           .processingState ==
                                                       ProcessingState
-                                                          .buffering) {
-                                                return CircleAvatar(
-                                                  radius: 12.sp,
-                                                  backgroundColor: Color(
-                                                      themeState.accentColor),
-                                                  child:
-                                                      const CircularProgressIndicator(
-                                                    color: Colors.white,
-                                                  ),
-                                                );
-                                              }
+                                                          .completed) {
+                                                    return IconButton(
+                                                      onPressed: () {
+                                                        ///--- Play Current Music Again
+                                                        context
+                                                            .read<
+                                                                MusicPlayerBloc>()
+                                                            .add(MusicPlayerInitializeEvent(
+                                                                url: fetchCurrentMusicState
+                                                                    .fullMusicList[
+                                                                        fetchCurrentMusicState
+                                                                            .musicIndex]
+                                                                    .url));
+                                                      },
+                                                      icon: Icon(
+                                                        FontAwesomeIcons
+                                                            .circlePause,
+                                                        size: 30.spMax,
+                                                        color: Colors.white,
+                                                      ),
+                                                    );
+                                                  }
 
-                                              ///! ---------- If music isn't loading
-                                              else {
-                                                return StreamBuilder(
-                                                    stream: state.playingStream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot.hasData) {
-                                                        return IconButton(
-                                                          onPressed: () {
-                                                            context
-                                                                .read<
-                                                                    MusicPlayerBloc>()
-                                                                .add(
-                                                                    MusicPlayerTogglePlayPauseEvent());
-                                                          },
-                                                          icon: Icon(
-                                                            snapshot.data ==
-                                                                    true
-                                                                ? FontAwesomeIcons
-                                                                    .circlePause
-                                                                : FontAwesomeIcons
-                                                                    .circlePlay,
-                                                            size: 30.spMax,
-                                                            color: Colors.white,
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        return Icon(
-                                                          EvaIcons.pauseCircle,
-                                                          size: 30.spMax,
+                                                  ///!-----  If Music is not Completed
+                                                  else {
+                                                    ///!------------- If Music is Loading
+                                                    if (playerStateSnapshot
+                                                                .data!
+                                                                .processingState ==
+                                                            ProcessingState
+                                                                .loading ||
+                                                        playerStateSnapshot
+                                                                .data!
+                                                                .processingState ==
+                                                            ProcessingState
+                                                                .buffering) {
+                                                      return CircleAvatar(
+                                                        radius: 12.sp,
+                                                        backgroundColor: Color(
+                                                            themeState
+                                                                .accentColor),
+                                                        child:
+                                                            const CircularProgressIndicator(
                                                           color: Colors.white,
-                                                        );
-                                                      }
-                                                    });
-                                              }
-                                            }
+                                                        ),
+                                                      );
+                                                    }
 
-                                            ///!----- If PlayerState snapshot hasn't any Data
-                                            else {
-                                              return CircularProgressIndicator(
-                                                color: Colors.white,
-                                                backgroundColor: Color(
-                                                    themeState.accentColor),
-                                              );
-                                            }
-                                          });
+                                                    ///! ---------- If music isn't loading
+                                                    else {
+                                                      return StreamBuilder(
+                                                          stream: state
+                                                              .playingStream,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                .hasData) {
+                                                              return IconButton(
+                                                                onPressed: () {
+                                                                  context
+                                                                      .read<
+                                                                          MusicPlayerBloc>()
+                                                                      .add(
+                                                                          MusicPlayerTogglePlayPauseEvent());
+                                                                },
+                                                                icon: Icon(
+                                                                  snapshot.data ==
+                                                                          true
+                                                                      ? FontAwesomeIcons
+                                                                          .circlePause
+                                                                      : FontAwesomeIcons
+                                                                          .circlePlay,
+                                                                  size:
+                                                                      30.spMax,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              return Icon(
+                                                                EvaIcons
+                                                                    .pauseCircle,
+                                                                size: 30.spMax,
+                                                                color: Colors
+                                                                    .white,
+                                                              );
+                                                            }
+                                                          });
+                                                    }
+                                                  }
+                                                }
+
+                                                ///!----- If PlayerState snapshot hasn't any Data
+                                                else {
+                                                  return CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                    backgroundColor: Color(
+                                                        themeState.accentColor),
+                                                  );
+                                                }
+                                              });
+                                        },
+                                      );
                                     }
 
                                     ///! ------ if MusicPlayer state isn't success state
