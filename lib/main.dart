@@ -1,17 +1,21 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
+import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
 import 'package:lofiii/presentation/pages/splash/splash_page.dart';
 import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
 import 'package:volume_controller/volume_controller.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'logic/bloc/artists_data/artists_data_bloc.dart';
 import 'logic/bloc/check_internet_connection/check_internet_connection_bloc.dart';
 import 'logic/bloc/favorite_button/favorite_button_bloc.dart';
@@ -33,6 +37,8 @@ import 'resources/theme/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // The following line will enable the Android and iOS wakelock.
+  WakelockPlus.enable();
 
   //!  Initialize Hive Database
   await MyHive.initializeHive();
@@ -148,7 +154,10 @@ class MyApp extends StatelessWidget {
       ),
       BlocProvider(create: (context) => FavoriteButtonBloc()),
       BlocProvider(create: (context) => RepeatMusicCubit()),
+      BlocProvider(create: (context) => DownloadMusicBloc(dio: Dio())),
       BlocProvider(create: (context) => UserProfileBloc(picker: ImagePicker())),
+      BlocProvider(create: (context) => FlipCardCubit()),
+
     ];
   }
 }

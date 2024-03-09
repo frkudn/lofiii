@@ -1,13 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
+import 'package:lofiii/logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../utils/menu_helper.dart';
 
 class PlayerScreenMoreButtonWidget extends StatelessWidget {
-  const PlayerScreenMoreButtonWidget({
+
+
+   PlayerScreenMoreButtonWidget({
     super.key,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +28,67 @@ class PlayerScreenMoreButtonWidget extends StatelessWidget {
 
               ///!------------------    Items     -------------////
               items: [
-                PopupMenuItem(
-                  child: ListTile(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const AlertDialog(
-                            title: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                  "Downloading feature is currently not available"),
-                            ),
-                          ),
-                        );
-                      },
-                      leading: const Icon(FontAwesomeIcons.download),
-                      title: const Text("Download")),
-                ),
+                // PopupMenuItem(
+                //   child: BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
+                //       FetchCurrentPlayingMusicDataToPlayerState>(
+                //     builder: (context, fetchCurrentMusicState) {
+                //       return BlocConsumer<DownloadMusicBloc,
+                //           DownloadMusicState>(
+                //         listener: (context, downloadState) {
+                //             if(downloadState is DownloadMusicInProgressState){
+                //               const CustomSnackBar.success(message: "Downloading is started");
+                //             }
+                //
+                //             if (downloadState is DownloadMusicProgressState) {
+                //               const CustomSnackBar.success(message: "Downloading is started");
+                //               ScaffoldMessenger.of(context).showMaterialBanner(
+                //                   MaterialBanner(
+                //
+                //                     content: ListTile(
+                //                     title: const Text("Downloading..."),
+                //                     subtitle: Text(
+                //                         "Download Progress : ${downloadState
+                //                             .progress}"),
+                //                   ), actions: [],
+                //                   ),
+                //               );
+                //           }
+                //
+                //             if(downloadState is DownloadMusicSuccessState){
+                //               //! Close Material Banner when download completes
+                //               ScaffoldMessenger.of(context)
+                //                   .hideCurrentMaterialBanner();
+                //             }
+                //             if(downloadState is DownloadMusicFailureState){
+                //               CustomSnackBar.error(message: downloadState.errorMessage);
+                //             }
+                //
+                //         },
+                //         builder: (context, state) {
+                //           return ListTile(
+                //               onTap: () {
+                //                 Navigator.pop(context);
+                //                 Navigator.pop(context);
+                //                 context.read<DownloadMusicBloc>().add(
+                //                     DownloadNowEvent(
+                //                         url: fetchCurrentMusicState
+                //                             .fullMusicList[
+                //                                 fetchCurrentMusicState
+                //                                     .musicIndex]
+                //                             .url,
+                //                         fileName: fetchCurrentMusicState
+                //                             .fullMusicList[
+                //                                 fetchCurrentMusicState
+                //                                     .musicIndex]
+                //                             .title));
+                //               },
+                //               leading: const Icon(FontAwesomeIcons.download),
+                //               title: const Text("Download"));
+                //         },
+                //       );
+                //     },
+                //   ),
+                // ),
                 PopupMenuItem(
                     child: ListTile(
                   onTap: () {
@@ -46,8 +97,8 @@ class PlayerScreenMoreButtonWidget extends StatelessWidget {
                       builder: (context) => const AlertDialog(
                         title: Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text(
-                              "Lyrics feature is currently not available"),
+                          child:
+                              Text("Lyrics feature is currently not available"),
                         ),
                       ),
                     );
