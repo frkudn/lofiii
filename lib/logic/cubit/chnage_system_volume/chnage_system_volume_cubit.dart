@@ -10,9 +10,9 @@ part 'chnage_system_volume_state.dart';
 class ChangeSystemVolumeCubit extends Cubit<ChangeSystemVolumeState> {
   final VolumeController volumeController;
   ChangeSystemVolumeCubit({required this.volumeController})
-      : super(ChangeSystemVolumeState(volume: 5.0));
+      : super(ChangeSystemVolumeState(volume: 0.4));
 
-  ///Change System Volume
+  ///!----------- Change System Volume
   void change(
       {required DragUpdateDetails details,
       required BuildContext context}) async {

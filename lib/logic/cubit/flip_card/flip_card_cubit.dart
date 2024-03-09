@@ -6,14 +6,9 @@ import 'package:meta/meta.dart';
 part 'flip_card_state.dart';
 
 class FlipCardCubit extends Cubit<FlipCardCubitState> {
-  FlipCardCubit() : super(FlipCardCubitState(flipCardController: FlipCardController()));
+  FlipCardController flipCardController;
+  FlipCardCubit({required this.flipCardController})
+      : super(FlipCardCubitState(flipCardController: flipCardController));
 
-
-  toggleCard()async{
-    emit(await state.flipCardController.flipcard());
-  }
-
-
-
-
+  toggleCard() async => emit(await state.flipCardController.flipcard());
 }

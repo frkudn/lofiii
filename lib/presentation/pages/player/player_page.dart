@@ -1,17 +1,15 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
-import 'package:lofiii/presentation/widgets/glass_button/glass_button_widget.dart';
 import '../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
@@ -19,7 +17,6 @@ import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/se
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/consts/consts.dart';
 import '../../../utils/format_duration.dart';
-import '../../widgets/player_screen_more_button/player_screen_more_button_widget.dart';
 import '../../widgets/player_screen_player_buttons_back_section_widget/player_screen_player_buttons_back_section_widget.dart';
 
 class PlayerPage extends StatefulWidget {
@@ -42,7 +39,7 @@ class _PlayerPageState extends State<PlayerPage> {
         ///!----      Drag Handle    ----///
         title: myCustomDragHandle,
         centerTitle: true,
-        actions: [
+        actions: const [
           ////?-------------------  T O P  M O R E  B U T T O N -------------------/////
           // PlayerScreenMoreButtonWidget(),
         ],
@@ -51,9 +48,10 @@ class _PlayerPageState extends State<PlayerPage> {
 
       ///?-----------------------------  B O D Y ------------------------///
       body: Stack(
-        fit: StackFit.expand,
+        // fit: StackFit.expand,
         children: [
           ///!-------      IF LOADING SHOW THIS   ---------//
+          /// ///----------------------------   Background Colors-----------------------///
           BlocBuilder<ThemeModeCubit, ThemeModeState>(
             builder: (context, state) {
               return Container(
@@ -90,90 +88,17 @@ class _PlayerPageState extends State<PlayerPage> {
               );
             },
           ),
+          ///----------------------------   Background Blur Image -----------------------///
 
-          ///?-------------------      Cover Image Section    ---------------////
-          ///!----------Cached Network Image--------///
-          Positioned(
-            top: 0.08.sh,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: GestureDetector(
-                onDoubleTap: () {
-                  ///!-------------On Double Tap on Cover Image Pause/Play the Music
-                  context
-                      .read<MusicPlayerBloc>()
-                      .add(MusicPlayerTogglePlayPauseEvent());
-                },
-                onVerticalDragUpdate: (details) {
-                  ///----------!Change System Volume
-                  context
-                      .read<ChangeSystemVolumeCubit>()
-                      .change(details: details, context: context);
-                },
-                child: BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
-                    FetchCurrentPlayingMusicDataToPlayerState>(
-                  builder: (context, state) {
-                    return CachedNetworkImage(
-                      ///!--------   Music Image Url List   -------///
-                      imageUrl: state.fullMusicList[state.musicIndex].image,
-
-                      ///!-------    On Image Successfully Loaded    ---------///
-                      imageBuilder: (context, imageProvider) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          color: Colors.transparent,
-                          margin: EdgeInsets.zero,
-                          child: Container(
-                            height: 0.5.sh,
-                            width: 0.8.sw,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      ///---!  Error Widget of Cover Image
-                      errorWidget: (context, url, error) =>
-                          BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                        builder: (context, state) {
-                          return Center(
-                            child: SizedBox(
-                              height: 0.5.sh,
-                              width: 0.8.sw,
-                              child: Center(
-                                child: Icon(
-                                  FontAwesomeIcons.music,
-                                  size: 45.spMax,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
 
           ///!-----------------------------------------------------------------------///
           ///?-----------------------      Player Buttons Section     -------------///
-          ///?-----------------------      Glass     -------------///
+          ///?------------------------      Glass  Card   -------------///
 
           BlocBuilder<FlipCardCubit, FlipCardCubitState>(
             builder: (context, flipCardState) {
               return FlipCard(
+                onTapFlipping: false,
                 ///-----------------------------------------------------///
                 ///?---------------   Front Widget   ------------------////
                 ///---------------------------------------------------------///
@@ -756,6 +681,89 @@ class _PlayerPageState extends State<PlayerPage> {
               );
             },
           ),
+          ///----------------------------   Players Button Bottom Glass Card -----------------------///
+
+
+
+          ///?-------------------      Cover Image Section    ---------------////
+          ///!-------------------------   Cached Network Image   --------///
+          ///-----------------------------------------------------------------///
+          Positioned(
+            top: 0.08.sh,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: GestureDetector(
+                onDoubleTap: () {
+                  ///!-------------On Double Tap on Cover Image Pause/Play the Music
+                  context
+                      .read<MusicPlayerBloc>()
+                      .add(MusicPlayerTogglePlayPauseEvent());
+                  log("Double Tap on Cover Image is Clicked!");
+                },
+                onVerticalDragUpdate: (details) {
+                  ///!----------  Change System Volume
+                  context
+                      .read<ChangeSystemVolumeCubit>()
+                      .change(details: details, context: context);
+                  log("onVerticalDragUpdate on Cover Image!");
+                },
+                child: BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
+                    FetchCurrentPlayingMusicDataToPlayerState>(
+                  builder: (context, state) {
+                    return CachedNetworkImage(
+                      ///!--------   Music Image Url List   -------///
+                      imageUrl: state.fullMusicList[state.musicIndex].image,
+
+                      ///!-------    On Image Successfully Loaded    ---------///
+                      imageBuilder: (context, imageProvider) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          color: Colors.transparent,
+                          margin: EdgeInsets.zero,
+                          child: Container(
+                            height: 0.5.sh,
+                            width: 0.8.sw,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      ///---!  Error Widget of Cover Image
+                      errorWidget: (context, url, error) =>
+                          BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                            builder: (context, state) {
+                              return Center(
+                                child: SizedBox(
+                                  height: 0.5.sh,
+                                  width: 0.8.sw,
+                                  child: Center(
+                                    child: Icon(
+                                      FontAwesomeIcons.music,
+                                      size: 45.spMax,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          ///----------------------------   Cover Image -----------------------///
         ],
       ),
     );

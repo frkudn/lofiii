@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -173,23 +174,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   Future<void> _profilePicPencilButtonOnTap(BuildContext context) async {
     await Permission.mediaLibrary.request();
     await Permission.photos.request();
-    context.read<UserProfileBloc>().add(UserProfileChangeUserProfilePictureEvent());
+    context
+        .read<UserProfileBloc>()
+        .add(UserProfileChangeUserProfilePictureEvent());
   }
 
   ///-------- Get Started Button On Tap
   Future<void> _getStartedButtonOnTap(BuildContext context) async {
-    if (!(await Permission.manageExternalStorage.isGranted)) {
-      await Permission.manageExternalStorage.request();
-    }
-    if (!(await Permission.storage.isGranted)) {
-      await Permission.storage.request();
-    }
-    if (!(await Permission.accessMediaLocation.isGranted)) {
-      await Permission.accessMediaLocation.request();
-    }
-    if (!(await Permission.notification.isGranted)) {
-      await Permission.notification.request();
-    }
+    await MediaDownload().requestPermission();
+    await Permission.manageExternalStorage.request();
+
 
     ///-----!   Change User
     context

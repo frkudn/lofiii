@@ -6,14 +6,14 @@ abstract class DownloadMusicEvent extends Equatable {}
 
 
 class DownloadNowEvent extends DownloadMusicEvent{
-  DownloadNowEvent({required this.url, required this.fileName});
+  DownloadNowEvent({required this.url, required this.fileName,required this.context});
   final String url;
   final String fileName;
-
+  final BuildContext context;
 
   @override
   // TODO: implement props
-  List<Object?> get props => [url, fileName];
+  List<Object?> get props => [url, fileName, context];
 
 }
 

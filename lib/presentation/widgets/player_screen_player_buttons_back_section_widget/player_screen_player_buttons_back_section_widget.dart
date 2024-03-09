@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,7 +62,7 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                                       .url,
                                   fileName: fetchMusicState
                                       .fullMusicList[fetchMusicState.musicIndex]
-                                      .title));
+                                      .title, context: context));
                         },
                         label: "Download Now",
                         iconData: FontAwesomeIcons.download,
@@ -73,7 +75,7 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
               },
             ),
 
-            ///!-----------   Linear Indicator ---------------///
+            ///!-----------   Download Status ---------------///
             Center(
               child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
                 builder: (context, themeState) {
@@ -107,15 +109,6 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                               ),
 
                             ],
-                          );
-                        } else if (state is DownloadMusicProgressState) {
-                          return Text(
-                            state.progress.toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.spMax,
-                                overflow: TextOverflow.ellipsis,
-                                fontWeight: FontWeight.w500),
                           );
                         } else if (state is DownloadMusicSuccessState) {
                           return Padding(
@@ -152,25 +145,6 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                         }
                       }),
 
-                      ///-------  Linear Progress Indicator -----///
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0.1.sw),
-                        child:
-                            BlocBuilder<DownloadMusicBloc, DownloadMusicState>(
-                          builder: (context, state) {
-                            if (state is DownloadMusicProgressState) {
-                              return LinearProgressIndicator(
-                                color: Color(themeState.accentColor),
-                                minHeight: 0.01.sh,
-                                value: state.progress.toDouble(),
-                                borderRadius: BorderRadius.circular(30),
-                              );
-                            } else {
-                              return const SizedBox.shrink();
-                            }
-                          },
-                        ),
-                      ),
                     ],
                   );
                 },

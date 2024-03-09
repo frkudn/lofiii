@@ -1,10 +1,11 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
+import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
@@ -154,9 +155,9 @@ class MyApp extends StatelessWidget {
       ),
       BlocProvider(create: (context) => FavoriteButtonBloc()),
       BlocProvider(create: (context) => RepeatMusicCubit()),
-      BlocProvider(create: (context) => DownloadMusicBloc(dio: Dio())),
+      BlocProvider(create: (context) => DownloadMusicBloc(mediaDownloader: MediaDownload())),
       BlocProvider(create: (context) => UserProfileBloc(picker: ImagePicker())),
-      BlocProvider(create: (context) => FlipCardCubit()),
+      BlocProvider(create: (context) => FlipCardCubit(flipCardController: FlipCardController())),
 
     ];
   }

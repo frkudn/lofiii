@@ -22,7 +22,7 @@ class DownloadMusicLoadingState extends DownloadMusicState {
 
 class DownloadMusicProgressState extends DownloadMusicState {
   DownloadMusicProgressState({required this.progress});
-  final int progress;
+  final double progress;
 
   @override
   // TODO: implement props
