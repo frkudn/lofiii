@@ -83,6 +83,3 @@ class _DownloadsPageState extends State<DownloadsPage> {
     );
   }
 }
-
-
-

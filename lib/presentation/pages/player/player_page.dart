@@ -496,7 +496,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                                       snapshotPlayerState) {
                                                     ///?----                   if Loading, buffering
                                                     if (snapshotPlayerState
-                                                        .hasData) {
+                                                        .hasData ) {
                                                       if (snapshotPlayerState
                                                                   .data!
                                                                   .processingState ==

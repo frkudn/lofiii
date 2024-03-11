@@ -181,9 +181,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   ///-------- Get Started Button On Tap
   Future<void> _getStartedButtonOnTap(BuildContext context) async {
-    await MediaDownload().requestPermission();
-    await Permission.manageExternalStorage.request();
+    final List<Permission> permissions = [
+      Permission.storage,
+      Permission.accessMediaLocation,
+      Permission.notification,
+      Permission.manageExternalStorage,
+    ];
 
+    await permissions.request();
 
     ///-----!   Change User
     context

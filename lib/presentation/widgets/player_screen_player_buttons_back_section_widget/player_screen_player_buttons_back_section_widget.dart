@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
 import 'package:lofiii/logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../logic/cubit/flip_card/flip_card_cubit.dart';
 import '../glass_button/glass_button_widget.dart';
@@ -62,7 +62,8 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                                       .url,
                                   fileName: fetchMusicState
                                       .fullMusicList[fetchMusicState.musicIndex]
-                                      .title, context: context));
+                                      .title,
+                                  context: context));
                         },
                         label: "Download Now",
                         iconData: FontAwesomeIcons.download,
@@ -107,8 +108,16 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-
                             ],
+                          );
+                        } else if (state is DownloadMusicProgressState) {
+                          return CircularPercentIndicator(
+                            radius: 50,
+                            animation: true,
+                            backgroundColor: Colors.white,
+                            progressColor: Colors.pink,
+                            lineWidth: 5,
+                            center: Text("${state.progress.toInt()}%", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
                           );
                         } else if (state is DownloadMusicSuccessState) {
                           return Padding(
@@ -123,9 +132,8 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                                   fontWeight: FontWeight.w500),
                             ),
                           );
-
-
                         }
+
                         ///---- Download Music Failure State
                         else if (state is DownloadMusicFailureState) {
                           return Padding(
@@ -144,7 +152,6 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                           return const SizedBox.shrink();
                         }
                       }),
-
                     ],
                   );
                 },
