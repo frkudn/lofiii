@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:lofiii/data/services/app_services.dart';
 import 'package:url_launcher/link.dart';
 
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
@@ -46,7 +47,7 @@ class AboutPage extends StatelessWidget {
           ),
 
           // Version
-          const Text("v1.0.3 beta", style: TextStyle(fontWeight: FontWeight.w500),),
+          const Text(AppServices.appFullVersion, style: TextStyle(fontWeight: FontWeight.w500),),
 
           Gap(0.05.sh),
 
