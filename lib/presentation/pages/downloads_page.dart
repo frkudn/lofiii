@@ -1,12 +1,23 @@
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_media_downloader/flutter_media_downloader.dart';
-import 'package:lofiii/resources/my_assets/my_assets.dart';
-import 'package:lottie/lottie.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
+import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
+import 'package:lofiii/presentation/pages/player/offline_player_page.dart';
+import 'package:lofiii/presentation/pages/player/player_page.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
+import '../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
+import '../../logic/cubit/theme_mode/theme_mode_cubit.dart';
+import '../../utils/format_duration.dart';
 
 class DownloadsPage extends StatefulWidget {
   const DownloadsPage({Key? key}) : super(key: key);
@@ -16,70 +27,111 @@ class DownloadsPage extends StatefulWidget {
 }
 
 class _DownloadsPageState extends State<DownloadsPage> {
-  List<FileSystemEntity> musicsList = [];
 
-  @override
+@override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    // getSongs();
+    context.read<FetchMusicFromLocalStorageBloc>().add(FetchMusicFromLocalStorageInitializationEvent());
   }
-
-  // Future<void> getSongs() async {
-  //
-  //   await MediaDownload().requestPermission();
-  //     // Get downloads directory
-  //     final Directory? downloadsDir = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
-  //
-  //     if (downloadsDir != null) {
-  //       final List<FileSystemEntity> _files = downloadsDir.listSync(recursive: true, followLinks: false);
-  //       musicsList = _files.where((entity) => entity.path.endsWith(".mp3") || entity.path.endsWith(".m4a")).toList();
-  //
-  //       // Debugging: Print out the path and check if it's correct
-  //       log("Downloaded files path: ${downloadsDir.path}");
-  //       musicsList.forEach((file) {
-  //         log("Found file: ${file.path}");
-  //       });
-  //
-  //       setState(() {}); // Triggering rebuild after fetching files
-  //     }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text("Downloads"),
-    //   ),
-    //   body: musicsList.isEmpty
-    //       ? const Center(
-    //     child: Text("No Music found!"),
-    //   )
-    //       : ListView.builder(
-    //     itemCount: musicsList.length,
-    //     itemBuilder: (context, index) => ListTile(
-    //       title: Text(path.basename(musicsList[index].path)),
-    //       subtitle: Text(musicsList[index].path),
-    //     ),
-    //   ),
-    // );
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Downloads"),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset(MyAssets.lottieWorkInProgressAnimation),
-              const Text(
-                  "Download feature is only added in player for testing... but this section isn't completed yet!"),
-            ],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+
+          ///-----  Music List -----////
+          BlocConsumer<FetchMusicFromLocalStorageBloc, FetchMusicFromLocalStorageState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+
+              if(state is FetchMusicFromLocalStorageSuccessState) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: state.musicsList.length,
+                    itemBuilder: (context, index) {
+                      return _buildMusicTile(
+                       index: index,
+                        musicList: state.musicsList
+                      );
+                    },
+                  ),
+                );
+              } else if(state is FetchMusicFromLocalStorageLoadingState){
+               return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if(state is FetchMusicFromLocalStorageFailureState){
+                return Center(
+                  child: Text(state.failureMessage),
+                );
+              } else{
+                return const Center(
+                  child: Text("No Music Found!"),
+                );
+              }
+            },
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+
+  ///-----Music List -----///
+  Widget _buildMusicTile({required List<FileSystemEntity> musicList,required int index}) {
+
+
+
+    final musicTitle = File(musicList[index].path)
+        .uri
+        .pathSegments
+        .last
+        .replaceAll('.m4a', "")
+        .replaceAll('.mp3', '');
+    return ListTile(
+
+      onTap: () {
+        ///!-----Play Music------
+        context
+            .read<MusicPlayerBloc>()
+            .add(MusicPlayerPlayLocalEvent(musicPath: musicList[index].path));
+
+
+        ///!-----Hide Mini Player-----///
+        context.read<ShowMiniPlayerCubit>().hideMiniPlayer();
+
+
+        // ///!-----Show Offline Player Screen ----///
+        showModalBottomSheet(
+          showDragHandle: true,
+          isScrollControlled: true,
+          context: context,
+          builder: (context) =>
+              OfflinePlayerPage(
+                index: index,
+               localMusicList: musicList,),
+        );
+
+
+
+      },
+      leading: const CircleAvatar(
+          child: Icon(FontAwesomeIcons.music, color: Colors.white,)),
+      title: Text(
+        musicTitle,
+        style: const TextStyle(fontWeight: FontWeight.w500),
       ),
     );
   }
 }
+
+
+

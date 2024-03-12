@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:lofiii/data/services/storage_permission_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../logic/bloc/user_profie/user_profile_bloc.dart';
@@ -27,10 +29,13 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   late final TextEditingController usernameController;
 
+
+  late final DeviceInfoPlugin info;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    info = DeviceInfoPlugin();
     usernameController = TextEditingController();
   }
 
@@ -181,14 +186,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   ///-------- Get Started Button On Tap
   Future<void> _getStartedButtonOnTap(BuildContext context) async {
-    final List<Permission> permissions = [
-      Permission.storage,
-      Permission.accessMediaLocation,
-      Permission.notification,
-      Permission.manageExternalStorage,
-    ];
 
-    await permissions.request();
+
+    final AndroidDeviceInfo androidInfo = await info.androidInfo;
+    final int androidVersion = int.parse(androidInfo.version.release);
+    if (androidVersion >= 13) {
+      await Permission.notification.request();
+      await Permission.storage.request();
+      await Permission.manageExternalStorage.request();
+    } else{
+      await Permission.notification.request();
+      await Permission.storage.request();
+    }
 
     ///-----!   Change User
     context

@@ -6,8 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_media_downloader/flutter_media_downloader.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 
 part 'download_music_event.dart';
@@ -30,12 +29,6 @@ class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
       try {
         emit(DownloadMusicLoadingState(fileName: event.fileName));
 
-        // Directory? externalStorageDirectory = await getExternalStorageDirectory();
-        // String musicPath = '${externalStorageDirectory!.path}/Music';
-        //
-        // await mediaDownloader.downloadFile(event.fileName, event.fileName, "", musicPath);
-
-        // await mediaDownloader.downloadMedia(event.context, event.url);
 
         final musicDir = Directory("/storage/emulated/0/Music/").path;
 
@@ -59,14 +52,7 @@ class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
         emit(DownloadMusicInitialState());
       }
     } else {
-      final List<Permission> permissions = [
-        Permission.storage,
-        Permission.manageExternalStorage,
-        Permission.accessMediaLocation,
-        Permission.mediaLibrary,
-      ];
-
-      await permissions.request();
+      await Permission.storage.request();
     }
   }
 

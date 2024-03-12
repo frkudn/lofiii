@@ -232,11 +232,11 @@ class _PlayerPageState extends State<PlayerPage> {
                                                   snapshot.connectionState ==
                                                       ConnectionState.active) {
                                                 final positionSnapshot =
-                                                    snapshot.data!.first;
+                                                    snapshot.data?.first;
                                                 final durationSnapshot =
-                                                    snapshot.data![1];
+                                                    snapshot.data?[1];
                                                 final bufferedPositionSnapshot =
-                                                    snapshot.data!.last;
+                                                    snapshot.data?.last;
 
                                                 return Slider(
                                                     activeColor: Color(themeState
@@ -711,6 +711,7 @@ class _PlayerPageState extends State<PlayerPage> {
                 child: BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
                     FetchCurrentPlayingMusicDataToPlayerState>(
                   builder: (context, state) {
+
                     return CachedNetworkImage(
                       ///!--------   Music Image Url List   -------///
                       imageUrl: state.fullMusicList[state.musicIndex].image,

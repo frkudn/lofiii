@@ -11,4 +11,8 @@ class ShowMiniPlayerCubit extends Cubit<ShowMiniPlayerState> {
   showMiniPlayer(){
     emit(state.copyWith(showMiniPlayer: true));
   }
+
+  hideMiniPlayer(){
+    emit(state.copyWith(showMiniPlayer: false));
+  }
 }

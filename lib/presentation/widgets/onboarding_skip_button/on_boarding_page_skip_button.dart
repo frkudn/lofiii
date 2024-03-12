@@ -1,10 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../data/services/storage_permission_service.dart';
 import '../../../resources/hive/hive_resources.dart';
 import '../../pages/initial/initial_page.dart';
 
@@ -21,13 +23,17 @@ class OnBoardingSkipButton extends StatelessWidget {
         alignment: Alignment.topRight,
         child: TextButton(
           onPressed: () async {
-           await Permission.storage.request();
-           await Permission.accessMediaLocation.request();
-            await Permission.notification.request();
-           await Permission.manageExternalStorage.request();
-          
-         
-
+            final DeviceInfoPlugin info= DeviceInfoPlugin();
+            final AndroidDeviceInfo androidInfo = await info.androidInfo;
+            final int androidVersion = int.parse(androidInfo.version.release);
+            if (androidVersion >= 13) {
+              await Permission.notification.request();
+              await Permission.storage.request();
+              await Permission.manageExternalStorage.request();
+            } else{
+              await Permission.notification.request();
+              await Permission.storage.request();
+            }
             ///---! Don't Show this screen after restarting app
             MyHiveBoxes.settingBox
                 .put(MyHiveKeys.showOnBoardingScreenHiveKey, false);

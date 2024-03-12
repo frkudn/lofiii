@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
+import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
 import 'package:lofiii/presentation/pages/splash/splash_page.dart';
@@ -159,6 +160,7 @@ class MyApp extends StatelessWidget {
       BlocProvider(create: (context) => DownloadMusicBloc(dio: Dio())),
       BlocProvider(create: (context) => UserProfileBloc(picker: ImagePicker())),
       BlocProvider(create: (context) => FlipCardCubit(flipCardController: FlipCardController())),
+      BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc()),
 
     ];
   }
