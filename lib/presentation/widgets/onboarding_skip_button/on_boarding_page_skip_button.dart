@@ -23,17 +23,9 @@ class OnBoardingSkipButton extends StatelessWidget {
         alignment: Alignment.topRight,
         child: TextButton(
           onPressed: () async {
-            final DeviceInfoPlugin info= DeviceInfoPlugin();
-            final AndroidDeviceInfo androidInfo = await info.androidInfo;
-            final int androidVersion = int.parse(androidInfo.version.release);
-            if (androidVersion >= 13) {
-              await Permission.notification.request();
-              await Permission.storage.request();
-              await Permission.manageExternalStorage.request();
-            } else{
-              await Permission.notification.request();
-              await Permission.storage.request();
-            }
+
+         await StoragePermissionService.storagePermission();
+
             ///---! Don't Show this screen after restarting app
             MyHiveBoxes.settingBox
                 .put(MyHiveKeys.showOnBoardingScreenHiveKey, false);

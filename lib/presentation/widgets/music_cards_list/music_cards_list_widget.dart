@@ -46,6 +46,7 @@ class MusicCardsListWidget extends StatelessWidget {
 
                       ///!-----Show Mini Player-----///
                       context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+                      context.read<ShowMiniPlayerCubit>().onlineMusicIsPlaying();
 
                       ///!-----Send Current Music Data-----///
                       context

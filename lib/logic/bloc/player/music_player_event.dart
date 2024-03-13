@@ -77,14 +77,7 @@ class MusicPlayerVolumeSetEvent extends MusicPlayerEvent{
   List<Object?> get props => [volumeLevel];
 }
 
-class MusicPlayerPlayLocalEvent extends MusicPlayerEvent{
-  MusicPlayerPlayLocalEvent({required this.musicPath});
 
-  final String musicPath;
-  @override
-  // TODO: implement props
-  List<Object?> get props => [musicPath];
-}
 
 
 
