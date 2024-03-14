@@ -1,13 +1,21 @@
 import 'dart:io';
 
+import 'package:animate_do/animate_do.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
+import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/presentation/pages/player/offline_player_page.dart';
+import 'package:lofiii/presentation/widgets/music_cards_list/music_cards_list_widget.dart';
+import 'package:mini_music_visualizer/mini_music_visualizer.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:searchable_listview/searchable_listview.dart';
 
 import '../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 
@@ -19,10 +27,6 @@ class DownloadsPage extends StatefulWidget {
 }
 
 class _DownloadsPageState extends State<DownloadsPage> {
-
-
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -36,100 +40,188 @@ class _DownloadsPageState extends State<DownloadsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Downloads"),
+        title: Text(
+          "L o c a l  M u s i c",
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.sp),
+        ),
       ),
       body:
 
-           // !/------------------  Music List -----////
-          BlocConsumer<FetchMusicFromLocalStorageBloc,
+          // !/------------------  Music List -----////
+          BlocBuilder<ThemeModeCubit, ThemeModeState>(
+        builder: (context, themeState) {
+          return BlocConsumer<FetchMusicFromLocalStorageBloc,
               FetchMusicFromLocalStorageState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          if (state is FetchMusicFromLocalStorageSuccessState) {
-            return FutureBuilder(
-              future: state.musicsList,
-              builder: (context, snapshot) {
-                if(snapshot.hasData) {
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+              if (state is FetchMusicFromLocalStorageSuccessState) {
+                return FutureBuilder(
+                    future: state.musicsList,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final musicListLength = snapshot.data!.length;
 
-                  final musicListLength = snapshot.data!.length;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 0.03.sw, vertical: 0.01.sh),
+                          child: PageStorage(
+                            bucket: pageBucket,
 
+                            ///-------- Animation ------///
+                            child: SlideInDown(
+                              duration: const Duration(milliseconds: 300),
+                              child: SearchableList(
+                                // ----- For Storing List Position ------///
+                                key: const PageStorageKey("LocalMusic"),
 
-                  return ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: musicListLength,
-                    itemBuilder: (context, index) {
+                                ///!------  Local Music List
+                                initialList: snapshot.data!,
 
-                      ///---------  Music Data ---------------///
-                      final musicTitle = snapshot.data![index].title;
-                      final artistName = snapshot.data![index].artist.toString();
-                      final currentMusicUri = snapshot.data![index].uri;
-                      final musicListLength = snapshot.data!.length;
-                      final snapShotMusicList = snapshot.data!;
-                      ////--------------------------------------///
-                      return ListTile(
-                        onTap: () {
-                          _listTileOnTap(index: index,musicList: state.musicsList,currentMusic: currentMusicUri,musicTitle: musicTitle,artistsName: artistName, musicListLength: musicListLength, snapshotMusicList: snapShotMusicList);
-                        },
+                                builder: (musicList, index, music) => ListTile(
+                                  selected:
+                                      themeState.localMusicSelectedTileIndex ==
+                                              index
+                                          ? true
+                                          : false,
+                                  selectedColor: Color(themeState.accentColor),
 
-                        ///-------  Music Icon
-                        leading: const Icon(
-                          FontAwesomeIcons.music,
-                          // color: Colors.white,
-                        ),
+                                  ///!-------  On Tap
+                                  onTap: () {
+                                    _listTileOnTap(
+                                        index: index,
+                                        musicList: state.musicsList,
+                                        currentMusic: music.uri,
+                                        musicTitle: music.title,
+                                        artistsName: music.artist,
+                                        musicListLength: musicListLength,
+                                        snapshotMusicList: musicList);
+                                  },
 
-                        ///!---------  Music Title
-                        title: Text(
-                          musicTitle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500),
-                        ),
+                                  ///!-------  Music Icon
+                                  leading: const Icon(
+                                    EvaIcons.music,
+                                    // color: Colors.white,
+                                  ),
 
-                        ///!--------  Artists
-                        subtitle: Text(
-                          artistName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      );
-                    },
-                  );
-                } else{
-                 return const Center(
-                    child: Text("No Music Found!"),
-                  );
-                }
+                                  ///!------------------  Music Title
+                                  title: Text(
+                                          music.title,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15.spMax),
+                                        ),
+
+                                  ///!--------  Artists
+                                  subtitle: Text(
+                                    music.artist ?? "Unknown",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 11.spMax),
+                                  ),
+
+                                  ///!--------  Music Visualization
+                                  trailing: themeState
+                                              .localMusicSelectedTileIndex ==
+                                          index
+                                      ? SizedBox(
+                                          width: 0.05.sw,
+                                          child: MiniMusicVisualizer(
+                                            color:
+                                                Color(themeState.accentColor),
+                                            height: 0.02.sh,
+                                            radius: 2,
+                                            animate: true,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+
+                                ///!-------  Search Filter Logic
+                                filter: (value) => snapshot.data!
+                                    .where(
+                                      (music) => music.title
+                                          .toLowerCase()
+                                          .contains(value.trim().toLowerCase()),
+                                    )
+                                    .toList(),
+
+                                ///------  No Music Found on Searching
+                                emptyWidget: const Center(
+                                  child: Text("No Music Found!"),
+                                ),
+
+                                ////!---------------------  Search Field Input Decoration
+                                inputDecoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12.sp, vertical: 8.sp),
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  fillColor: themeState.isDarkMode
+                                      ? null
+                                      : Colors.grey.shade100,
+                                  enabled: true,
+                                  hintText: " Search",
+
+                                  ///------ Focus Border
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                ),
+                                physics: const BouncingScrollPhysics(),
+                                cursorColor: Color(themeState.accentColor),
+                                maxLines: 1,
+                                closeKeyboardWhenScrolling: true,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                          child: Text("No Music Found!"),
+                        );
+                      }
+                    });
+              } else if (state is FetchMusicFromLocalStorageLoadingState) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Color(themeState.accentColor),
+                  ),
+                );
+              } else if (state is FetchMusicFromLocalStorageFailureState) {
+                return Center(
+                  child: Text(state.failureMessage),
+                );
+              } else {
+                return const Center(
+                  child: Text("No Music Available"),
+                );
               }
-            );
-          }  else if (state is FetchMusicFromLocalStorageFailureState) {
-            return Center(
-              child: Text(state.failureMessage),
-            );
-          } else {
-            return const Center(
-              child: Text("No Music Found!"),
-            );
-          }
+            },
+          );
         },
       ),
-
-
-
-
-
     );
   }
 
   ///-------------------------------------------------------///
   ///!----------------------  Methods -------------------///
   ///-----------------------------------------------------///
-  _listTileOnTap({required musicList,required index, currentMusic,required musicTitle,required artistsName,required musicListLength,required snapshotMusicList}) {
+  _listTileOnTap(
+      {required musicList,
+      required index,
+      currentMusic,
+      required musicTitle,
+      required artistsName,
+      required musicListLength,
+      required snapshotMusicList}) {
     ///!-----Play Music------
-    context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(url: currentMusic));
+    context
+        .read<MusicPlayerBloc>()
+        .add(MusicPlayerInitializeEvent(url: currentMusic));
 
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();
     context.read<ShowMiniPlayerCubit>().offlineMusicIsPlaying();
@@ -138,16 +230,22 @@ class _DownloadsPageState extends State<DownloadsPage> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (context) => OfflinePlayerPage(),
+      builder: (context) => const OfflinePlayerPage(),
     );
 
     ///!---- Send Data to Offline Player
     context.read<NowPlayingOfflineMusicDataToPlayerCubit>().sendDataToPlayer(
-        musicIndex: index, futureMusicList: musicList,
-      musicTitle: musicTitle,
-      musicArtist: artistsName,
-      musicListLength: musicListLength,
-      snapshotMusicList: snapshotMusicList
-    );
+        musicIndex: index,
+        futureMusicList: musicList,
+        musicTitle: musicTitle,
+        musicArtist: artistsName,
+        musicListLength: musicListLength,
+        snapshotMusicList: snapshotMusicList);
+
+    ///! ------  Hide Keyboard if active
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    ///!-------  Change Selected Tile Index
+    context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
   }
 }

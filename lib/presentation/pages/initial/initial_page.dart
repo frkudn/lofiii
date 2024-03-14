@@ -1,12 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 
 import '../../../logic/bloc/check_internet_connection/check_internet_connection_bloc.dart';
 import '../../../logic/cubit/bottom_navigation_change_page_index/bottom_navigation_index_cubit.dart';
-import '../../../logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../utils/custom_snackbar.dart';
 import '../../widgets/common/cutom_bottom_navigation_widget.dart';

@@ -12,13 +12,13 @@ class StoragePermissionService {
     bool havePermission = false;
 
     if (androidVersion >= 13) {
-      await Permission.manageExternalStorage.request();
+
       await Permission.photos.request();
       await Permission.videos.request();
       await Permission.audio.request();
       await Permission.notification.request();
+      await Permission.manageExternalStorage.request();
       final status = await Permission.manageExternalStorage.status;
-
       havePermission = status.isGranted;
     } else {
       await Permission.notification.request();

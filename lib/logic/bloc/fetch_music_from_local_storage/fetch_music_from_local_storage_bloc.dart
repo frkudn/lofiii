@@ -29,6 +29,8 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
     try {
       // Check if storage permission is granted
       if (await StoragePermissionService.storagePermission()) {
+        emit(FetchMusicFromLocalStorageLoadingState());
+
         Future<List<SongModel>> musicList = audioQuery.querySongs();
 
         // Emit success state with updated music list
