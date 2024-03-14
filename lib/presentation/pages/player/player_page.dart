@@ -39,6 +39,7 @@ class _PlayerPageState extends State<PlayerPage> {
         ///!----      Drag Handle    ----///
         title: myCustomDragHandle,
         centerTitle: true,
+        toolbarHeight: 0.06.sh,
         actions: const [
           ////?-------------------  T O P  M O R E  B U T T O N -------------------/////
           // PlayerScreenMoreButtonWidget(),
@@ -689,7 +690,7 @@ class _PlayerPageState extends State<PlayerPage> {
           ///!-------------------------   Cached Network Image   --------///
           ///-----------------------------------------------------------------///
           Positioned(
-            top: 0.08.sh,
+            top: 0.06.sh,
             left: 0,
             right: 0,
             child: Center(
@@ -726,7 +727,7 @@ class _PlayerPageState extends State<PlayerPage> {
                           color: Colors.transparent,
                           margin: EdgeInsets.zero,
                           child: Container(
-                            height: 0.5.sh,
+                            height: 0.52.sh,
                             width: 0.8.sw,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),

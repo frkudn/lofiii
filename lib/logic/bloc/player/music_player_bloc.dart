@@ -27,7 +27,6 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     on<MusicPlayerVolumeSetEvent>(_musicPlayerVolumeSetEvent);
     on<MusicPlayerForwardEvent>(_musicPlayerForwardEvent);
     on<MusicPlayerBackwardEvent>(_musicPlayerBackwardEvent);
-    on<MusicPlayerPlayLocalEvent>(_musicPlayerPlayLocalEvent);
   }
 
   // Method to handle MusicPlayerInitializeEvent and Play Music.
@@ -129,35 +128,6 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
 
 
 
-  ///!------  LOCAL MUSIC INITIALIZATIONOn  ---------/////
-  FutureOr<void> _musicPlayerPlayLocalEvent(MusicPlayerPlayLocalEvent event, Emitter<MusicPlayerState> emit) {
-
-    try {
-      emit(MusicPlayerLoadingState());
-      audioPlayer.setFilePath(event.musicPath);
-      audioPlayer.play();
-
-      //! Combine the position and duration and Buffered streams
-      final combinedStream = Rx.combineLatest3(
-        audioPlayer.positionStream,
-        audioPlayer.durationStream,
-        audioPlayer.bufferedPositionStream,
-            (position, duration, buffered) => [position, duration, buffered],
-      ).publish().autoConnect();
-
-
-
-      emit(MusicPlayerSuccessState(
-        positionStream: audioPlayer.positionStream,
-        durationStream: audioPlayer.durationStream,
-        playingStream: audioPlayer.playingStream,
-        audioPlayer: audioPlayer,
-        combinedStreamPositionAndDurationAndBufferedList: combinedStream,
-      ));
-    } catch (e) {
-      emit(MusicPlayerErrorState(errorMessage: e.toString()));
-    }
-  }
 
   FutureOr<void> _musicPlayerBackwardEvent(MusicPlayerBackwardEvent event, Emitter<MusicPlayerState> emit) {
     audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds-5));

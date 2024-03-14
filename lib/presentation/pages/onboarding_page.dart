@@ -188,16 +188,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   Future<void> _getStartedButtonOnTap(BuildContext context) async {
 
 
-    final AndroidDeviceInfo androidInfo = await info.androidInfo;
-    final int androidVersion = int.parse(androidInfo.version.release);
-    if (androidVersion >= 13) {
-      await Permission.notification.request();
-      await Permission.storage.request();
-      await Permission.manageExternalStorage.request();
-    } else{
-      await Permission.notification.request();
-      await Permission.storage.request();
-    }
+
+   await StoragePermissionService.storagePermission();
 
     ///-----!   Change User
     context

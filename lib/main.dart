@@ -13,10 +13,12 @@ import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
+import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
 import 'package:lofiii/presentation/pages/splash/splash_page.dart';
 import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'logic/bloc/artists_data/artists_data_bloc.dart';
@@ -160,7 +162,8 @@ class MyApp extends StatelessWidget {
       BlocProvider(create: (context) => DownloadMusicBloc(dio: Dio())),
       BlocProvider(create: (context) => UserProfileBloc(picker: ImagePicker())),
       BlocProvider(create: (context) => FlipCardCubit(flipCardController: FlipCardController())),
-      BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc()),
+      BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc(audioQuery: OnAudioQuery())),
+      BlocProvider(create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
 
     ];
   }

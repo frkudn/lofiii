@@ -1,26 +1,18 @@
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
+import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/presentation/pages/player/offline_player_page.dart';
-import 'package:lofiii/presentation/pages/player/player_page.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
-import '../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
-import '../../logic/cubit/theme_mode/theme_mode_cubit.dart';
-import '../../utils/format_duration.dart';
 
 class DownloadsPage extends StatefulWidget {
-  const DownloadsPage({Key? key}) : super(key: key);
+  const DownloadsPage({super.key});
 
   @override
   State<DownloadsPage> createState() => _DownloadsPageState();
@@ -28,110 +20,134 @@ class DownloadsPage extends StatefulWidget {
 
 class _DownloadsPageState extends State<DownloadsPage> {
 
-@override
+
+
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<FetchMusicFromLocalStorageBloc>().add(FetchMusicFromLocalStorageInitializationEvent());
+    context
+        .read<FetchMusicFromLocalStorageBloc>()
+        .add(FetchMusicFromLocalStorageInitializationEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Downloads"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+      body:
 
-          ///-----  Music List -----////
-          BlocConsumer<FetchMusicFromLocalStorageBloc, FetchMusicFromLocalStorageState>(
-            listener: (context, state) {
-              // TODO: implement listener
-            },
-            builder: (context, state) {
+           // !/------------------  Music List -----////
+          BlocConsumer<FetchMusicFromLocalStorageBloc,
+              FetchMusicFromLocalStorageState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is FetchMusicFromLocalStorageSuccessState) {
+            return FutureBuilder(
+              future: state.musicsList,
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
 
-              if(state is FetchMusicFromLocalStorageSuccessState) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: state.musicsList.length,
+                  final musicListLength = snapshot.data!.length;
+
+
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: musicListLength,
                     itemBuilder: (context, index) {
-                      return _buildMusicTile(
-                       index: index,
-                        musicList: state.musicsList
+
+                      ///---------  Music Data ---------------///
+                      final musicTitle = snapshot.data![index].title;
+                      final artistName = snapshot.data![index].artist.toString();
+                      final currentMusicUri = snapshot.data![index].uri;
+                      final musicListLength = snapshot.data!.length;
+                      final snapShotMusicList = snapshot.data!;
+                      ////--------------------------------------///
+                      return ListTile(
+                        onTap: () {
+                          _listTileOnTap(index: index,musicList: state.musicsList,currentMusic: currentMusicUri,musicTitle: musicTitle,artistsName: artistName, musicListLength: musicListLength, snapshotMusicList: snapShotMusicList);
+                        },
+
+                        ///-------  Music Icon
+                        leading: const Icon(
+                          FontAwesomeIcons.music,
+                          // color: Colors.white,
+                        ),
+
+                        ///!---------  Music Title
+                        title: Text(
+                          musicTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500),
+                        ),
+
+                        ///!--------  Artists
+                        subtitle: Text(
+                          artistName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
                       );
                     },
-                  ),
-                );
-              } else if(state is FetchMusicFromLocalStorageLoadingState){
-               return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if(state is FetchMusicFromLocalStorageFailureState){
-                return Center(
-                  child: Text(state.failureMessage),
-                );
-              } else{
-                return const Center(
-                  child: Text("No Music Found!"),
-                );
+                  );
+                } else{
+                 return const Center(
+                    child: Text("No Music Found!"),
+                  );
+                }
               }
-            },
-          ),
-        ],
+            );
+          }  else if (state is FetchMusicFromLocalStorageFailureState) {
+            return Center(
+              child: Text(state.failureMessage),
+            );
+          } else {
+            return const Center(
+              child: Text("No Music Found!"),
+            );
+          }
+        },
       ),
+
+
+
+
+
     );
   }
 
+  ///-------------------------------------------------------///
+  ///!----------------------  Methods -------------------///
+  ///-----------------------------------------------------///
+  _listTileOnTap({required musicList,required index, currentMusic,required musicTitle,required artistsName,required musicListLength,required snapshotMusicList}) {
+    ///!-----Play Music------
+    context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(url: currentMusic));
 
-  ///-----Music List -----///
-  Widget _buildMusicTile({required List<FileSystemEntity> musicList,required int index}) {
+    context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+    context.read<ShowMiniPlayerCubit>().offlineMusicIsPlaying();
 
+    // ///!-----Show Offline Player Screen ----///
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => OfflinePlayerPage(),
+    );
 
-
-    final musicTitle = File(musicList[index].path)
-        .uri
-        .pathSegments
-        .last
-        .replaceAll('.m4a', "")
-        .replaceAll('.mp3', '');
-    return ListTile(
-
-      onTap: () {
-        ///!-----Play Music------
-        context
-            .read<MusicPlayerBloc>()
-            .add(MusicPlayerPlayLocalEvent(musicPath: musicList[index].path));
-
-
-        ///!-----Hide Mini Player-----///
-        context.read<ShowMiniPlayerCubit>().hideMiniPlayer();
-
-
-        // ///!-----Show Offline Player Screen ----///
-        showModalBottomSheet(
-          showDragHandle: true,
-          isScrollControlled: true,
-          context: context,
-          builder: (context) =>
-              OfflinePlayerPage(
-                index: index,
-               localMusicList: musicList,),
-        );
-
-
-
-      },
-      leading: const CircleAvatar(
-          child: Icon(FontAwesomeIcons.music, color: Colors.white,)),
-      title: Text(
-        musicTitle,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-      ),
+    ///!---- Send Data to Offline Player
+    context.read<NowPlayingOfflineMusicDataToPlayerCubit>().sendDataToPlayer(
+        musicIndex: index, futureMusicList: musicList,
+      musicTitle: musicTitle,
+      musicArtist: artistsName,
+      musicListLength: musicListLength,
+      snapshotMusicList: snapshotMusicList
     );
   }
 }
-
-
-

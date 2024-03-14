@@ -1,9 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 
 import '../../../logic/bloc/check_internet_connection/check_internet_connection_bloc.dart';
 import '../../../logic/cubit/bottom_navigation_change_page_index/bottom_navigation_index_cubit.dart';
+import '../../../logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../utils/custom_snackbar.dart';
 import '../../widgets/common/cutom_bottom_navigation_widget.dart';
@@ -11,6 +14,7 @@ import '../../widgets/mini_player/mini_player_widget.dart';
 import '../downloads_page.dart';
 import '../home_page.dart';
 import '../library_page.dart';
+import '../player/offline_player_page.dart';
 import '../settings/settings.dart';
 
 class InitialPage extends StatefulWidget {
@@ -61,13 +65,10 @@ class _InitialPageState extends State<InitialPage> {
           builder: (context, bottomNavState) {
             int index = bottomNavState.pageIndex;
             return Scaffold(
-              body: Stack(
-                  fit: StackFit.expand,
-                  children: [
+              body: Stack(fit: StackFit.expand, children: [
                 ///!-----     Screens     ------///
                 pages[index],
 
-                ///?------------Mini Player-------- ///
                 ///!--------Show Mini Player First whenever music card is clicked
                 BlocBuilder<ShowMiniPlayerCubit, ShowMiniPlayerState>(
                   builder: (context, state) {
