@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -111,10 +112,15 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                       .fullMusicList[musicDataState.musicIndex]
                                       .image,
                                   imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                    radius: 19.spMax,
-                                  ),
+                                  ///---- Animation
+                                      Spin(
+                                        infinite: true,
+                                        duration: const Duration(seconds: 15),
+                                        child: CircleAvatar(
+                                                                            backgroundImage: imageProvider,
+                                                                            radius: 19.spMax,
+                                                                          ),
+                                      ),
                                   errorWidget: (context, url, error) =>
                                       CircleAvatar(
                                     radius: 19.spMax,
@@ -128,12 +134,17 @@ class MiniPlayerPageWidget extends StatelessWidget {
 
                               ///!--------------------  Offline Music Image
                               if (showMiniPlayerState.isOnlineMusic == false)
-                                CircleAvatar(
-                                  radius: 19.spMax,
-                                  child: Icon(
-                                    FontAwesomeIcons.music,
-                                    size: 12.spMax,
-                                    color: Color(themeState.accentColor),
+                                Spin(
+                                  infinite: true,
+                                  duration: const Duration(seconds: 4),
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(themeState.accentColor),
+                                    radius: 19.spMax,
+                                    child: Icon(
+                                      FontAwesomeIcons.music,
+                                      size: 12.spMax,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
 
@@ -242,25 +253,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                                               .processingState ==
                                                           ProcessingState
                                                               .completed) {
-                                                        return IconButton(
-                                                          onPressed: () {
-                                                            ///--- Play Current Music Again
-                                                            context
-                                                                .read<
-                                                                    MusicPlayerBloc>()
-                                                                .add(MusicPlayerInitializeEvent(
-                                                                    url: fetchCurrentMusicState
-                                                                        .fullMusicList[
-                                                                            fetchCurrentMusicState.musicIndex]
-                                                                        .url));
-                                                          },
-                                                          icon: Icon(
-                                                            FontAwesomeIcons
-                                                                .circlePause,
-                                                            size: 30.spMax,
-                                                            color: Colors.white,
-                                                          ),
-                                                        );
+                                                        return SizedBox(width: 0.1.sw,);
                                                       }
 
                                                       ///!-----  If Music is not Completed
@@ -395,6 +388,7 @@ _miniPlayerOnTap(showMiniPlayerState, context){
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      showDragHandle: true,
       builder: (context) => const PlayerPage(),
     );
   } else {

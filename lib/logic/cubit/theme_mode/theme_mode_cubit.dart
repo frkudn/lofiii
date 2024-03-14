@@ -52,5 +52,9 @@ class ThemeModeCubit extends Cubit<ThemeModeState> {
       MyHiveBoxes.settingBox.put(MyHiveKeys.themeAccentColorHiveKey, color);
     }
   }
+
+  changeSelectedTileIndex({required index}){
+    emit(state.copyWith(localMusicSelectedTileIndex: index));
+  }
   
 }

@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:lofiii/data/services/storage_permission_service.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -24,8 +25,7 @@ class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
   Future<void> _downloadNowEvent(
       DownloadNowEvent event, Emitter<DownloadMusicState> emit) async {
  // Check if storage write permission is granted
-    PermissionStatus storagePermissionStatus = await Permission.storage.status;
-    if (storagePermissionStatus.isGranted) {
+    if (await StoragePermissionService.storagePermission()) {
       try {
         emit(DownloadMusicLoadingState(fileName: event.fileName));
 

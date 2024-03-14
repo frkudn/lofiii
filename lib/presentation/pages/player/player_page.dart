@@ -428,7 +428,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                                         repeatState.repeatAll) {
                                                       _nextMusicButtonOnTap(
                                                           fetchMusicState,
-                                                          context);
+                                                          );
                                                     }
                                                   });
                                                   return IconButton(
@@ -475,7 +475,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                             return IconButton(
                                                 onPressed: () {
                                                   _backwardMusicButtonOnTap(
-                                                      state, context);
+                                                      state,);
                                                 },
                                                 icon: const Icon(
                                                   EvaIcons.skipBack,
@@ -634,7 +634,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                             return IconButton(
                                                 onPressed: () {
                                                   _nextMusicButtonOnTap(
-                                                      state, context);
+                                                      state,);
                                                 },
                                                 icon: const Icon(
                                                   EvaIcons.skipForward,
@@ -773,7 +773,7 @@ class _PlayerPageState extends State<PlayerPage> {
 
   ///-------------------?             M E T H O D S    ----------------------------///
   void _nextMusicButtonOnTap(
-      FetchCurrentPlayingMusicDataToPlayerState state, BuildContext context) {
+      FetchCurrentPlayingMusicDataToPlayerState state, ) {
     int index = state.musicIndex;
     if (index < state.fullMusicList.length) {
       index++;
@@ -786,7 +786,7 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   void _backwardMusicButtonOnTap(
-      FetchCurrentPlayingMusicDataToPlayerState state, BuildContext context) {
+      FetchCurrentPlayingMusicDataToPlayerState state,) {
     int index = state.musicIndex;
     if (index > 0) {
       index--;

@@ -1,15 +1,15 @@
 import 'dart:developer';
-import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
-import 'package:lofiii/resources/my_assets/my_assets.dart';
 
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
@@ -20,7 +20,7 @@ import '../../../resources/consts/consts.dart';
 import '../../../utils/format_duration.dart';
 
 class OfflinePlayerPage extends StatefulWidget {
-  OfflinePlayerPage({
+  const OfflinePlayerPage({
     super.key,
   });
 
@@ -44,7 +44,6 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
               size: 30.sp,
             )),
 
-
         automaticallyImplyLeading: false,
 
         ///!----      Drag Handle    ----///
@@ -66,22 +65,52 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                     return Stack(
                       children: [
                         ///?--------------------        Background Gradient Colors Section   --------------------///
+                        ///---  Back
                         Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                              Colors.cyan,
-                              Colors.blue.shade800,
-                              Colors.indigo.shade800,
-                              Colors.purple.shade600,
-                              Colors.red.shade800,
-                            ])
+                              gradient: SweepGradient(
+                                  startAngle: 1,
+                                  center: Alignment.bottomCenter,
+                                  colors: [
+                                    Color(themeState.accentColor),
+                                    Colors.cyan,
+                                    Colors.teal.shade800,
+                                    Colors.lightGreen.shade800,
+                                    Color(themeState.accentColor),
+                                    Colors.purple.shade600,
+                                    Colors.deepPurple.shade800,
+                                    Color(themeState.accentColor),
+                                  ])),
+                        ),
+
+                     ///!--------- Top Rotating
+                        Spin(
+                          infinite: true,
+                          duration: const Duration(seconds: 20),
+                          child: Center(
+                            child: Container(
+                              width: 0.6.sw,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: SweepGradient(
+                                      center: Alignment.center,
+                                      colors: [
+                                    Color(themeState.accentColor),
+                                    Colors.cyan,
+                                    Colors.indigo.shade800,
+                                    Colors.deepOrange.shade800,
+                                    Colors.amber.shade800,
+                                    Color(themeState.accentColor),
+                                    Colors.purple.shade600,
+                                    Colors.red.shade800,
+                                  ])),
+                            ),
                           ),
                         ),
 
-                        ///!---------  Volume & Play Pause Gesture
+
+
+                        ///!------------------------  Volume & Play Pause Gesture
                         Positioned(
                           top: 0.1.sh,
                           height: 0.6.sh,
@@ -109,10 +138,8 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
                         ///!---------   -----------------///
 
-                        ///!--- Music Icon -----///
-                        Positioned(
-                          bottom: 0.48.sh,
-                          width: 1.sw,
+                        ///!------- Music Icon -----///
+                        Center(
                           child: Icon(
                             FontAwesomeIcons.music,
                             color: Colors.white,
@@ -120,358 +147,397 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                           ),
                         ),
 
-                        ///!      ---------------Music Title  & Artist----///
-                        Positioned(
-                          bottom: 0.22.sh,
-                          left: 0.05.sw,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                nowPlayingMusicState.musicTitle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 30.sp, color: Colors.white),
-                              ),
-                              Text(
-                                nowPlayingMusicState.musicArtist,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 12.sp, color: Colors.white70),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        ///!---------   Slider & Buttons
+                        ///!-------------  Glass Gradient Box ---------///
                         Positioned(
                           bottom: 0.05.sh,
                           width: 1.sw,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ////!---------------  Slider ----------////
-                              StreamBuilder(
-                                  stream: state
-                                      .combinedStreamPositionAndDurationAndBufferedList,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData &&
-                                            snapshot.connectionState ==
-                                                ConnectionState.done ||
-                                        snapshot.connectionState ==
-                                            ConnectionState.active) {
-                                      final positionSnapshot =
-                                          snapshot.data?.first;
-                                      final durationSnapshot =
-                                          snapshot.data?[1];
-                                      final bufferedPositionSnapshot =
-                                          snapshot.data?.last;
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 0.05.sw,
+                              vertical: 0.02.sh,
+                            ),
+                            margin: EdgeInsets.symmetric(horizontal: 0.04.sw),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.09),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ///!      ---------------Music Title  & Artist----///
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      nowPlayingMusicState.musicTitle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 29.sp, color: Colors.white),
+                                    ),
+                                    Text(
+                                      nowPlayingMusicState.musicArtist,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white70),
+                                    ),
+                                  ],
+                                ),
 
-                                      return Slider(
-                                          activeColor: Colors.white,
-                                          secondaryActiveColor:
-                                              Colors.white.withOpacity(0.6),
-                                          secondaryTrackValue:
-                                              bufferedPositionSnapshot!
-                                                      .inSeconds
-                                                      .toDouble() ??
-                                                  0,
-                                          min: 0,
-                                          max: durationSnapshot!.inSeconds
-                                              .toDouble(),
-                                          value: positionSnapshot!.inSeconds
-                                                  .toDouble() ??
-                                              0,
-                                          onChanged: (value) {
-                                            context.read<MusicPlayerBloc>().add(
-                                                MusicPlayerSeekEvent(
-                                                    position: value.toInt()));
-                                          });
-                                    } else {
-                                      return Slider(
-                                          activeColor: Colors.transparent,
-                                          value: 0.0,
-                                          max: 1,
-                                          min: 0,
-                                          onChanged: (v) {});
-                                    }
-                                  }),
+                                ///!------------------   Slider & Buttons
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ////!---------------  Slider ----------////
+                                    StreamBuilder(
+                                        stream: state
+                                            .combinedStreamPositionAndDurationAndBufferedList,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData &&
+                                                  snapshot.connectionState ==
+                                                      ConnectionState.done ||
+                                              snapshot.connectionState ==
+                                                  ConnectionState.active) {
+                                            final positionSnapshot =
+                                                snapshot.data?.first;
+                                            final durationSnapshot =
+                                                snapshot.data?[1];
+                                            final bufferedPositionSnapshot =
+                                                snapshot.data?.last;
 
-                              ////!---------------    Position   -----///
-                              BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
-                                builder: (context, state) {
-                                  ///! ----      MusicPlayerSuccessState
-                                  if (state is MusicPlayerSuccessState) {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 14.spMax),
-                                      child: StreamBuilder(
-                                          stream: state
-                                              .combinedStreamPositionAndDurationAndBufferedList,
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData &&
-                                                    snapshot.connectionState ==
-                                                        ConnectionState
-                                                            .active ||
-                                                snapshot.connectionState ==
-                                                    ConnectionState.done) {
-                                              final positionSnapshot =
-                                                  snapshot.data!.first;
-                                              final durationSnapshot =
-                                                  snapshot.data![1];
-                                              final bufferedPositionSnapshot =
-                                                  snapshot.data!.last;
+                                            return Slider(
+                                                activeColor: Colors.white,
+                                                secondaryActiveColor: Colors
+                                                    .white
+                                                    .withOpacity(0.5),
+                                                secondaryTrackValue:
+                                                    bufferedPositionSnapshot!
+                                                            .inSeconds
+                                                            .toDouble() ??
+                                                        0,
+                                                min: 0,
+                                                max: durationSnapshot!.inSeconds
+                                                    .toDouble(),
+                                                value: positionSnapshot!
+                                                        .inSeconds
+                                                        .toDouble() ??
+                                                    0,
+                                                onChanged: (value) {
+                                                  context
+                                                      .read<MusicPlayerBloc>()
+                                                      .add(MusicPlayerSeekEvent(
+                                                          position:
+                                                              value.toInt()));
+                                                });
+                                          } else {
+                                            return Slider(
+                                                activeColor: Colors.transparent,
+                                                value: 0.0,
+                                                max: 1,
+                                                min: 0,
+                                                onChanged: (v) {});
+                                          }
+                                        }),
 
-                                              return Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  ///!----  Position    ----///
-                                                  Text(
-                                                    FormatDuration.format(
-                                                        positionSnapshot),
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+                                    ////!---------------    Position   -----///
+                                    BlocBuilder<MusicPlayerBloc,
+                                        MusicPlayerState>(
+                                      builder: (context, state) {
+                                        ///! ----      MusicPlayerSuccessState
+                                        if (state is MusicPlayerSuccessState) {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 14.spMax),
+                                            child: StreamBuilder(
+                                                stream: state
+                                                    .combinedStreamPositionAndDurationAndBufferedList,
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData &&
+                                                          snapshot.connectionState ==
+                                                              ConnectionState
+                                                                  .active ||
+                                                      snapshot.connectionState ==
+                                                          ConnectionState
+                                                              .done) {
+                                                    final positionSnapshot =
+                                                        snapshot.data!.first;
+                                                    final durationSnapshot =
+                                                        snapshot.data![1];
+                                                    final bufferedPositionSnapshot =
+                                                        snapshot.data!.last;
 
-                                                  ///-!----    Duration Stream   -----////
-                                                  Text(
-                                                    FormatDuration.format(
-                                                        durationSnapshot),
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                ],
-                                              );
-                                            } else {
-                                              return const Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  ///!----  Position    ----///
-                                                  Text(
-                                                    "00:00",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+                                                    return Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        ///!----  Position    ----///
+                                                        Text(
+                                                          FormatDuration.format(
+                                                              positionSnapshot),
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
 
-                                                  ///-!----    Duration Stream   -----////
-                                                  Text(
-                                                    "00:00",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                ],
-                                              );
-                                            }
-                                          }),
-                                    );
-                                  }
+                                                        ///-!----    Duration Stream   -----////
+                                                        Text(
+                                                          FormatDuration.format(
+                                                              durationSnapshot),
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  } else {
+                                                    return const Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        ///!----  Position    ----///
+                                                        Text(
+                                                          "00:00",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
 
-                                  ///! ----      MusicPlayerLoadingState  and FailureState
-                                  else {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 14.spMax),
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "00:00",
-                                            style: TextStyle(),
-                                          ),
-                                          Text(
-                                            "00:00",
-                                            style: TextStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
+                                                        ///-!----    Duration Stream   -----////
+                                                        Text(
+                                                          "00:00",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }
+                                                }),
+                                          );
+                                        }
 
-                              ///-------------------------------------------------------------///
-                              ///!---------------------------    Player Buttons      -------///
-                              ///?------------------------------------------------------------------///
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ///---------------------------------------------------///
-                                  ///!----      Previous   Music Button  ----///
-
-                                  IconButton(
-                                      onPressed: () {
-                                        _backwardMusicButtonOnTap(
-                                            nowPlayingMusicState, context);
+                                        ///! ----      MusicPlayerLoadingState  and FailureState
+                                        else {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 14.spMax),
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "00:00",
+                                                  style: TextStyle(),
+                                                ),
+                                                Text(
+                                                  "00:00",
+                                                  style: TextStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
                                       },
-                                      icon: Icon(
-                                        EvaIcons.skipBack,
-                                        size: 35.sp,
-                                        color: Colors.white,
-                                      )),
+                                    ),
 
-                                  ///---------------------------------------------------///
-                                  ///!----  Replay Button
-                                  IconButton(
-                                      onPressed: () {
-                                        context
-                                            .read<MusicPlayerBloc>()
-                                            .add(MusicPlayerBackwardEvent());
-                                      },
-                                      icon: Icon(
-                                        Icons.replay_5_outlined,
-                                        color: Colors.white,
-                                        size: 40.sp,
-                                      )),
+                                    ///-------------------------------------------------------------///
+                                    ///!---------------------------    Player Buttons      -------///
+                                    ///?------------------------------------------------------------------///
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ///---------------------------------------------------///
+                                        ///!----      Previous   Music Button  ----///
 
-                                  ///!---------------        Play & Pause Button       -----------///
-                                  BlocBuilder<MusicPlayerBloc,
-                                      MusicPlayerState>(
-                                    builder: (context, state) {
-                                      if (state is MusicPlayerSuccessState) {
-                                        return StreamBuilder(
-                                            stream: state
-                                                .audioPlayer.playerStateStream,
-                                            builder:
-                                                (context, snapshotPlayerState) {
-                                              ///?----                   if Loading, buffering
-                                              if (snapshotPlayerState.hasData) {
-                                                if (snapshotPlayerState.data!
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .loading ||
-                                                    snapshotPlayerState.data!
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .buffering) {
-                                                  //! --------------           Show Loading Icon        --------------///
-                                                  return IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      EvaIcons.playCircle,
-                                                      size: 45.sp,
-                                                      color: Colors.white,
-                                                    ),
-                                                  );
-                                                }
+                                        IconButton(
+                                            onPressed: () {
+                                              _backwardMusicButtonOnTap(
+                                                  nowPlayingMusicState,
+                                                  context);
+                                            },
+                                            icon: Icon(
+                                              EvaIcons.skipBack,
+                                              size: 35.sp,
+                                              color: Colors.white,
+                                            )),
 
-                                                ///? -------            If Processing State is Completed
-                                                else if (snapshotPlayerState
-                                                        .data!
-                                                        .processingState ==
-                                                    ProcessingState.completed) {
-                                                  return BlocBuilder<
-                                                      CurrentlyPlayingMusicDataToPlayerCubit,
-                                                      FetchCurrentPlayingMusicDataToPlayerState>(
-                                                    builder: (context, state) {
-                                                      ///---------------------------------------------------///
-                                                      ///!----   If Music is Completed play again by pressing this button
-                                                      return IconButton(
-                                                          onPressed: () {
-                                                            context
-                                                                .read<
-                                                                    MusicPlayerBloc>()
-                                                                .add(
-                                                                    MusicPlayerTogglePlayPauseEvent());
-                                                          },
+                                        ///---------------------------------------------------///
+                                        ///!----  Replay Button
+                                        IconButton(
+                                            onPressed: () {
+                                              context.read<MusicPlayerBloc>().add(
+                                                  MusicPlayerBackwardEvent());
+                                            },
+                                            icon: Icon(
+                                              Icons.replay_5_outlined,
+                                              color: Colors.white,
+                                              size: 40.sp,
+                                            )),
+
+                                        ///!---------------        Play & Pause Button       -----------///
+                                        BlocBuilder<MusicPlayerBloc,
+                                            MusicPlayerState>(
+                                          builder: (context, state) {
+                                            if (state
+                                                is MusicPlayerSuccessState) {
+                                              return StreamBuilder(
+                                                  stream: state.audioPlayer
+                                                      .playerStateStream,
+                                                  builder: (context,
+                                                      snapshotPlayerState) {
+                                                    ///?----                   if Loading, buffering
+                                                    if (snapshotPlayerState
+                                                        .hasData) {
+                                                      if (snapshotPlayerState
+                                                                  .data!
+                                                                  .processingState ==
+                                                              ProcessingState
+                                                                  .loading ||
+                                                          snapshotPlayerState
+                                                                  .data!
+                                                                  .processingState ==
+                                                              ProcessingState
+                                                                  .buffering) {
+                                                        //! --------------           Show Loading Icon        --------------///
+                                                        return IconButton(
+                                                          onPressed: () {},
                                                           icon: Icon(
                                                             EvaIcons.playCircle,
                                                             size: 45.sp,
                                                             color: Colors.white,
-                                                          ));
-                                                    },
-                                                  );
-                                                }
-                                                //--------!           If Successfully Playing---------///
-                                                else {
-                                                  return StreamBuilder(
-                                                      stream:
-                                                          state.playingStream,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        return IconButton(
-                                                            onPressed: () {
-                                                              context
-                                                                  .read<
-                                                                      MusicPlayerBloc>()
-                                                                  .add(
-                                                                      MusicPlayerTogglePlayPauseEvent());
+                                                          ),
+                                                        );
+                                                      }
 
-                                                              ///!-----Hide Mini Player-----///
-                                                              context
-                                                                  .read<
-                                                                      ShowMiniPlayerCubit>()
-                                                                  .hideMiniPlayer();
-                                                            },
-                                                            icon: Icon(
-                                                              snapshot.data ==
-                                                                      true
-                                                                  ? EvaIcons
-                                                                      .pauseCircle
-                                                                  : EvaIcons
+                                                      ///? -------            If Processing State is Completed
+                                                      else if (snapshotPlayerState
+                                                              .data!
+                                                              .processingState ==
+                                                          ProcessingState
+                                                              .completed) {
+                                                        return BlocBuilder<
+                                                            CurrentlyPlayingMusicDataToPlayerCubit,
+                                                            FetchCurrentPlayingMusicDataToPlayerState>(
+                                                          builder:
+                                                              (context, state) {
+                                                            ///---------------------------------------------------///
+                                                            ///!----   If Music is Completed play again by pressing this button
+                                                            return IconButton(
+                                                                onPressed: () {
+                                                                  context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
+                                                                      url: nowPlayingMusicState
+                                                                          .snapshotMusicList![
+                                                                              nowPlayingMusicState.musicIndex]
+                                                                          .uri
+                                                                          .toString()));
+                                                                },
+                                                                icon: Icon(
+                                                                  EvaIcons
                                                                       .playCircle,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 45.sp,
-                                                            ));
-                                                      });
-                                                }
-                                              } else {
-                                                return const CircularProgressIndicator(
-                                                  color: Colors.white,
-                                                  strokeCap: StrokeCap.round,
-                                                );
-                                              }
+                                                                  size: 45.sp,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ));
+                                                          },
+                                                        );
+                                                      }
+                                                      //--------!           If Successfully Playing---------///
+                                                      else {
+                                                        return StreamBuilder(
+                                                            stream: state
+                                                                .playingStream,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              return IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    context
+                                                                        .read<
+                                                                            MusicPlayerBloc>()
+                                                                        .add(
+                                                                            MusicPlayerTogglePlayPauseEvent());
 
-                                              ///-------y
-                                            });
-                                      } else {
-                                        return const CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            child: CircularProgressIndicator());
-                                      }
-                                    },
-                                  ),
+                                                                  },
+                                                                  icon: Icon(
+                                                                    snapshot.data ==
+                                                                            true
+                                                                        ? EvaIcons
+                                                                            .pauseCircle
+                                                                        : EvaIcons
+                                                                            .playCircle,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    size: 45.sp,
+                                                                  ));
+                                                            });
+                                                      }
+                                                    } else {
+                                                      return const CircularProgressIndicator(
+                                                        color: Colors.white,
+                                                        strokeCap:
+                                                            StrokeCap.round,
+                                                      );
+                                                    }
 
-                                  ///---------------------------------------------------///
-                                  ///!----   Forward Button
+                                                    ///-------y
+                                                  });
+                                            } else {
+                                              return const CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
+                                          },
+                                        ),
 
-                                  IconButton(
-                                      onPressed: () {
-                                        context
-                                            .read<MusicPlayerBloc>()
-                                            .add(MusicPlayerForwardEvent());
-                                      },
-                                      icon: Icon(
-                                        Icons.forward_5_outlined,
-                                        color: Colors.white,
-                                        size: 40.sp,
-                                      )),
+                                        ///---------------------------------------------------///
+                                        ///!----   Forward Button
 
-                                  ///---------------------------------------------------///
-                                  ///!--------------      Next   Music Button  ----///
-                                  IconButton(
-                                      onPressed: () {
-                                        _nextMusicButtonOnTap(nowPlayingMusicState, context);
-                                      },
-                                      icon: Icon(
-                                        EvaIcons.skipForward,
-                                        color: Colors.white,
-                                        size: 35.sp,
-                                      )),
-                                ],
-                              ),
-                            ],
+                                        IconButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<MusicPlayerBloc>()
+                                                  .add(
+                                                      MusicPlayerForwardEvent());
+                                            },
+                                            icon: Icon(
+                                              Icons.forward_5_outlined,
+                                              color: Colors.white,
+                                              size: 40.sp,
+                                            )),
+
+                                        ///---------------------------------------------------///
+                                        ///!--------------      Next   Music Button  ----///
+                                        IconButton(
+                                            onPressed: () {
+                                              _nextMusicButtonOnTap(
+                                                  nowPlayingMusicState,
+                                                  context);
+                                            },
+                                            icon: Icon(
+                                              EvaIcons.skipForward,
+                                              color: Colors.white,
+                                              size: 35.sp,
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     );
                   },
@@ -499,12 +565,13 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
       ///!-----Change Music------
       context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
           url: state.snapshotMusicList![index].uri.toString()));
+
       ///---- Also Change Music Title and Artist on Next Button Clicked
       context.read<NowPlayingOfflineMusicDataToPlayerCubit>().sendDataToPlayer(
             musicIndex: index,
             futureMusicList: state.futureMusicList,
-          musicTitle: state.snapshotMusicList![index].title,
-           musicArtist:  state.snapshotMusicList![index].artist,
+            musicTitle: state.snapshotMusicList![index].title,
+            musicArtist: state.snapshotMusicList![index].artist,
           );
     }
   }
@@ -521,11 +588,11 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
       ///---- Also Change Music Title and Artist on Back Button Clicked
       context.read<NowPlayingOfflineMusicDataToPlayerCubit>().sendDataToPlayer(
-          musicIndex: index,
-          futureMusicList: state.futureMusicList,
-          musicTitle: state.snapshotMusicList![index].title,
-        musicArtist:  state.snapshotMusicList![index].artist,
-      );
+            musicIndex: index,
+            futureMusicList: state.futureMusicList,
+            musicTitle: state.snapshotMusicList![index].title,
+            musicArtist: state.snapshotMusicList![index].artist,
+          );
     }
   }
 }

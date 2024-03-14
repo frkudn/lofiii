@@ -68,9 +68,12 @@ dependencies:
   flutter_media_downloader: ^1.0.4
   on_audio_query: ^2.9.0
   device_info_plus: ^9.1.2
-  flutter_sliding_up_panel: ^2.1.1
-#  flutter_file_downloader: ^1.2.1
-#  background_downloader: ^8.2.1
+#  flutter_sliding_up_panel: ^2.1.1
+  mini_music_visualizer: ^1.1.0
+  searchable_listview: ^2.10.2
+  one_context: ^4.0.0
+  animated_text_kit: ^4.2.2
+#  interactive_slider: ^0.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

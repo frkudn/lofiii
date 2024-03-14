@@ -19,6 +19,7 @@ import 'package:lofiii/presentation/pages/splash/splash_page.dart';
 import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:one_context/one_context.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'logic/bloc/artists_data/artists_data_bloc.dart';
@@ -99,6 +100,8 @@ class MyApp extends StatelessWidget {
               title: 'LOFIII',
               home: const SplashPage(),
               debugShowCheckedModeBanner: false,
+              builder: OneContext().builder,
+              navigatorKey: OneContext().key,
             );
           },
         ),
@@ -161,10 +164,14 @@ class MyApp extends StatelessWidget {
       BlocProvider(create: (context) => RepeatMusicCubit()),
       BlocProvider(create: (context) => DownloadMusicBloc(dio: Dio())),
       BlocProvider(create: (context) => UserProfileBloc(picker: ImagePicker())),
-      BlocProvider(create: (context) => FlipCardCubit(flipCardController: FlipCardController())),
-      BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc(audioQuery: OnAudioQuery())),
-      BlocProvider(create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
-
+      BlocProvider(
+          create: (context) =>
+              FlipCardCubit(flipCardController: FlipCardController())),
+      BlocProvider(
+          create: (context) =>
+              FetchMusicFromLocalStorageBloc(audioQuery: OnAudioQuery())),
+      BlocProvider(
+          create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
     ];
   }
 }
