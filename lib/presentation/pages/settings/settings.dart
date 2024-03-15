@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:lofiii/data/services/notification_service.dart';
 import 'package:lofiii/presentation/pages/settings/privacy_policy.dart';
 import 'package:lofiii/presentation/pages/settings/profile_page.dart';
 import 'package:lofiii/resources/my_assets/my_assets.dart';
@@ -231,6 +232,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   ///! -------     Equalizer On Tap
   equalizerOnTap() async {
+
+
     showDialog(
       builder: (context) => AlertDialog(
         title: Padding(

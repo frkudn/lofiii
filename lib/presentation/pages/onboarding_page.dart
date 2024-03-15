@@ -9,7 +9,7 @@ import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:lofiii/data/services/storage_permission_service.dart';
+import 'package:lofiii/data/services/app_permissions_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../logic/bloc/user_profie/user_profile_bloc.dart';
@@ -189,7 +189,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
 
 
-   await StoragePermissionService.storagePermission();
+   await AppPermissionService.storagePermission();
 
     ///-----!   Change User
     context

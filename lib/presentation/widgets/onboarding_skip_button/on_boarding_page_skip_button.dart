@@ -6,7 +6,7 @@ import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../data/services/storage_permission_service.dart';
+import '../../../data/services/app_permissions_service.dart';
 import '../../../resources/hive/hive_resources.dart';
 import '../../pages/initial/initial_page.dart';
 
@@ -24,7 +24,7 @@ class OnBoardingSkipButton extends StatelessWidget {
         child: TextButton(
           onPressed: () async {
 
-         await StoragePermissionService.storagePermission();
+         await AppPermissionService.storagePermission();
 
             ///---! Don't Show this screen after restarting app
             MyHiveBoxes.settingBox

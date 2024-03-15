@@ -9,6 +9,7 @@ import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/data/services/notification_service.dart';
 import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
@@ -42,6 +43,8 @@ import 'resources/theme/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+
   // The following line will enable the Android and iOS wakelock.
   WakelockPlus.enable();
 

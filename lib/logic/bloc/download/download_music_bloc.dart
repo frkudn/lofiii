@@ -6,9 +6,11 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:lofiii/data/services/storage_permission_service.dart';
+import 'package:lofiii/data/services/app_permissions_service.dart';
 
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../../data/services/notification_service.dart';
 
 part 'download_music_event.dart';
 part 'download_music_state.dart';
@@ -25,7 +27,7 @@ class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
   Future<void> _downloadNowEvent(
       DownloadNowEvent event, Emitter<DownloadMusicState> emit) async {
  // Check if storage write permission is granted
-    if (await StoragePermissionService.storagePermission()) {
+    if (await AppPermissionService.storagePermission()) {
       try {
         emit(DownloadMusicLoadingState(fileName: event.fileName));
 
@@ -42,11 +44,13 @@ class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
         );
 
         add(MusicIsSuccessfullyDownloadedEvent(fileName: event.fileName));
-
+        await NotificationService().showNotification(title: "Downloaded Successfully",body: event.fileName);
         await Future.delayed(const Duration(seconds: 10));
         emit(DownloadMusicInitialState());
+
       } catch (e) {
         emit(DownloadMusicFailureState(errorMessage: e.toString()));
+        await NotificationService().showNotification(title: "Download Failure",body: "${event.fileName} is failed to download" );
         log(e.toString());
         await Future.delayed(const Duration(seconds: 10));
         emit(DownloadMusicInitialState());

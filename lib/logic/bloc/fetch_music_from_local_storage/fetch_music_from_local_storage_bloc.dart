@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:lofiii/data/services/storage_permission_service.dart';
+import 'package:lofiii/data/services/app_permissions_service.dart';
 import 'package:meta/meta.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,7 +28,7 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
       Emitter<FetchMusicFromLocalStorageState> emit) async {
     try {
       // Check if storage permission is granted
-      if (await StoragePermissionService.storagePermission()) {
+      if (await AppPermissionService.storagePermission()) {
         emit(FetchMusicFromLocalStorageLoadingState());
 
         Future<List<SongModel>> musicList = audioQuery.querySongs();
@@ -36,7 +36,7 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
         // Emit success state with updated music list
         emit(FetchMusicFromLocalStorageSuccessState(musicsList:musicList));
       } else {
-        await StoragePermissionService.storagePermission();
+        await AppPermissionService.storagePermission();
       }
     } catch (e) {
       // Handle any errors that occur during the process
