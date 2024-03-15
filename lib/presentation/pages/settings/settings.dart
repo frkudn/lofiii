@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/presentation/pages/settings/privacy_policy.dart';
@@ -108,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
               Gap(0.01.sh),
 
-              ///-------------------Profile-----------------------------///
+              ///!-------------------Profile-----------------------------///
               SettingsListTileWidget(
                 title: "Profile",
                 iconData: EvaIcons.person,
@@ -123,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
               _divider(),
 
-              ///-------------------Equalizer-----------------------------///
+              ///!-------------------Equalizer-----------------------------///
               BlocBuilder<ThemeModeCubit, ThemeModeState>(
                 builder: (context, state) {
                   return SettingsListTileWidget(
@@ -136,16 +137,18 @@ class _SettingsPageState extends State<SettingsPage> {
 
               _divider(),
 
-              ///-------------------Feedback-----------------------------///
+              ///!-------------------Feedback-----------------------------///
               SettingsListTileWidget(
                 title: "Feedback",
                 iconData: Icons.feedback,
-                onTap: () {},
+                onTap: () async{
+                  await _feedBackButtonOnTap();
+                },
               ),
 
               _divider(),
 
-              ///-------------------Privacy Policy-----------------------------///
+              ///!-------------------Privacy Policy-----------------------------///
               SettingsListTileWidget(
                 title: "Privacy Policy",
                 iconData: Icons.policy,
@@ -160,7 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
               _divider(),
 
-              ///-------------------About-----------------------------///
+              ///!-------------------About-----------------------------///
               SettingsListTileWidget(
                   title: "About",
                   iconData: CupertinoIcons.info,
@@ -181,6 +184,8 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
+
+
 
   Divider _divider() {
     return const Divider();
@@ -245,5 +250,19 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       context: context,
     );
+  }
+
+
+  ///!------------ Feedback On Tap
+  Future<void> _feedBackButtonOnTap() async {
+    final Email sendEmail = Email(
+      body: 'your feed back?',
+      subject: 'LOFIII Feedback',
+      recipients: ['furqanuddin@gmail.com'],
+
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(sendEmail);
   }
 }
