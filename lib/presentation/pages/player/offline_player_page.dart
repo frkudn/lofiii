@@ -535,6 +535,9 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
             musicTitle: state.snapshotMusicList![index].title,
             musicArtist: state.snapshotMusicList![index].artist,
           );
+
+      ///!-------  Change Selected Tile Index
+      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
     }
   }
 
@@ -555,6 +558,10 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
             musicTitle: state.snapshotMusicList![index].title,
             musicArtist: state.snapshotMusicList![index].artist,
           );
+
+
+      ///!-------  Change Selected Tile Index
+      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
     }
   }
 }
