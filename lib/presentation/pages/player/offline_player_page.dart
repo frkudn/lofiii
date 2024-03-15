@@ -18,6 +18,7 @@ import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/consts/consts.dart';
 import '../../../utils/format_duration.dart';
+import '../../widgets/offline_player_background_gradient_boxes/offline_player_background_gradient_boxes_widget.dart';
 
 class OfflinePlayerPage extends StatefulWidget {
   const OfflinePlayerPage({
@@ -64,53 +65,15 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                   builder: (context, nowPlayingMusicState) {
                     return Stack(
                       children: [
+                        //!------------------------------------------------------------------------------------------///
                         ///?--------------------        Background Gradient Colors Section   --------------------///
+                        ///------------------------------------------------------------------------------------------///
                         ///---  Back
-                        Container(
-                          decoration: BoxDecoration(
-                              gradient: SweepGradient(
-                                  startAngle: 1,
-                                  center: Alignment.bottomCenter,
-                                  colors: [
-                                    Color(themeState.accentColor),
-                                    Colors.cyan,
-                                    Colors.teal.shade800,
-                                    Colors.lightGreen.shade800,
-                                    Color(themeState.accentColor),
-                                    Colors.purple.shade600,
-                                    Colors.deepPurple.shade800,
-                                    Color(themeState.accentColor),
-                                  ])),
-                        ),
+                         const OfflinePlayerBackgroundGradientBoxesWidget(),
 
-                     ///!--------- Top Rotating
-                        Spin(
-                          infinite: true,
-                          duration: const Duration(seconds: 20),
-                          child: Center(
-                            child: Container(
-                              width: 0.6.sw,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: SweepGradient(
-                                      center: Alignment.center,
-                                      colors: [
-                                    Color(themeState.accentColor),
-                                    Colors.cyan,
-                                    Colors.indigo.shade800,
-                                    Colors.deepOrange.shade800,
-                                    Colors.amber.shade800,
-                                    Color(themeState.accentColor),
-                                    Colors.purple.shade600,
-                                    Colors.red.shade800,
-                                  ])),
-                            ),
-                          ),
-                        ),
-
-
-
-                        ///!------------------------  Volume & Play Pause Gesture
+                        ///--------------------------------------------------------------------------///
+                        ///!------------------------  Volume & Play Pause Gesture  ----------------///
+                        ///--------------------------------------------------------------------------///
                         Positioned(
                           top: 0.1.sh,
                           height: 0.6.sh,
@@ -466,7 +429,6 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                                             MusicPlayerBloc>()
                                                                         .add(
                                                                             MusicPlayerTogglePlayPauseEvent());
-
                                                                   },
                                                                   icon: Icon(
                                                                     snapshot.data ==
@@ -596,3 +558,4 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
     }
   }
 }
+

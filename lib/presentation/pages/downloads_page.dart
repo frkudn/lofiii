@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
@@ -18,6 +19,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
 import '../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
+import '../widgets/mini_music_visualizer/mini_music_visualizer_widget.dart';
 
 class DownloadsPage extends StatefulWidget {
   const DownloadsPage({super.key});
@@ -47,8 +49,8 @@ class _DownloadsPageState extends State<DownloadsPage> {
       ),
       body:
 
-          // !/------------------  Music List -----////
-          BlocBuilder<ThemeModeCubit, ThemeModeState>(
+      // !/------------------  Music List -----////
+      BlocBuilder<ThemeModeCubit, ThemeModeState>(
         builder: (context, themeState) {
           return BlocConsumer<FetchMusicFromLocalStorageBloc,
               FetchMusicFromLocalStorageState>(
@@ -79,77 +81,73 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                 ///!------  Local Music List
                                 initialList: snapshot.data!,
 
-                                builder: (musicList, index, music) => ListTile(
-                                  selected:
+                                builder: (musicList, index, music) =>
+                                    ListTile(
+                                      selected:
                                       themeState.localMusicSelectedTileIndex ==
-                                              index
+                                          index
                                           ? true
                                           : false,
-                                  selectedColor: Color(themeState.accentColor),
+                                      selectedColor: Color(
+                                          themeState.accentColor),
 
-                                  ///!-------  On Tap
-                                  onTap: () {
-                                    _listTileOnTap(
-                                        index: index,
-                                        musicList: state.musicsList,
-                                        currentMusic: music.uri,
-                                        musicTitle: music.title,
-                                        artistsName: music.artist,
-                                        musicListLength: musicListLength,
-                                        snapshotMusicList: musicList);
-                                  },
+                                      ///!-------  On Tap
+                                      onTap: () {
+                                        _listTileOnTap(
+                                            index: index,
+                                            musicList: state.musicsList,
+                                            currentMusic: music.uri,
+                                            musicTitle: music.title,
+                                            artistsName: music.artist,
+                                            musicListLength: musicListLength,
+                                            snapshotMusicList: musicList);
+                                      },
 
-                                  ///!-------  Music Icon
-                                  leading: const Icon(
-                                    EvaIcons.music,
-                                    // color: Colors.white,
-                                  ),
+                                      ///!-------  Music Icon
+                                      leading: const Icon(
+                                        EvaIcons.music,
+                                        // color: Colors.white,
+                                      ),
 
-                                  ///!------------------  Music Title
-                                  title: Text(
-                                          music.title,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15.spMax),
-                                        ),
+                                      ///!------------------  Music Title
+                                      title: Text(
+                                        music.title,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15.spMax),
+                                      ),
 
-                                  ///!--------  Artists
-                                  subtitle: Text(
-                                    music.artist ?? "Unknown",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 11.spMax),
-                                  ),
+                                      ///!--------  Artists
+                                      subtitle: Text(
+                                        music.artist ?? "Unknown",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 11.spMax),
+                                      ),
 
-                                  ///!--------  Music Visualization
-                                  trailing: themeState
-                                              .localMusicSelectedTileIndex ==
+                                      ///!--------  Music Visualization
+                                      trailing:
+                                      themeState.localMusicSelectedTileIndex ==
                                           index
-                                      ? SizedBox(
-                                          width: 0.05.sw,
-                                          child: MiniMusicVisualizer(
-                                            color:
-                                                Color(themeState.accentColor),
-                                            height: 0.02.sh,
-                                            radius: 2,
-                                            animate: true,
-                                          ),
-                                        )
-                                      : null,
-                                ),
+                                          ? const MiniMusicVisualizerWidget()
+                                          : null,
+                                    ),
 
                                 ///!-------  Search Filter Logic
-                                filter: (value) => snapshot.data!
-                                    .where(
-                                      (music) => music.title
-                                          .toLowerCase()
-                                          .contains(value.trim().toLowerCase()),
+                                filter: (value) =>
+                                    snapshot.data!
+                                        .where(
+                                          (music) =>
+                                          music.title
+                                              .toLowerCase()
+                                              .contains(
+                                              value.trim().toLowerCase()),
                                     )
-                                    .toList(),
+                                        .toList(),
 
-                                ///------  No Music Found on Searching
+                                ///!------  No Music Found on Searching
                                 emptyWidget: const Center(
                                   child: Text("No Music Found!"),
                                 ),
@@ -210,14 +208,13 @@ class _DownloadsPageState extends State<DownloadsPage> {
   ///-------------------------------------------------------///
   ///!----------------------  Methods -------------------///
   ///-----------------------------------------------------///
-  _listTileOnTap(
-      {required musicList,
-      required index,
-      currentMusic,
-      required musicTitle,
-      required artistsName,
-      required musicListLength,
-      required snapshotMusicList}) {
+  _listTileOnTap({required musicList,
+    required index,
+    currentMusic,
+    required musicTitle,
+    required artistsName,
+    required musicListLength,
+    required snapshotMusicList}) {
     ///!-----Play Music------
     context
         .read<MusicPlayerBloc>()
@@ -249,3 +246,5 @@ class _DownloadsPageState extends State<DownloadsPage> {
     context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
   }
 }
+
+
