@@ -57,7 +57,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           Opacity(
             opacity: 0.2,
             child: SvgPicture.asset(
-              MyAssets.lofiiiLogoDarkMode,
+              MyAssets.lofiiiLogoDarkModeSvg,
               height: 1.sh,
             ),
           ),

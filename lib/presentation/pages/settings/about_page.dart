@@ -39,8 +39,8 @@ class AboutPage extends StatelessWidget {
               return Center(
                 child: SvgPicture.asset(
                   state.isDarkMode
-                      ? MyAssets.lofiiiLogoDarkMode
-                      : MyAssets.lofiiiLogoLightMode,
+                      ? MyAssets.lofiiiLogoDarkModeSvg
+                      : MyAssets.lofiiiLogoLightModeSvg,
                   height: 0.3.sh,
                 ),
               );

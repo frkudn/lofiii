@@ -49,8 +49,8 @@ class _SplashPageState extends State<SplashPage> {
               Center(
                 child: SvgPicture.asset(
                   state.isDarkMode
-                      ? MyAssets.lofiiiLogoDarkMode
-                      : MyAssets.lofiiiLogoLightMode,
+                      ? MyAssets.lofiiiLogoDarkModeSvg
+                      : MyAssets.lofiiiLogoLightModeSvg,
                   fit: BoxFit.contain,
                 ),
               ),
