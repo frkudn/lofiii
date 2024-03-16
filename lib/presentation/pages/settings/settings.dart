@@ -194,7 +194,7 @@ class _SettingsPageState extends State<SettingsPage> {
   //!/////////////////////////////////////////////////////////////////////
 
   _accentColorTileOnTap() {
-    OneContext().showModalBottomSheet(
+    OneContext.instance.showModalBottomSheet(
       elevation: 1,
       backgroundColor: Colors.transparent,
       showDragHandle: true,
@@ -203,7 +203,6 @@ class _SettingsPageState extends State<SettingsPage> {
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
         itemBuilder: (BuildContext context, int index) => _customGridTile(
-          context: context,
           colorCode: MyColor.colorHexCodesList[index],
         ),
       ),
@@ -212,13 +211,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   ///!---------------    Custom List of Accent Color
   _customGridTile({
-    required BuildContext context,
     required colorCode,
   }) {
     return InkWell(
       onTap: () {
-        context.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
-        OneContext().pop();
+       OneContext().context?.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
       },
       child: CircleAvatar(
         backgroundColor: Color(colorCode),
