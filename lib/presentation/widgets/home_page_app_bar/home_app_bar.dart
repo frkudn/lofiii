@@ -46,7 +46,7 @@ class HomePageSliverAppBar extends StatelessWidget {
                               builder: (context) => const ProfilePage(),));
                           },
 
-                          ///!------------       User Profile Image     -------////
+                          ///!------------       User Profile Image   Avatar  -------////
                           child: BlocBuilder<UserProfileBloc, UserProfileState>(
                             builder: (context, state) {
                               if (state.profileImageFilePath.toString().isNotEmpty) {

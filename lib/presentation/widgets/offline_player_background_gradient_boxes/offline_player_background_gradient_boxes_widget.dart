@@ -23,16 +23,12 @@ class OfflinePlayerBackgroundGradientBoxesWidget extends StatelessWidget {
                       startAngle: 3,
                       center: Alignment.bottomLeft,
                       colors: [
-                        Color(themeState.accentColor),
                         Colors.cyan,
-                        Colors.teal.shade800,
-                        Colors.lightGreen.shade800,
-                        Color(themeState.accentColor),
                         Colors.purple.shade600,
-                        Colors.deepPurple.shade800,
-                        Color(themeState.accentColor),
+                        Colors.red.shade800,
                       ])),
             ),
+
 
             ///!--------- Center Circle Rotating Box
             BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
@@ -45,34 +41,50 @@ class OfflinePlayerBackgroundGradientBoxesWidget extends StatelessWidget {
                     builder: (context, snapshot) {
                       ///!------ If music state is playing
                       if(snapshot.data == true) {
-                        return Spin(
-                          infinite: true,
-                          duration: const Duration(seconds: 10),
-                          child: Center(
-                            child: Container(
-                              width: 0.6.sw,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
+                        return Stack(
+                          children: [
 
-                                ///!---- Colors
-                                gradient: SweepGradient(
-                                    center: Alignment.center,
-                                    colors: [
-                                      Colors.cyan,
-                                      Colors.deepOrange.shade800,
-                                      Colors.amber.shade800,
-                                      Color(themeState.accentColor),
-                                      Colors.teal.shade800,
-                                      Colors.pink.shade600,
-                                      Colors.red.shade800,
-                                    ]),
 
-                                ///!---- Border
-                                border: Border.all(
-                                    color: Colors.white, width: 2),
+                            Flash(
+                              duration: const Duration(seconds: 5),
+                              animate: true,
+                              infinite: true,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    gradient: SweepGradient(
+                                        startAngle: 3,
+                                        center: Alignment.bottomLeft,
+                                        colors: [
+                                          Colors.pink,
+                                          Colors.cyan,
+                                          Colors.teal.shade800,
+                                          Colors.lightGreen.shade800,
+                                          Colors.pink,
+                                          Colors.purple.shade600,
+                                          Colors.deepPurple.shade800,
+                                          Colors.pink,
+                                        ])),
                               ),
                             ),
-                          ),
+
+                            Spin(
+                              infinite: true,
+                              duration: const Duration(seconds: 10),
+                              child: Center(
+                                child: Container(
+                                  width: 0.35.sw,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    
+
+                                    ///!---- Border
+                                    border: Border.all(
+                                        color: Color(themeState.accentColor), width: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       }
                       ///!------ If music state is pause

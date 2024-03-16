@@ -193,9 +193,7 @@ class _SettingsPageState extends State<SettingsPage> {
   //!/////////////////////////////////////////////////////////////////////
 
   _accentColorTileOnTap() {
-    showModalBottomSheet(
-      context: context,
-
+    OneContext().showModalBottomSheet(
       elevation: 1,
       backgroundColor: Colors.transparent,
       showDragHandle: true,

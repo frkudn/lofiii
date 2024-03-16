@@ -173,30 +173,33 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                             final bufferedPositionSnapshot =
                                                 snapshot.data?.last;
 
-                                            return Slider(
-                                                activeColor: Colors.white,
-                                                secondaryActiveColor: Colors
-                                                    .white
-                                                    .withOpacity(0.5),
-                                                secondaryTrackValue:
-                                                    bufferedPositionSnapshot!
-                                                            .inSeconds
-                                                            .toDouble() ??
-                                                        0,
-                                                min: 0,
-                                                max: durationSnapshot!.inSeconds
-                                                    .toDouble(),
-                                                value: positionSnapshot!
-                                                        .inSeconds
-                                                        .toDouble() ??
-                                                    0,
-                                                onChanged: (value) {
-                                                  context
-                                                      .read<MusicPlayerBloc>()
-                                                      .add(MusicPlayerSeekEvent(
-                                                          position:
-                                                              value.toInt()));
-                                                });
+                                            return SliderTheme(
+                                              data: SliderThemeData(trackHeight: 7.sp,inactiveTrackColor: Colors.white54),
+                                              child: Slider(
+                                                  activeColor: Colors.white,
+                                                  secondaryActiveColor: Colors
+                                                      .white
+                                                      .withOpacity(0.5),
+                                                  secondaryTrackValue:
+                                                      bufferedPositionSnapshot!
+                                                              .inSeconds
+                                                              .toDouble() ??
+                                                          0,
+                                                  min: 0,
+                                                  max: durationSnapshot!.inSeconds
+                                                      .toDouble(),
+                                                  value: positionSnapshot!
+                                                          .inSeconds
+                                                          .toDouble() ??
+                                                      0,
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<MusicPlayerBloc>()
+                                                        .add(MusicPlayerSeekEvent(
+                                                            position:
+                                                                value.toInt()));
+                                                  }),
+                                            );
                                           } else {
                                             return Slider(
                                                 activeColor: Colors.transparent,
