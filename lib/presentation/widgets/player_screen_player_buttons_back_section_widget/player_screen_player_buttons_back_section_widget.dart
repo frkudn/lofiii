@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,39 +75,41 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ///!-------  Download Button ------////
-                            BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
-                                FetchCurrentPlayingMusicDataToPlayerState>(
-                              builder: (context, fetchMusicState) {
-                                return BlocBuilder<DownloadMusicBloc,
-                                    DownloadMusicState>(
-                                  builder: (context, state) {
-                                    if (state is DownloadMusicInitialState) {
-                                      return Center(
-                                          child: GlassButtonWidget(
-                                        onPressed: () {
-                                          context.read<DownloadMusicBloc>().add(
-                                              DownloadNowEvent(
-                                                  url: fetchMusicState
-                                                      .fullMusicList[
-                                                          fetchMusicState
-                                                              .musicIndex]
-                                                      .url,
-                                                  fileName: fetchMusicState
-                                                      .fullMusicList[
-                                                          fetchMusicState
-                                                              .musicIndex]
-                                                      .title,
-                                                  context: context));
-                                        },
-                                        label: "Download Now",
-                                        iconData: FontAwesomeIcons.download,
-                                      ));
-                                    } else {
-                                      return const SizedBox.shrink();
-                                    }
-                                  },
-                                );
-                              },
+                            ZoomIn(
+                              child: BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
+                                  FetchCurrentPlayingMusicDataToPlayerState>(
+                                builder: (context, fetchMusicState) {
+                                  return BlocBuilder<DownloadMusicBloc,
+                                      DownloadMusicState>(
+                                    builder: (context, state) {
+                                      if (state is DownloadMusicInitialState) {
+                                        return Center(
+                                            child: GlassButtonWidget(
+                                          onPressed: () {
+                                            context.read<DownloadMusicBloc>().add(
+                                                DownloadNowEvent(
+                                                    url: fetchMusicState
+                                                        .fullMusicList[
+                                                            fetchMusicState
+                                                                .musicIndex]
+                                                        .url,
+                                                    fileName: fetchMusicState
+                                                        .fullMusicList[
+                                                            fetchMusicState
+                                                                .musicIndex]
+                                                        .title,
+                                                    context: context));
+                                          },
+                                          label: "Download Now",
+                                          iconData: FontAwesomeIcons.download,
+                                        ));
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ]);
                     }

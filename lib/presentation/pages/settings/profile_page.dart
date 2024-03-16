@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -187,36 +188,43 @@ class _ProfileNameTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(13.spMax),
-      child: BlocBuilder<UserProfileBloc, UserProfileState>(
-        builder: (context, userProfileState) {
-          return Column(
-            children: [
-              Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text(
-                    "Profile Name",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: 15.spMax),
-                  )),
-              TextField(
-                maxLines: 1,
-                onSubmitted: (value) {
-                  context.read<UserProfileBloc>().add(
-                      UserProfileChangeUsernameEvent(
-                          username: usernameController.text));
-                  OneContext().pop();
-                },
-                controller: usernameController,
-                decoration: InputDecoration(
-                  hintText: userProfileState.username,
-                  hintStyle: const TextStyle(color: Colors.white38),
-                  border: InputBorder.none,
-                  enabled: true,
-                ),
-                style: const TextStyle(color: Colors.white),
-                cursorColor: Colors.white,
-              ),
-            ],
+      child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
+        builder: (context, themeState) {
+          return BlocBuilder<UserProfileBloc, UserProfileState>(
+            builder: (context, userProfileState) {
+              return Column(
+                children: [
+                  Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        "Profile Name",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.spMax,
+                            color:
+                            themeState.isDarkMode?null:Colors.white70),
+                      )),
+                  TextField(
+                    maxLines: 1,
+                    onSubmitted: (value) {
+                      context.read<UserProfileBloc>().add(
+                          UserProfileChangeUsernameEvent(
+                              username: usernameController.text));
+                      OneContext().pop();
+                    },
+                    controller: usernameController,
+                    decoration: InputDecoration(
+                      hintText: userProfileState.username,
+                      hintStyle: const TextStyle(color: Colors.white38),
+                      border: InputBorder.none,
+                      enabled: true,
+                    ),
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white,
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -240,18 +248,22 @@ class _ProfileImageWidget extends StatelessWidget {
         BlocBuilder<UserProfileBloc, UserProfileState>(
           builder: (context, state) {
             if (state.profileImageFilePath.isNotEmpty) {
-              return CircleAvatar(
-                maxRadius: 100,
-                minRadius: 30,
-                backgroundImage: FileImage(File(state.profileImageFilePath)),
+              return SpinPerfect(
+                child: CircleAvatar(
+                  maxRadius: 100,
+                  minRadius: 30,
+                  backgroundImage: FileImage(File(state.profileImageFilePath)),
+                ),
               );
             } else {
               return BlocBuilder<ThemeModeCubit, ThemeModeState>(
                 builder: (context, state) {
-                  return CircleAvatar(
-                    maxRadius: 100,
-                    minRadius: 30,
-                    backgroundColor: Color(state.accentColor),
+                  return SpinPerfect(
+                    child: CircleAvatar(
+                      maxRadius: 100,
+                      minRadius: 30,
+                      backgroundColor: Color(state.accentColor),
+                    ),
                   );
                 },
               );
@@ -264,16 +276,18 @@ class _ProfileImageWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.bottomRight,
-            child: CircleAvatar(
-                child: IconButton(
-                    onPressed: () {
-                      context
-                          .read<UserProfileBloc>()
-                          .add(UserProfileChangeUserProfilePictureEvent());
-                    },
-                    icon: const Icon(
-                      EvaIcons.edit,
-                    ))),
+            child: FadeIn(
+              child: CircleAvatar(
+                  child: IconButton(
+                      onPressed: () {
+                        context
+                            .read<UserProfileBloc>()
+                            .add(UserProfileChangeUserProfilePictureEvent());
+                      },
+                      icon: const Icon(
+                        EvaIcons.edit,
+                      ))),
+            ),
           ),
         )
       ]),
@@ -303,28 +317,30 @@ class _SaveButtonWidget extends StatelessWidget {
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 13.spMax),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              child: Container(
-                constraints: BoxConstraints(
-                  minWidth: 0.5.sw,
-                  maxWidth: 0.8.sw,
-                  minHeight: 0.05.sh,
-                  maxHeight: 0.07.sh,
-                ),
-                decoration: BoxDecoration(
-                    color: Color(state.accentColor).withOpacity(0.8),
+            child: BounceInUp(
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 1,
+                shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                alignment: Alignment.center,
-                child: Text(
-                  "Save",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.spMax),
+                child: Container(
+                  constraints: BoxConstraints(
+                    minWidth: 0.5.sw,
+                    maxWidth: 0.8.sw,
+                    minHeight: 0.05.sh,
+                    maxHeight: 0.07.sh,
+                  ),
+                  decoration: BoxDecoration(
+                      color: Color(state.accentColor).withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(20)),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.spMax),
+                  ),
                 ),
               ),
             ),

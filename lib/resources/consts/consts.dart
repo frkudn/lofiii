@@ -1,28 +1,19 @@
-
-
-
-   import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 ////-----------------Drag Handle
 final myCustomDragHandle = Container(
-     height: 0.005.sh,
-     width: 0.25.sw,
-     decoration: BoxDecoration(
-         color: Colors.white,
-         borderRadius: BorderRadius.circular(50)
-     ),
-   );
-
+  height: 0.005.sh,
+  width: 0.25.sw,
+  decoration: BoxDecoration(
+      color: Colors.white, borderRadius: BorderRadius.circular(50)),
+);
 
 ///!------  Disclaimer Message
-   const String disclaimerMessage =
-       "Disclaimer: We respect your privacy more than anything else. All of your data is stored locally on your device only.";
+const String disclaimerMessage =
+    "Disclaimer: We respect your privacy more than anything else. All of your data is stored locally on your device only.";
 
-   const mitLicenses = """
-Copyright (c) 2024 Furqan Uddin
-
+const mitLicenses = """
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -39,4 +30,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.""";
+SOFTWARE.
+
+Copyright (c) 2024 Furqan Uddin
+""";

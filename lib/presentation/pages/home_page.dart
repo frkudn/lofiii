@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
 
-            ///! --     -- -----------       Special  Music List   ---------------///
+            ///! ---------------       Special  Music List   ---------------///
             BlocBuilder<LofiiiSpecialMusicBloc, LofiiiSpecialMusicState>(
               builder: (context, state) {
                 //?----Fetching music is success
@@ -160,6 +161,9 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
+
+
+
 
             ///?------------------           Artists Section      ------------------///
             ///

@@ -101,9 +101,11 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                           },
 
                                           ///!-------  Music Icon
-                                          leading: const Icon(
-                                            EvaIcons.music,
-                                            // color: Colors.white,
+                                          leading: SlideInLeft(
+                                            child: const Icon(
+                                              EvaIcons.music,
+                                              // color: Colors.white,
+                                            ),
                                           ),
 
                                           ///!------------------  Music Title

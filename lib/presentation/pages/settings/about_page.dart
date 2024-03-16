@@ -1,4 +1,5 @@
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,12 +37,14 @@ class AboutPage extends StatelessWidget {
           // LOFIII LOGO
           BlocBuilder<ThemeModeCubit, ThemeModeState>(
             builder: (context, state) {
-              return Center(
-                child: SvgPicture.asset(
-                  state.isDarkMode
-                      ? MyAssets.lofiiiLogoDarkModeSvg
-                      : MyAssets.lofiiiLogoLightModeSvg,
-                  height: 0.3.sh,
+              return SlideInDown(
+                child: Center(
+                  child: SvgPicture.asset(
+                    state.isDarkMode
+                        ? MyAssets.lofiiiLogoDarkModeSvg
+                        : MyAssets.lofiiiLogoLightModeSvg,
+                    height: 0.3.sh,
+                  ),
                 ),
               );
             },
@@ -92,42 +95,48 @@ class AboutPage extends StatelessWidget {
           // Stay Connected
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
-            child: Text(
-              "Stay Connected",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
+            child: ZoomIn(
+              child: Text(
+                "Stay Connected",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
+              ),
             ),
           ),
 
-          const ButtonBar(
-            alignment: MainAxisAlignment.center,
-            children: [
-              //! LinkedIn Button
-              SocialMediaIconButton(
-                  url: "https://www.linkedin.com/in/ffurqanuddin/",
-                  icon: FontAwesomeIcons.linkedin),
-
-              //! Instagram Button
-              SocialMediaIconButton(
-                  url: "https://www.instagram.com/furqanuddin.dev/",
-                  icon: FontAwesomeIcons.instagram),
-
-              //! Twitter Button
-              SocialMediaIconButton(
-                  url: "https://www.twitter.com/ffurqanuddin",
-                  icon: FontAwesomeIcons.twitter),
-
-              //! Threads Button
-              SocialMediaIconButton(
-                  url: "https://www.threads.net/@furqanuddin.dev",
-                  icon: FontAwesomeIcons.threads),
-            ],
+          ElasticInUp(
+            child: const ButtonBar(
+              alignment: MainAxisAlignment.center,
+              children: [
+                //! LinkedIn Button
+                SocialMediaIconButton(
+                    url: "https://www.linkedin.com/in/ffurqanuddin/",
+                    icon: FontAwesomeIcons.linkedin),
+            
+                //! Instagram Button
+                SocialMediaIconButton(
+                    url: "https://www.instagram.com/furqanuddin.dev/",
+                    icon: FontAwesomeIcons.instagram),
+            
+                //! Twitter Button
+                SocialMediaIconButton(
+                    url: "https://www.twitter.com/ffurqanuddin",
+                    icon: FontAwesomeIcons.twitter),
+            
+                //! Threads Button
+                SocialMediaIconButton(
+                    url: "https://www.threads.net/@furqanuddin.dev",
+                    icon: FontAwesomeIcons.threads),
+              ],
+            ),
           ),
 
-          Center(
-            child: Text(
-              "Made with ❤️ by Furqan Uddin",
-              style: TextStyle(fontSize: 12.spMax),
+          FadeInUp(
+            child: Center(
+              child: Text(
+                "Made with ❤️ by Furqan Uddin",
+                style: TextStyle(fontSize: 12.spMax),
+              ),
             ),
           ),
 

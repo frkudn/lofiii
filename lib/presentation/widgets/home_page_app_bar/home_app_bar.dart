@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,16 +51,20 @@ class HomePageSliverAppBar extends StatelessWidget {
                           child: BlocBuilder<UserProfileBloc, UserProfileState>(
                             builder: (context, state) {
                               if (state.profileImageFilePath.toString().isNotEmpty) {
-                                return CircleAvatar(
-                                  backgroundImage: FileImage(
-                                    File(state.profileImageFilePath),),
+                                return SpinPerfect(
+                                  child: CircleAvatar(
+                                    backgroundImage: FileImage(
+                                      File(state.profileImageFilePath),),
+                                  ),
                                 );
                               } else {
                                 return BlocBuilder<ThemeModeCubit, ThemeModeState>(
                                   builder: (context, state) {
-                                    return CircleAvatar(
-                                      backgroundColor: Color(state.accentColor),
-                                      backgroundImage: const AssetImage(MyAssets.userDefaultProfileImage),
+                                    return SpinPerfect(
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(state.accentColor),
+                                        backgroundImage: const AssetImage(MyAssets.userDefaultProfileImage),
+                                      ),
                                     );
                                   },
                                 );
@@ -78,11 +83,13 @@ class HomePageSliverAppBar extends StatelessWidget {
                               ///!----------    Greeting ----------///
                               BlocBuilder<GreetingCubit, GreetingState>(
                                 builder: (context, state) {
-                                  return Text(
-                                    state.greeting,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20.sp),
+                                  return SlideInDown(
+                                    child: Text(
+                                      state.greeting,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20.sp),
+                                    ),
                                   );
                                 },
                               ),
@@ -90,12 +97,14 @@ class HomePageSliverAppBar extends StatelessWidget {
                               ///!-------------     User Profile Name   ---------///
                               BlocBuilder<UserProfileBloc, UserProfileState>(
                                 builder: (context, state) {
-                                  return Text(
-                                    state.username,
-                                    style: TextStyle(
-                                        letterSpacing: 1,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 10.sp),
+                                  return SlideInUp(
+                                    child: Text(
+                                      state.username,
+                                      style: TextStyle(
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 10.sp),
+                                    ),
                                   );
                                 },
                               ),
