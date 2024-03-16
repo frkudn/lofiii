@@ -12,7 +12,6 @@ LOFIII is a beautiful and intuitive music streaming app built with Flutter. It a
 - **Offline Mode:** Download songs and playlists to listen to them offline, anytime, anywhere.
 - **Customizable Interface:** Personalize your listening experience with customizable themes and layout options.
 - **Cross-Platform Compatibility:** Available for Android devices, with plans for iOS, Web support in the future.
-- **High:** Streaming Quality 
 - **Song, Album, Artist and Playlist Search**
 - **Add Songs to Favorite**
 - **Lyrics Support**
@@ -38,7 +37,6 @@ LOFIII is a beautiful and intuitive music streaming app built with Flutter. It a
 
 To install LOFIII on your Android device, simply download the APK file from the [releases page](link-to-releases) and follow the installation instructions.
 
-## Contributing
 
 # Contributing to this repository
 
@@ -103,7 +101,9 @@ We'd love to hear your feedback on LOFIII. If you encounter any bugs, have featu
 
 ## Support
 
-For support or any inquiries, feel free to contact us at [furqanuddin@programmer.net](mailto:furqanuddin@programmer.net).
+For support or any inquiries, feel free to contact us at [ffurqanuddin@gmail.com](mailto:ffurqanuddin@gmail.com)
+[furqanuddin@programmer.net](mailto:furqanuddin@programmer.net).
+
 
 
 **Note:** LOFIII is still under active development, and new features and improvements are being added regularly. Stay tuned for updates! 
