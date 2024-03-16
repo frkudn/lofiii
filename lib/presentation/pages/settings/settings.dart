@@ -5,11 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:lofiii/data/services/notification_service.dart';
 import 'package:lofiii/presentation/pages/settings/privacy_policy.dart';
 import 'package:lofiii/presentation/pages/settings/profile_page.dart';
 import 'package:lofiii/resources/my_assets/my_assets.dart';
 import 'package:lottie/lottie.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/theme/colors_palates.dart';
@@ -115,8 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Profile",
                 iconData: EvaIcons.person,
                 onTap: () {
-                  Navigator.push(
-                      context,
+                  OneContext().push(
                       MaterialPageRoute(
                         builder: (context) => const ProfilePage(),
                       ));
@@ -154,8 +153,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Privacy Policy",
                 iconData: Icons.policy,
                 onTap: () {
-                  Navigator.push(
-                      context,
+                  OneContext().push(
                       MaterialPageRoute(
                         builder: (context) => const PrivacyPolicyPage(),
                       ));
@@ -169,8 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "About",
                   iconData: CupertinoIcons.info,
                   onTap: () {
-                    Navigator.push(
-                        context,
+                    OneContext().push(
                         MaterialPageRoute(
                           builder: (context) => const AboutPage(),
                         ));
@@ -222,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return InkWell(
       onTap: () {
         context.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
-        Navigator.pop(context);
+        OneContext().pop();
       },
       child: CircleAvatar(
         backgroundColor: Color(colorCode),
@@ -234,7 +231,7 @@ class _SettingsPageState extends State<SettingsPage> {
   equalizerOnTap() async {
 
 
-    showDialog(
+    OneContext().showDialog(
       builder: (context) => AlertDialog(
         title: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -251,7 +248,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             )),
       ),
-      context: context,
     );
   }
 

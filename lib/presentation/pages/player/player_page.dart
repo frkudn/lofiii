@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:ui';
+import 'package:animated_react_button/animated_react_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -89,8 +90,8 @@ class _PlayerPageState extends State<PlayerPage> {
               );
             },
           ),
-          ///----------------------------   Background Blur Image -----------------------///
 
+          ///----------------------------   Background Blur Image -----------------------///
 
           ///!-----------------------------------------------------------------------///
           ///?-----------------------      Player Buttons Section     -------------///
@@ -100,6 +101,7 @@ class _PlayerPageState extends State<PlayerPage> {
             builder: (context, flipCardState) {
               return FlipCard(
                 onTapFlipping: false,
+
                 ///-----------------------------------------------------///
                 ///?---------------   Front Widget   ------------------////
                 ///---------------------------------------------------------///
@@ -108,7 +110,7 @@ class _PlayerPageState extends State<PlayerPage> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     margin: EdgeInsets.only(bottom: 0.05.sh),
-                    height: 0.28.sh,
+                    height: 0.26.sh,
                     width: 0.8.sw,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.1),
@@ -124,6 +126,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                   FetchCurrentPlayingMusicDataToPlayerState>(
                                 builder:
                                     (context, fetchCurrentPlayingMusicState) {
+                                  ///!---------  Music Title & Like Button
                                   return Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
@@ -160,30 +163,32 @@ class _PlayerPageState extends State<PlayerPage> {
                                                               fetchCurrentPlayingMusicState
                                                                   .musicIndex]
                                                           .title);
-                                              return IconButton(
-                                                onPressed: () {
-                                                  context
-                                                      .read<
-                                                          FavoriteButtonBloc>()
-                                                      .add(FavoriteButtonToggleEvent(
-                                                          title: fetchCurrentPlayingMusicState
-                                                              .fullMusicList[
-                                                                  fetchCurrentPlayingMusicState
-                                                                      .musicIndex]
-                                                              .title));
-                                                  setState(() {});
-                                                },
-                                                icon: Icon(
-                                                  isFavorite
+
+                                              return AnimatedReactButton(
+                                                  defaultColor: isFavorite
+                                                      ? Color(themeState
+                                                          .accentColor)
+                                                      : Colors.white12,
+                                                  reactColor: Color(
+                                                      themeState.accentColor),
+                                                  defaultIcon: isFavorite
                                                       ? FontAwesomeIcons
                                                           .heartPulse
                                                       : FontAwesomeIcons.heart,
-                                                  color: isFavorite
-                                                      ? Color(themeState
-                                                          .accentColor)
-                                                      : Colors.white,
-                                                ),
-                                              );
+                                                  showSplash:
+                                                      isFavorite ? false : true,
+                                                  onPressed: () async {
+                                                    context
+                                                        .read<
+                                                            FavoriteButtonBloc>()
+                                                        .add(FavoriteButtonToggleEvent(
+                                                            title: fetchCurrentPlayingMusicState
+                                                                .fullMusicList[
+                                                                    fetchCurrentPlayingMusicState
+                                                                        .musicIndex]
+                                                                .title));
+                                                    setState(() {});
+                                                  });
                                             },
                                           );
                                         },
@@ -239,44 +244,52 @@ class _PlayerPageState extends State<PlayerPage> {
                                                 final bufferedPositionSnapshot =
                                                     snapshot.data?.last;
 
-                                                return Slider(
-                                                    activeColor: Color(themeState
-                                                        .accentColor),
-                                                    secondaryActiveColor: Color(
-                                                            themeState
-                                                                .accentColor)
-                                                        .withOpacity(0.6),
-                                                    secondaryTrackValue:
-                                                        bufferedPositionSnapshot!
-                                                                .inSeconds
-                                                                .toDouble() ??
-                                                            0,
-                                                    min: 0,
-                                                    max:
-                                                        durationSnapshot!
-                                                                .inSeconds
-                                                                .toDouble() ??
-                                                            1,
-                                                    value: positionSnapshot!
-                                                            .inSeconds
-                                                            .toDouble() ??
-                                                        0,
-                                                    onChanged: (value) {
-                                                      context
-                                                          .read<
-                                                              MusicPlayerBloc>()
-                                                          .add(MusicPlayerSeekEvent(
-                                                              position: value
-                                                                  .toInt()));
-                                                    });
+                                                return SliderTheme(
+                                                  data: SliderThemeData(
+                                                    trackHeight: 7.sp,
+                                                  ),
+                                                  child: Slider(
+                                                      activeColor:
+                                                          Color(
+                                                              themeState
+                                                                  .accentColor),
+                                                      secondaryActiveColor:
+                                                          Color(themeState
+                                                                  .accentColor)
+                                                              .withOpacity(0.5),
+                                                      secondaryTrackValue:
+                                                          bufferedPositionSnapshot!
+                                                              .inSeconds
+                                                              .toDouble(),
+                                                      min: 0,
+                                                      max: durationSnapshot!
+                                                          .inSeconds
+                                                          .toDouble(),
+                                                      value: positionSnapshot!
+                                                          .inSeconds
+                                                          .toDouble(),
+                                                      onChanged: (value) {
+                                                        context
+                                                            .read<
+                                                                MusicPlayerBloc>()
+                                                            .add(MusicPlayerSeekEvent(
+                                                                position: value
+                                                                    .toInt()));
+                                                      }),
+                                                );
                                               } else {
-                                                return Slider(
-                                                    activeColor:
-                                                        Colors.transparent,
-                                                    value: 0.0,
-                                                    max: 1,
-                                                    min: 0,
-                                                    onChanged: (v) {});
+                                                return SliderTheme(
+                                                  data: SliderThemeData(
+                                                    trackHeight: 7.sp,
+                                                  ),
+                                                  child: Slider(
+                                                      activeColor:
+                                                          Colors.transparent,
+                                                      value: 0.0,
+                                                      max: 1,
+                                                      min: 0,
+                                                      onChanged: (v) {}),
+                                                );
                                               }
                                             });
                                       },
@@ -312,8 +325,6 @@ class _PlayerPageState extends State<PlayerPage> {
                                                   snapshot.data!.first;
                                               final durationSnapshot =
                                                   snapshot.data![1];
-                                              final bufferedPositionSnapshot =
-                                                  snapshot.data!.last;
 
                                               return Row(
                                                 mainAxisAlignment:
@@ -389,10 +400,6 @@ class _PlayerPageState extends State<PlayerPage> {
                                 },
                               ),
 
-                              SizedBox(
-                                height: 0.01.sh,
-                              ),
-
                               ///!-------    Player Buttons      -------///
                               Padding(
                                 padding:
@@ -402,7 +409,6 @@ class _PlayerPageState extends State<PlayerPage> {
                                   child: Center(
                                     child: Row(
                                       children: [
-
                                         ///--!------------  Repeat Button -------------///
                                         BlocBuilder<RepeatMusicCubit,
                                             RepeatMusicState>(
@@ -412,30 +418,30 @@ class _PlayerPageState extends State<PlayerPage> {
                                               builder:
                                                   (context, musicPlayerState) {
                                                 if (musicPlayerState
-                                                is MusicPlayerSuccessState) {
+                                                    is MusicPlayerSuccessState) {
                                                   //! Fetching current playing music data from the player state using context.watch
                                                   final fetchMusicState = context
                                                       .watch<
-                                                      CurrentlyPlayingMusicDataToPlayerCubit>()
+                                                          CurrentlyPlayingMusicDataToPlayerCubit>()
                                                       .state;
                                                   //! Checking if the music playback is completed
                                                   musicPlayerState.audioPlayer
                                                       .processingStateStream
                                                       .listen((event) {
                                                     if (event ==
-                                                        ProcessingState
-                                                            .completed &&
+                                                            ProcessingState
+                                                                .completed &&
                                                         repeatState.repeatAll) {
                                                       _nextMusicButtonOnTap(
-                                                          fetchMusicState,
-                                                          );
+                                                        fetchMusicState,
+                                                      );
                                                     }
                                                   });
                                                   return IconButton(
                                                     onPressed: () {
                                                       context
                                                           .read<
-                                                          RepeatMusicCubit>()
+                                                              RepeatMusicCubit>()
                                                           .repeatAll();
                                                     },
                                                     icon: Icon(
@@ -451,7 +457,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                                     onPressed: () {
                                                       context
                                                           .read<
-                                                          RepeatMusicCubit>()
+                                                              RepeatMusicCubit>()
                                                           .repeatAll();
                                                     },
                                                     icon: Icon(
@@ -475,7 +481,8 @@ class _PlayerPageState extends State<PlayerPage> {
                                             return IconButton(
                                                 onPressed: () {
                                                   _backwardMusicButtonOnTap(
-                                                      state,);
+                                                    state,
+                                                  );
                                                 },
                                                 icon: const Icon(
                                                   EvaIcons.skipBack,
@@ -497,7 +504,7 @@ class _PlayerPageState extends State<PlayerPage> {
                                                       snapshotPlayerState) {
                                                     ///?----                   if Loading, buffering
                                                     if (snapshotPlayerState
-                                                        .hasData ) {
+                                                        .hasData) {
                                                       if (snapshotPlayerState
                                                                   .data!
                                                                   .processingState ==
@@ -634,7 +641,8 @@ class _PlayerPageState extends State<PlayerPage> {
                                             return IconButton(
                                                 onPressed: () {
                                                   _nextMusicButtonOnTap(
-                                                      state,);
+                                                    state,
+                                                  );
                                                 },
                                                 icon: const Icon(
                                                   EvaIcons.skipForward,
@@ -643,17 +651,16 @@ class _PlayerPageState extends State<PlayerPage> {
                                           },
                                         ),
 
-
-
-
                                         ///!----------- Flip Card Toggle Button  --------///
                                         Align(
                                           alignment: Alignment.centerRight,
                                           child: IconButton(
                                             onPressed: () {
-                                              context.read<FlipCardCubit>().toggleCard();
+                                              context
+                                                  .read<FlipCardCubit>()
+                                                  .toggleCard();
                                             },
-                                            icon:  const Icon(
+                                            icon: const Icon(
                                               Icons.flip,
                                               color: Colors.white,
                                             ),
@@ -664,8 +671,6 @@ class _PlayerPageState extends State<PlayerPage> {
                                   ),
                                 ),
                               ),
-
-
                             ],
                           ),
                         ),
@@ -682,15 +687,14 @@ class _PlayerPageState extends State<PlayerPage> {
               );
             },
           ),
+
           ///----------------------------   Players Button Bottom Glass Card -----------------------///
-
-
 
           ///?-------------------      Cover Image Section    ---------------////
           ///!-------------------------   Cached Network Image   --------///
           ///-----------------------------------------------------------------///
           Positioned(
-            top: 0.06.sh,
+            top: 0.09.sh,
             left: 0,
             right: 0,
             child: Center(
@@ -712,7 +716,6 @@ class _PlayerPageState extends State<PlayerPage> {
                 child: BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
                     FetchCurrentPlayingMusicDataToPlayerState>(
                   builder: (context, state) {
-
                     return CachedNetworkImage(
                       ///!--------   Music Image Url List   -------///
                       imageUrl: state.fullMusicList[state.musicIndex].image,
@@ -727,7 +730,7 @@ class _PlayerPageState extends State<PlayerPage> {
                           color: Colors.transparent,
                           margin: EdgeInsets.zero,
                           child: Container(
-                            height: 0.52.sh,
+                            height: 0.5.sh,
                             width: 0.8.sw,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -743,28 +746,29 @@ class _PlayerPageState extends State<PlayerPage> {
                       ///---!  Error Widget of Cover Image
                       errorWidget: (context, url, error) =>
                           BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                            builder: (context, state) {
-                              return Center(
-                                child: SizedBox(
-                                  height: 0.5.sh,
-                                  width: 0.8.sw,
-                                  child: Center(
-                                    child: Icon(
-                                      FontAwesomeIcons.music,
-                                      size: 45.spMax,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                        builder: (context, state) {
+                          return Center(
+                            child: SizedBox(
+                              height: 0.5.sh,
+                              width: 0.8.sw,
+                              child: Center(
+                                child: Icon(
+                                  FontAwesomeIcons.music,
+                                  size: 45.spMax,
+                                  color: Colors.white,
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),
               ),
             ),
           ),
+
           ///----------------------------   Cover Image -----------------------///
         ],
       ),
@@ -773,7 +777,8 @@ class _PlayerPageState extends State<PlayerPage> {
 
   ///-------------------?             M E T H O D S    ----------------------------///
   void _nextMusicButtonOnTap(
-      FetchCurrentPlayingMusicDataToPlayerState state, ) {
+    FetchCurrentPlayingMusicDataToPlayerState state,
+  ) {
     int index = state.musicIndex;
     if (index < state.fullMusicList.length) {
       index++;
@@ -786,7 +791,8 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   void _backwardMusicButtonOnTap(
-      FetchCurrentPlayingMusicDataToPlayerState state,) {
+    FetchCurrentPlayingMusicDataToPlayerState state,
+  ) {
     int index = state.musicIndex;
     if (index > 0) {
       index--;
@@ -798,4 +804,3 @@ class _PlayerPageState extends State<PlayerPage> {
     }
   }
 }
-

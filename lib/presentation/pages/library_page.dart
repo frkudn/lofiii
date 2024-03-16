@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../logic/bloc/favorite_button/favorite_button_bloc.dart';
 import '../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
@@ -45,8 +46,7 @@ class LibraryPage extends StatelessWidget {
                                 .contains(element.title))
                             .toList();
                         //! Navigate to View More Page with filtered list
-                        Navigator.push(
-                          context,
+                        OneContext().push(
                           MaterialPageRoute(
                             builder: (context) => ViewMorePage(
                               topHeading: "My Favorite ❤️",

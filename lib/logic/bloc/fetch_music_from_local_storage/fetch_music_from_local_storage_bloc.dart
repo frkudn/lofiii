@@ -6,18 +6,18 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:lofiii/data/services/app_permissions_service.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 import 'package:meta/meta.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 part 'fetch_music_from_local_storage_event.dart';
 part 'fetch_music_from_local_storage_state.dart';
 
 class FetchMusicFromLocalStorageBloc extends Bloc<
     FetchMusicFromLocalStorageEvent, FetchMusicFromLocalStorageState> {
-  final OnAudioQuery audioQuery;
+  final OnAudioQuery audioQuery = locator.get<OnAudioQuery>();
 
-  FetchMusicFromLocalStorageBloc({required this.audioQuery})
+  FetchMusicFromLocalStorageBloc()
       : super(FetchMusicFromLocalStorageInitial()) {
     on<FetchMusicFromLocalStorageInitializationEvent>(
         _fetchMusicFromLocalStorageInitializationEvent);

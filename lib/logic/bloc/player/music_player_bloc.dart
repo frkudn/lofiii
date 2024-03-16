@@ -8,15 +8,17 @@ import 'package:just_audio/just_audio.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../di/dependency_injection.dart';
+
 // Importing event and state classes.
 part 'music_player_event.dart';
 part 'music_player_state.dart';
 
 class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
-  late final AudioPlayer audioPlayer;
+  final audioPlayer = locator.get<AudioPlayer>();
 
   // Constructor for the MusicPlayerBloc class, initializing it with AudioPlayer instance.
-  MusicPlayerBloc({required this.audioPlayer})
+  MusicPlayerBloc()
       : super(MusicPlayerLoadingState()) {
     on<MusicPlayerInitializeEvent>(_musicPlayerInitializeEvent);
     on<MusicPlayerTogglePlayPauseEvent>(_musicPlayerTogglePlayPauseEvent);

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 import 'package:meta/meta.dart';
 
 import '../../../resources/hive/hive_resources.dart';
@@ -13,8 +14,8 @@ part 'user_profile_event.dart';
 part 'user_profile_state.dart';
 
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
-  final ImagePicker picker;
-  UserProfileBloc({required this.picker})
+  final ImagePicker picker = locator.get<ImagePicker>();
+  UserProfileBloc()
       : super(UserProfileState(
             username: MyHiveBoxes.settingBox.get(MyHiveKeys.profileUsernameHiveKey) ??
                 "Guest",

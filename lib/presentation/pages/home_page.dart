@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:one_context/one_context.dart';
 import '../../logic/bloc/artists_data/artists_data_bloc.dart';
 import '../../logic/bloc/artists_data/artists_data_event.dart';
 import '../../logic/bloc/artists_data/artists_data_state.dart';
@@ -51,8 +52,7 @@ class _HomePageState extends State<HomePage> {
                     heading: "LOFIII Special",
                     viewMoreOnTap: () {
                       if (state is LofiiiSpecialMusicSuccessState) {
-                        Navigator.push(
-                          context,
+                        OneContext().push(
                           MaterialPageRoute(
                             builder: (context) => ViewMorePage(
                               topHeading: "LOFIII Special",
@@ -230,8 +230,7 @@ class _HomePageState extends State<HomePage> {
                     heading: "LOFIII TopPicks",
                     viewMoreOnTap: () {
                       if (state is LofiiiTopPicksMusicSuccessState) {
-                        Navigator.push(
-                          context,
+                        OneContext().push(
                           MaterialPageRoute(
                             builder: (context) => ViewMorePage(
                               topHeading: "LOFIII TopPicks",

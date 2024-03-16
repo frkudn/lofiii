@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:one_context/one_context.dart';
 import '../../../logic/bloc/user_profie/user_profile_bloc.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../widgets/blur_background_profile_image_widget/blur_background_profile_image_widget.dart';
@@ -40,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              OneContext().pop();
             },
             icon: const Icon(
               CupertinoIcons.back,
@@ -203,7 +204,7 @@ class _ProfileNameTextFieldWidget extends StatelessWidget {
                   context.read<UserProfileBloc>().add(
                       UserProfileChangeUsernameEvent(
                           username: usernameController.text));
-                  Navigator.pop(context);
+                  OneContext().pop();
                 },
                 controller: usernameController,
                 decoration: InputDecoration(
@@ -296,7 +297,7 @@ class _SaveButtonWidget extends StatelessWidget {
       onTap: () {
         context.read<UserProfileBloc>().add(
             UserProfileChangeUsernameEvent(username: usernameController.text));
-        Navigator.pop(context);
+        OneContext().pop();
       },
       child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
         builder: (context, state) {

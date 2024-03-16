@@ -2,10 +2,9 @@ part of 'flip_card_cubit.dart';
 
 @immutable
  class FlipCardCubitState extends Equatable{
-  FlipCardCubitState({required this.flipCardController});
-  final FlipCardController flipCardController;
+   FlipCardCubitState();
 
-
+  final  flipCardController = locator.get<FlipCardController>();
 
   @override
   // TODO: implement props

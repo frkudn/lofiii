@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../../data/models/artist_model.dart';
 import '../../pages/artist/artist_page.dart';
@@ -101,8 +102,7 @@ class ArtistsCardsListWidget extends StatelessWidget {
 
   ///?-----------        Methods    -------------///
   void _artistCardOnTap(BuildContext context, int index) {
-    Navigator.push(
-        context,
+    OneContext().push(
         MaterialPageRoute(
           builder: (context) => ArtistPage(
               artistName: artistList[index].name, image: artistList[index].img),

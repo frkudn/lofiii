@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart'; // Import this for BuildContext
+import 'package:lofiii/di/dependency_injection.dart';
+import 'package:one_context/one_context.dart';
 
 import '../artists_data/artists_data_bloc.dart';
 import '../artists_data/artists_data_event.dart';
@@ -14,25 +16,20 @@ import '../lofiii_top_picks_music/lofi_top_picks_music_event.dart';
 part 'check_internet_connection_event.dart';
 part 'check_internet_connection_state.dart';
 
-class CheckInternetConnectionBloc extends Bloc<CheckInternetConnectionEvent, CheckInternetConnectionState> {
-
-  final Connectivity connectivity;
-  final BuildContext context; // Add BuildContext here
+class CheckInternetConnectionBloc
+    extends Bloc<CheckInternetConnectionEvent, CheckInternetConnectionState> {
+  final connectivity = locator.get<Connectivity>();
 
   // Constructor to initialize the bloc with Connectivity instance
-  CheckInternetConnectionBloc({required this.connectivity, required this.context})
-      : super(CheckInternetConnectionInitial()) {
-
+  CheckInternetConnectionBloc() : super(CheckInternetConnectionInitial()) {
     // Listen for changes in connectivity
     connectivity.onConnectivityChanged.listen((connectivityResult) {
       // If connectivity is neither mobile nor wifi, dispatch NoInternetConnectionEvent
       if (connectivityResult != ConnectivityResult.mobile &&
           connectivityResult != ConnectivityResult.wifi) {
         add(NoInternetConnectionEvent());
-      }
-      else{
+      } else {
         add(InternetConnectionRestoredEvent());
-
       }
     });
 
@@ -41,25 +38,37 @@ class CheckInternetConnectionBloc extends Bloc<CheckInternetConnectionEvent, Che
       emit(NoInternetConnectionState());
     });
 
-
-    ///-------------Auto add Events on Internet Restored Event ---------------///
+    ///!-------------Auto add Events on Internet Restored Event ---------------///
     on<InternetConnectionRestoredEvent>((event, emit) {
-      ///-----------Refresh LOFIII Special Music --------------///
-    context.read<LofiiiSpecialMusicBloc>().add(LOFIIISpecialMusicFetchEvent());
+      ///!-----------Refresh LOFIII Special Music --------------///
+      OneContext()
+          .context!
+          .read<LofiiiSpecialMusicBloc>()
+          .add(LOFIIISpecialMusicFetchEvent());
 
-    ///-----------Refresh LOFIII Popular Music --------------///
-    context.read<LofiiiPopularMusicBloc>().add(LOFIIIPopularMusicFetchEvent());
+      ///!-----------Refresh LOFIII Popular Music --------------///
+      OneContext()
+          .context!
+          .read<LofiiiPopularMusicBloc>()
+          .add(LOFIIIPopularMusicFetchEvent());
 
-    ///-----------Refresh LOFIII TopPicks Music --------------///
-    context.read<LofiiiTopPicksMusicBloc>().add(LOFIIITopPicksMusicFetchEvent());
+      ///!-----------Refresh LOFIII TopPicks Music --------------///
+      OneContext()
+          .context!
+          .read<LofiiiTopPicksMusicBloc>()
+          .add(LOFIIITopPicksMusicFetchEvent());
 
-    ///-----------Refresh LOFIII All Music --------------///
-    context.read<LofiiiAllMusicBloc>().add(LOFIIIAllMusicFetchEvent());
+      ///!-----------Refresh LOFIII All Music --------------///
+      OneContext()
+          .context!
+          .read<LofiiiAllMusicBloc>()
+          .add(LOFIIIAllMusicFetchEvent());
 
-    ///-----------Refresh Artist Data --------------///
-    context.read<ArtistsDataBloc>().add(ArtistsDataFetchEvent());
+      ///!-----------Refresh Artist Data --------------///
+      OneContext()
+          .context!
+          .read<ArtistsDataBloc>()
+          .add(ArtistsDataFetchEvent());
     });
-
-
   }
 }

@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../../data/models/music_model.dart';
 import '../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
@@ -48,7 +49,7 @@ class _ArtistPageState extends State<ArtistPage> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              OneContext().pop();
             }),
       ),
 
