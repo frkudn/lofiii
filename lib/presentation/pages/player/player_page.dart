@@ -246,7 +246,7 @@ class _PlayerPageState extends State<PlayerPage> {
 
                                                 return SliderTheme(
                                                   data: SliderThemeData(
-                                                    trackHeight: 7.sp,
+                                                    trackHeight: 0.009.sh,
                                                   ),
                                                   child: Slider(
                                                       activeColor:

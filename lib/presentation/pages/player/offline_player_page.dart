@@ -174,7 +174,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                 snapshot.data?.last;
 
                                             return SliderTheme(
-                                              data: SliderThemeData(trackHeight: 7.sp,inactiveTrackColor: Colors.white54),
+                                              data: SliderThemeData(trackHeight: 0.01.sh,inactiveTrackColor: Colors.white54),
                                               child: Slider(
                                                   activeColor: Colors.white,
                                                   secondaryActiveColor: Colors
