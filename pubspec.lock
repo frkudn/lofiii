@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.4"
+  animated_react_button:
+    dependency: "direct main"
+    description:
+      name: animated_react_button
+      sha256: cdfa4acae9ba258956aac4c21e4bdcab757be386280e225e61632df974db5579
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   animated_text_kit:
     dependency: "direct main"
     description:
@@ -424,6 +432,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  get_it:
+    dependency: "direct main"
+    description:
+      name: get_it
+      sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.7"
   hive:
     dependency: "direct main"
     description:

@@ -3,13 +3,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 part 'chnage_system_volume_state.dart';
 
 class ChangeSystemVolumeCubit extends Cubit<ChangeSystemVolumeState> {
-  final VolumeController volumeController;
-  ChangeSystemVolumeCubit({required this.volumeController})
+  final  volumeController = locator.get<VolumeController>();
+  ChangeSystemVolumeCubit()
       : super(ChangeSystemVolumeState(volume: 0.4));
 
   ///!----------- Change System Volume

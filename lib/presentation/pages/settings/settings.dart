@@ -5,14 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:lofiii/data/services/notification_service.dart';
 import 'package:lofiii/presentation/pages/settings/privacy_policy.dart';
 import 'package:lofiii/presentation/pages/settings/profile_page.dart';
 import 'package:lofiii/resources/my_assets/my_assets.dart';
 import 'package:lottie/lottie.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../resources/theme/colors_palates.dart';
+import '../../widgets/license/license_widget.dart';
 import '../../widgets/settings_list_tile/settings_list_tile_widget.dart';
 import 'about_page.dart';
 
@@ -115,11 +116,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Profile",
                 iconData: EvaIcons.person,
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfilePage(),
-                      ));
+                  OneContext().push(MaterialPageRoute(
+                    builder: (context) => const ProfilePage(),
+                  ));
                 },
               ),
 
@@ -142,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsListTileWidget(
                 title: "Feedback",
                 iconData: Icons.feedback,
-                onTap: () async{
+                onTap: () async {
                   await _feedBackButtonOnTap();
                 },
               ),
@@ -154,13 +153,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Privacy Policy",
                 iconData: Icons.policy,
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PrivacyPolicyPage(),
-                      ));
+                  OneContext().push(MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicyPage(),
+                  ));
                 },
               ),
+
+              _divider(),
+
+              ///!------------------- Licenses-----------------------------///
+              const LicenceWidget(),
 
               _divider(),
 
@@ -169,11 +171,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "About",
                   iconData: CupertinoIcons.info,
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AboutPage(),
-                        ));
+                    OneContext().push(MaterialPageRoute(
+                      builder: (context) => const AboutPage(),
+                    ));
                   }),
 
               SizedBox(
@@ -186,19 +186,15 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-
-
   Divider _divider() {
     return const Divider();
   }
   ////////////////////!//////////////////////////////////////////////////
-  ///?------------------            M E T H O D S  --------------------///
+  ///?------------------------    M E T H O D S  --------------------///
   //!/////////////////////////////////////////////////////////////////////
 
   _accentColorTileOnTap() {
-    showModalBottomSheet(
-      context: context,
-
+    OneContext().showModalBottomSheet(
       elevation: 1,
       backgroundColor: Colors.transparent,
       showDragHandle: true,
@@ -222,7 +218,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return InkWell(
       onTap: () {
         context.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
-        Navigator.pop(context);
+        OneContext().pop();
       },
       child: CircleAvatar(
         backgroundColor: Color(colorCode),
@@ -232,9 +228,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   ///! -------     Equalizer On Tap
   equalizerOnTap() async {
-
-
-    showDialog(
+    OneContext().showDialog(
       builder: (context) => AlertDialog(
         title: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -251,10 +245,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             )),
       ),
-      context: context,
     );
   }
-
 
   ///!------------ Feedback On Tap
   Future<void> _feedBackButtonOnTap() async {
@@ -262,10 +254,11 @@ class _SettingsPageState extends State<SettingsPage> {
       body: 'your feed back?',
       subject: 'LOFIII Feedback',
       recipients: ['furqanuddin@gmail.com'],
-
       isHTML: false,
     );
 
     await FlutterEmailSender.send(sendEmail);
   }
 }
+
+

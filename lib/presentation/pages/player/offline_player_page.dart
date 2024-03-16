@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
@@ -37,7 +38,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
         backgroundColor: Colors.transparent,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              OneContext().pop();
             },
             icon: Icon(
               CupertinoIcons.back,
@@ -172,30 +173,33 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                             final bufferedPositionSnapshot =
                                                 snapshot.data?.last;
 
-                                            return Slider(
-                                                activeColor: Colors.white,
-                                                secondaryActiveColor: Colors
-                                                    .white
-                                                    .withOpacity(0.5),
-                                                secondaryTrackValue:
-                                                    bufferedPositionSnapshot!
-                                                            .inSeconds
-                                                            .toDouble() ??
-                                                        0,
-                                                min: 0,
-                                                max: durationSnapshot!.inSeconds
-                                                    .toDouble(),
-                                                value: positionSnapshot!
-                                                        .inSeconds
-                                                        .toDouble() ??
-                                                    0,
-                                                onChanged: (value) {
-                                                  context
-                                                      .read<MusicPlayerBloc>()
-                                                      .add(MusicPlayerSeekEvent(
-                                                          position:
-                                                              value.toInt()));
-                                                });
+                                            return SliderTheme(
+                                              data: SliderThemeData(trackHeight: 0.01.sh,inactiveTrackColor: Colors.white54),
+                                              child: Slider(
+                                                  activeColor: Colors.white,
+                                                  secondaryActiveColor: Colors
+                                                      .white
+                                                      .withOpacity(0.5),
+                                                  secondaryTrackValue:
+                                                      bufferedPositionSnapshot!
+                                                              .inSeconds
+                                                              .toDouble() ??
+                                                          0,
+                                                  min: 0,
+                                                  max: durationSnapshot!.inSeconds
+                                                      .toDouble(),
+                                                  value: positionSnapshot!
+                                                          .inSeconds
+                                                          .toDouble() ??
+                                                      0,
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<MusicPlayerBloc>()
+                                                        .add(MusicPlayerSeekEvent(
+                                                            position:
+                                                                value.toInt()));
+                                                  }),
+                                            );
                                           } else {
                                             return Slider(
                                                 activeColor: Colors.transparent,
@@ -535,6 +539,9 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
             musicTitle: state.snapshotMusicList![index].title,
             musicArtist: state.snapshotMusicList![index].artist,
           );
+
+      ///!-------  Change Selected Tile Index
+      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
     }
   }
 
@@ -555,6 +562,10 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
             musicTitle: state.snapshotMusicList![index].title,
             musicArtist: state.snapshotMusicList![index].artist,
           );
+
+
+      ///!-------  Change Selected Tile Index
+      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
     }
   }
 }

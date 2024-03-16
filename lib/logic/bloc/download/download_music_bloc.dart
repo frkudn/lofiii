@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lofiii/data/services/app_permissions_service.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -17,9 +18,9 @@ part 'download_music_state.dart';
 
 class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
   // final MediaDownload mediaDownloader;
-  final Dio dio;
+  final  dio = locator.get<Dio>();
 
-  DownloadMusicBloc({required this.dio}) : super(DownloadMusicInitialState()) {
+  DownloadMusicBloc() : super(DownloadMusicInitialState()) {
     on<DownloadNowEvent>(_downloadNowEvent);
     on<MusicIsSuccessfullyDownloadedEvent>(_musicIsSuccessfullyDownloadedEvent);
   }

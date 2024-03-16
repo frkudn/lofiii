@@ -23,7 +23,7 @@ class ThemeModeCubit extends Cubit<ThemeModeState> {
               accentColor: MyHiveBoxes.settingBox
                       .get(MyHiveKeys.themeAccentColorHiveKey)
                   ??
-                  0XFF008080
+                  0XFFFF0090
           ),
         );
 

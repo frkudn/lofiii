@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:one_context/one_context.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/services/app_permissions_service.dart';
@@ -30,8 +31,7 @@ class OnBoardingSkipButton extends StatelessWidget {
             MyHiveBoxes.settingBox
                 .put(MyHiveKeys.showOnBoardingScreenHiveKey, false);
 
-            Navigator.pushReplacement(
-              context,
+         OneContext().pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const InitialPage(),
               ),

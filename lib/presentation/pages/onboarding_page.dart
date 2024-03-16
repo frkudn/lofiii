@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/data/services/app_permissions_service.dart';
+import 'package:one_context/one_context.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../logic/bloc/user_profie/user_profile_bloc.dart';
@@ -56,7 +57,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           Opacity(
             opacity: 0.2,
             child: SvgPicture.asset(
-              MyAssets.lofiiiLogoDarkMode,
+              MyAssets.lofiiiLogoDarkModeSvg,
               height: 1.sh,
             ),
           ),
@@ -197,8 +198,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         .add(UserProfileChangeUsernameEvent(username: usernameController.text));
 
     ///--!  Navigate to Initial Page
-    Navigator.pushReplacement(
-        context,
+   OneContext().pushReplacement(
         MaterialPageRoute(
           builder: (context) => const InitialPage(),
         ));

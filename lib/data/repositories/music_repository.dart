@@ -1,11 +1,12 @@
 
 
+import '../../di/dependency_injection.dart';
 import '../datasources/musicData/music_data_api.dart';
 import '../models/artist_model.dart';
 import '../models/music_model.dart';
 
 class MusicRepository {
-  final MusicData musicData = MusicData();
+  final MusicData musicData = locator.get<MusicData>();
 
   ///? ------------------             LOFIII Special Music    ---------------///
   Future<List<MusicModel>> fetchLOFIIISpecialMusic() async {

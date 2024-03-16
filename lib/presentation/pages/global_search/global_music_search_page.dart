@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:one_context/one_context.dart';
 import '../../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
 import '../../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
@@ -31,7 +32,7 @@ class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                OneContext().pop();
               },
               icon: const Icon(CupertinoIcons.back)),
 

@@ -5,6 +5,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:one_context/one_context.dart';
 
 
 import '../../../logic/bloc/user_profie/user_profile_bloc.dart';
@@ -41,11 +42,11 @@ class HomePageSliverAppBar extends StatelessWidget {
 
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
+                            OneContext().push( MaterialPageRoute(
                               builder: (context) => const ProfilePage(),));
                           },
 
-                          ///!------------       User Profile Image     -------////
+                          ///!------------       User Profile Image   Avatar  -------////
                           child: BlocBuilder<UserProfileBloc, UserProfileState>(
                             builder: (context, state) {
                               if (state.profileImageFilePath.toString().isNotEmpty) {
@@ -110,8 +111,7 @@ class HomePageSliverAppBar extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.w),
                     child: IconButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
+                          OneContext().push(
                               MaterialPageRoute(
                                 builder: (context) => const GlobalMusicSearchPage(),
                               ));
