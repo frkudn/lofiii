@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +44,17 @@ class ArtistsCardsListWidget extends StatelessWidget {
                       ///!-------On Image Successfully Loaded---------///
                       imageBuilder: (context, imageProvider) => Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                            shape: const CircleBorder(),
-                            color: Colors.transparent,
-                            margin: EdgeInsets.zero,
-                            child: CircleAvatar(
-                              radius: 55.w,
-                              backgroundImage: imageProvider,
-                            )),
+                        child: BounceInLeft(
+                          child: Card(
+                              shape: const CircleBorder(),
+                              color: Colors.transparent,
+                              margin: EdgeInsets.zero,
+                              child: CircleAvatar(
+                                radius: 55.w,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: imageProvider,
+                              )),
+                        ),
                       ),
 
                       ///!----------------On Loading-------------///
@@ -58,6 +62,7 @@ class ArtistsCardsListWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: CircleAvatar(
                           radius: 50.w,
+                          backgroundColor: Colors.transparent,
                           child: const Center(
                             child: CupertinoActivityIndicator(),
                           ),

@@ -31,7 +31,7 @@ class MyCustomSnackbars {
 
  static void showInfoSnackbar(context, {required String message, Icon? icon}) {
    showTopSnackBar(
-     animationDuration: const Duration(seconds: 6),
+     animationDuration: const Duration(seconds: 10),
      Overlay.of(context),
      CustomSnackBar.info(
        message: message,

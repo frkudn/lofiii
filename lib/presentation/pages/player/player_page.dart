@@ -146,7 +146,11 @@ class _PlayerPageState extends State<PlayerPage> {
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                                 fontSize: 22.sp,
-                                                color: Colors.white),
+                                                color: Colors.white,
+                                            shadows: const [
+                                              Shadow(color: Colors.black38,offset: Offset.zero,blurRadius: 5),
+                                            ]
+                                            ),
                                           ),
                                         ),
                 
@@ -216,7 +220,9 @@ class _PlayerPageState extends State<PlayerPage> {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 12.sp,
-                                            color: Colors.white70),
+                                            color: Colors.white70,
+
+                                        ),
                                       ),
                                     );
                                   },

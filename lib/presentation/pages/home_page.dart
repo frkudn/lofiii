@@ -36,330 +36,345 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _onRefreshMethod,
-        child: CustomScrollView(
-          slivers: [
-            ///?-------------------------App Bar ----------------------///
-            const HomePageSliverAppBar(),
 
-            ///?-------AppBar Bottom Padding
-            SliverPadding(padding: EdgeInsets.only(bottom: 20.h)),
+        ///!     -------Storing/Preserve  Scroll Position
+        child: PageStorage(
+          bucket: pageBucket,
+          child: CustomScrollView(
+            key: const PageStorageKey("homePageStorageKey"),
+            slivers: [
+              ///?-------------------------App Bar ----------------------///
+              const HomePageSliverAppBar(),
 
-            ///?----------------------Special Section----------------------///
+              ///?-------AppBar Bottom Padding
+              SliverPadding(padding: EdgeInsets.only(bottom: 20.h)),
 
-            ///!-   --------------       Special Heading
-            BlocBuilder<LofiiiSpecialMusicBloc, LofiiiSpecialMusicState>(
-              builder: (context, state) {
-                return HeadingWithViewMoreButton(
-                    heading: "LOFIII Special",
-                    viewMoreOnTap: () {
-                      if (state is LofiiiSpecialMusicSuccessState) {
-                        OneContext().push(
-                          MaterialPageRoute(
-                            builder: (context) => ViewMorePage(
-                              topHeading: "LOFIII Special",
-                              musicList: state.musicList,
+              ///?----------------------Special Section----------------------///
+
+              ///!-   --------------       Special Heading
+              BlocBuilder<LofiiiSpecialMusicBloc, LofiiiSpecialMusicState>(
+                builder: (context, state) {
+                  return HeadingWithViewMoreButton(
+                      heading: "LOFIII Special",
+                      viewMoreOnTap: () {
+                        if (state is LofiiiSpecialMusicSuccessState) {
+                          OneContext().push(
+                            MaterialPageRoute(
+                              builder: (context) => ViewMorePage(
+                                topHeading: "LOFIII Special",
+                                musicList: state.musicList,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    });
-              },
-            ),
+                          );
+                        }
+                      });
+                },
+              ),
 
-            ///! ---------------       Special  Music List   ---------------///
-            BlocBuilder<LofiiiSpecialMusicBloc, LofiiiSpecialMusicState>(
-              builder: (context, state) {
-                //?----Fetching music is success
-                if (state is LofiiiSpecialMusicSuccessState) {
-                  if (state.musicList.isNotEmpty) {
-                    return MusicCardsListWidget(list: state.musicList,pageStorageKey: "specialStorageKey",);
-                  } else {
+              ///! ---------------       Special  Music List   ---------------///
+              BlocBuilder<LofiiiSpecialMusicBloc, LofiiiSpecialMusicState>(
+                builder: (context, state) {
+                  //?----Fetching music is success
+                  if (state is LofiiiSpecialMusicSuccessState) {
+                    if (state.musicList.isNotEmpty) {
+                      return MusicCardsListWidget(
+                        list: state.musicList,
+                        pageStorageKey: "specialStorageKey",
+                      );
+                    } else {
+                      return SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 0.4.sh,
+                          child: const Center(
+                              child: Text(
+                                  "Something went wrong, refresh the page")),
+                        ),
+                      );
+                    }
+
+                    //!-----    LofiiiSpecialMusicLoadingState
+                  } else if (state is LofiiiSpecialMusicLoadingState) {
                     return SliverToBoxAdapter(
                       child: SizedBox(
-                        height: 0.4.sh,
-                        child: const Center(
-                            child:
-                                Text("Something went wrong, refresh the page")),
+                        height: 0.30.sh,
+                        child: Center(
+                          child: Lottie.asset(MyAssets.lottieLoadingAnimation,
+                              width: 0.2.sw),
+                        ),
                       ),
                     );
                   }
+                  //? ---- Music State is Failure State
+                  else {
+                    return const SliverToBoxAdapter(
+                      child: NoInternetLottieAnimation(),
+                    );
+                  }
+                },
+              ),
 
-                  //!-----    LofiiiSpecialMusicLoadingState
-                } else if (state is LofiiiSpecialMusicLoadingState) {
-                  return SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 0.30.sh,
-                      child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
-                      ),
-                    ),
-                  );
-                }
-                //? ---- Music State is Failure State
-                else {
-                  return const SliverToBoxAdapter(
-                    child: NoInternetLottieAnimation(),
-                  );
-                }
-              },
-            ),
-
-            ///?----------------------Lo-fi Popular Section----------------------///
-            ///! --------------------------      Popular    Heading
-            BlocBuilder<LofiiiPopularMusicBloc, LofiiiPopularMusicState>(
-              builder: (context, state) {
-                return HeadingWithViewMoreButton(
-                    heading: "LOFIII Popular",
-                    viewMoreOnTap: () {
-                      if (state is LofiiiPopularMusicSuccessState) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ViewMorePage(
-                              topHeading: "LOFIII Popular",
-                              musicList: state.musicList,
+              ///?----------------------Lo-fi Popular Section----------------------///
+              ///! --------------------------      Popular    Heading
+              BlocBuilder<LofiiiPopularMusicBloc, LofiiiPopularMusicState>(
+                builder: (context, state) {
+                  return HeadingWithViewMoreButton(
+                      heading: "LOFIII Popular",
+                      viewMoreOnTap: () {
+                        if (state is LofiiiPopularMusicSuccessState) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewMorePage(
+                                topHeading: "LOFIII Popular",
+                                musicList: state.musicList,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    });
-              },
-            ),
+                          );
+                        }
+                      });
+                },
+              ),
 
-            ///! ----------------------------       Popular  Music List      --------------//////
-            BlocBuilder<LofiiiPopularMusicBloc, LofiiiPopularMusicState>(
-              builder: (context, state) {
-                //?----Fetching music is success
-                if (state is LofiiiPopularMusicSuccessState) {
-                  if (state.musicList.isNotEmpty) {
-                    return MusicCardsListWidget(list: state.musicList,pageStorageKey: "popularStorageKey",);
-                  } else {
+              ///! ----------------------------       Popular  Music List      --------------//////
+              BlocBuilder<LofiiiPopularMusicBloc, LofiiiPopularMusicState>(
+                builder: (context, state) {
+                  //?----Fetching music is success
+                  if (state is LofiiiPopularMusicSuccessState) {
+                    if (state.musicList.isNotEmpty) {
+                      return MusicCardsListWidget(
+                        list: state.musicList,
+                        pageStorageKey: "popularStorageKey",
+                      );
+                    } else {
+                      return SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 0.4.sh,
+                          child: const Center(
+                              child: Text(
+                                  "Something went wrong, refresh the page")),
+                        ),
+                      );
+                    }
+                  } else if (state is LofiiiPopularMusicLoadingState) {
                     return SliverToBoxAdapter(
                       child: SizedBox(
-                        height: 0.4.sh,
-                        child: const Center(
-                            child:
-                                Text("Something went wrong, refresh the page")),
+                        height: 0.30.sh,
+                        child: Center(
+                          child: Lottie.asset(MyAssets.lottieLoadingAnimation,
+                              width: 0.2.sw),
+                        ),
                       ),
                     );
                   }
-                } else if (state is LofiiiPopularMusicLoadingState) {
-                  return SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 0.30.sh,
-                      child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
-                      ),
-                    ),
-                  );
-                }
-                //? ----   Music State is Failure State
-                else {
-                  return const SliverToBoxAdapter(
-                    child: NoInternetLottieAnimation(),
-                  );
-                }
-              },
-            ),
+                  //? ----   Music State is Failure State
+                  else {
+                    return const SliverToBoxAdapter(
+                      child: NoInternetLottieAnimation(),
+                    );
+                  }
+                },
+              ),
 
-
-
-
-            ///?------------------           Artists Section      ------------------///
-            ///
-            ///!Heading
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Top Artists",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18.sp,
-                      letterSpacing: 1),
+              ///?------------------           Artists Section      ------------------///
+              ///
+              ///!Heading
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Top Artists",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp,
+                        letterSpacing: 1),
+                  ),
                 ),
               ),
-            ),
 
-            BlocBuilder<ArtistsDataBloc, ArtistsDataState>(
-              builder: (context, state) {
-                ///!------------     If Success
-                if (state is ArtistsDataSuccessState) {
-                  if (state.artistList.isNotEmpty) {
-                    return ArtistsCardsListWidget(
-                      artistList: state.artistList,
-                    );
-                  } else {
+              BlocBuilder<ArtistsDataBloc, ArtistsDataState>(
+                builder: (context, state) {
+                  ///!------------     If Success
+                  if (state is ArtistsDataSuccessState) {
+                    if (state.artistList.isNotEmpty) {
+                      return ArtistsCardsListWidget(
+                        artistList: state.artistList,
+                      );
+                    } else {
+                      return SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 0.2.sh,
+                          child: const Center(
+                              child: Text(
+                                  "Something went wrong, refresh the page")),
+                        ),
+                      );
+                    }
+                  }
+
+                  ///!---------------     If Loading
+                  else if (state is ArtistsDataLoadingState) {
                     return SliverToBoxAdapter(
                       child: SizedBox(
                         height: 0.2.sh,
-                        child: const Center(
-                            child:
-                                Text("Something went wrong, refresh the page")),
-                      ),
-                    );
-                  }
-                }
-
-                ///!---------------     If Loading
-                else if (state is ArtistsDataLoadingState) {
-                  return SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 0.2.sh,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Lottie.asset(MyAssets.lottieLoadingAnimation, width: 0.2.sw),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Lottie.asset(MyAssets.lottieLoadingAnimation,
+                                width: 0.2.sw),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }
-
-                ///!--------   If No Internet Or Server Error
-                else {
-                  return const SliverToBoxAdapter(
-                    child: NoInternetLottieAnimation(),
-                  );
-                }
-              },
-            ),
-
-            ///?----------------------       TopPicks Section        ----------------------///
-
-            ///! --------------------------      TopPicks    Heading
-            BlocBuilder<LofiiiTopPicksMusicBloc, LofiiiTopPicksMusicState>(
-              builder: (context, state) {
-                return HeadingWithViewMoreButton(
-                    heading: "LOFIII TopPicks",
-                    viewMoreOnTap: () {
-                      if (state is LofiiiTopPicksMusicSuccessState) {
-                        OneContext().push(
-                          MaterialPageRoute(
-                            builder: (context) => ViewMorePage(
-                              topHeading: "LOFIII TopPicks",
-                              musicList: state.musicList,
-                            ),
-                          ),
-                        );
-                      }
-                    });
-              },
-            ),
-
-            ///! ----------------------------       TopPicks  Music List      --------------//////
-            BlocBuilder<LofiiiTopPicksMusicBloc, LofiiiTopPicksMusicState>(
-              builder: (context, state) {
-                //?----Fetching music is success
-                if (state is LofiiiTopPicksMusicSuccessState) {
-                  if (state.musicList.isEmpty) {
-                    return SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 0.4.sh,
-                        child: const Center(
-                            child:
-                                Text("Something went wrong, refresh the page")),
-                      ),
                     );
                   }
-                  return MusicCardsListWidget(list: state.musicList, pageStorageKey: "topPicksStorageKey",);
-                } else if (state is LofiiiTopPicksMusicLoadingState) {
-                  return SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 0.30.sh,
-                      child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
-                      ),
-                    ),
-                  );
-                }
-                //? ----       Music State is Failure State
-                else {
-                  return const SliverToBoxAdapter(
-                    child: NoInternetLottieAnimation(),
-                  );
-                }
-              },
-            ),
 
-            ///-------------------------------------------------------------------------///
-            ///?----------------------Lo-fi Vibes Section----------------------///
-            ///! --------------------------      Vibes    Heading
-            BlocBuilder<LofiiiVibesMusicBloc, LofiiiVibesMusicState>(
-              builder: (context, state) {
-                return HeadingWithViewMoreButton(
-                    heading: "LOFIII Vibes",
-                    viewMoreOnTap: () {
-                      if (state is LofiiiVibesMusicSuccessState) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ViewMorePage(
-                              topHeading: "LOFIII Vibes",
-                              musicList: state.musicList,
-                            ),
-                          ),
-                        );
-                      }
-                    });
-              },
-            ),
-
-            ///! ----------------------------       Vibes  Music List      --------------//////
-            BlocBuilder<LofiiiVibesMusicBloc, LofiiiVibesMusicState>(
-              builder: (context, state) {
-                //?----Fetching music is success
-                if (state is LofiiiVibesMusicSuccessState) {
-                  if (state.musicList.isNotEmpty) {
-                    return MusicCardsListWidget(list: state.musicList, pageStorageKey: "vibesStorageKey",);
-                  } else {
-                    return SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 0.4.sh,
-                        child: const Center(
-                            child:
-                            Text("Something went wrong, refresh the page")),
-                      ),
+                  ///!--------   If No Internet Or Server Error
+                  else {
+                    return const SliverToBoxAdapter(
+                      child: NoInternetLottieAnimation(),
                     );
                   }
-                } else if (state is LofiiiVibesMusicLoadingState) {
-                  return SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 0.30.sh,
-                      child: Center(
-                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
-                      ),
-                    ),
-                  );
-                }
-                //? ----   Music State is Failure State
-                else {
-                  return const SliverToBoxAdapter(
-                    child: NoInternetLottieAnimation(),
-                  );
-                }
-              },
-            ),
-            ///-------------------------------------------------------------------------///
-
-
-
-            ///?------     Extra Sized Box
-            SliverToBoxAdapter(
-              child: Gap(
-                0.15.sh,
+                },
               ),
-            )
-          ],
+
+              ///?----------------------       TopPicks Section        ----------------------///
+
+              ///! --------------------------      TopPicks    Heading
+              BlocBuilder<LofiiiTopPicksMusicBloc, LofiiiTopPicksMusicState>(
+                builder: (context, state) {
+                  return HeadingWithViewMoreButton(
+                      heading: "LOFIII TopPicks",
+                      viewMoreOnTap: () {
+                        if (state is LofiiiTopPicksMusicSuccessState) {
+                          OneContext().push(
+                            MaterialPageRoute(
+                              builder: (context) => ViewMorePage(
+                                topHeading: "LOFIII TopPicks",
+                                musicList: state.musicList,
+                              ),
+                            ),
+                          );
+                        }
+                      });
+                },
+              ),
+
+              ///! ----------------------------       TopPicks  Music List      --------------//////
+              BlocBuilder<LofiiiTopPicksMusicBloc, LofiiiTopPicksMusicState>(
+                builder: (context, state) {
+                  //?----Fetching music is success
+                  if (state is LofiiiTopPicksMusicSuccessState) {
+                    if (state.musicList.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 0.4.sh,
+                          child: const Center(
+                              child: Text(
+                                  "Something went wrong, refresh the page")),
+                        ),
+                      );
+                    }
+                    return MusicCardsListWidget(
+                      list: state.musicList,
+                      pageStorageKey: "topPicksStorageKey",
+                    );
+                  } else if (state is LofiiiTopPicksMusicLoadingState) {
+                    return SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 0.30.sh,
+                        child: Center(
+                          child: Lottie.asset(MyAssets.lottieLoadingAnimation,
+                              width: 0.2.sw),
+                        ),
+                      ),
+                    );
+                  }
+                  //? ----       Music State is Failure State
+                  else {
+                    return const SliverToBoxAdapter(
+                      child: NoInternetLottieAnimation(),
+                    );
+                  }
+                },
+              ),
+
+              ///-------------------------------------------------------------------------///
+              ///?----------------------Lo-fi Vibes Section----------------------///
+              ///! --------------------------      Vibes    Heading
+              BlocBuilder<LofiiiVibesMusicBloc, LofiiiVibesMusicState>(
+                builder: (context, state) {
+                  return HeadingWithViewMoreButton(
+                      heading: "LOFIII Vibes",
+                      viewMoreOnTap: () {
+                        if (state is LofiiiVibesMusicSuccessState) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewMorePage(
+                                topHeading: "LOFIII Vibes",
+                                musicList: state.musicList,
+                              ),
+                            ),
+                          );
+                        }
+                      });
+                },
+              ),
+
+              ///! ----------------------------       Vibes  Music List      --------------//////
+              BlocBuilder<LofiiiVibesMusicBloc, LofiiiVibesMusicState>(
+                builder: (context, state) {
+                  //?----Fetching music is success
+                  if (state is LofiiiVibesMusicSuccessState) {
+                    if (state.musicList.isNotEmpty) {
+                      return MusicCardsListWidget(
+                        list: state.musicList,
+                        pageStorageKey: "vibesStorageKey",
+                      );
+                    } else {
+                      return SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 0.4.sh,
+                          child: const Center(
+                              child: Text(
+                                  "Something went wrong, refresh the page")),
+                        ),
+                      );
+                    }
+                  } else if (state is LofiiiVibesMusicLoadingState) {
+                    return SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 0.30.sh,
+                        child: Center(
+                          child: Lottie.asset(MyAssets.lottieLoadingAnimation,
+                              width: 0.2.sw),
+                        ),
+                      ),
+                    );
+                  }
+                  //? ----   Music State is Failure State
+                  else {
+                    return const SliverToBoxAdapter(
+                      child: NoInternetLottieAnimation(),
+                    );
+                  }
+                },
+              ),
+
+              ///-------------------------------------------------------------------------///
+
+              ///?------     Extra Sized Box
+              SliverToBoxAdapter(
+                child: Gap(
+                  0.15.sh,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -384,13 +399,7 @@ class _HomePageState extends State<HomePage> {
     ///!-----------Refresh Artist Data --------------///
     context.read<ArtistsDataBloc>().add(ArtistsDataFetchEvent());
 
-
     ///!-----------Refresh LOFIII Vibes Music --------------///
-    context
-        .read<LofiiiVibesMusicBloc>()
-        .add(LofIIIVibesMusicFetchEvent());
+    context.read<LofiiiVibesMusicBloc>().add(LofIIIVibesMusicFetchEvent());
   }
-
-
-
 }

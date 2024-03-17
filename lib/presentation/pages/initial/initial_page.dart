@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:one_context/one_context.dart';
 
 import '../../../logic/bloc/check_internet_connection/check_internet_connection_bloc.dart';
 import '../../../logic/cubit/bottom_navigation_change_page_index/bottom_navigation_index_cubit.dart';
@@ -27,8 +26,7 @@ class InitialPage extends StatefulWidget {
 
 class _InitialPageState extends State<InitialPage> {
   int backButtonPressCount = 0;
-  
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -36,7 +34,6 @@ class _InitialPageState extends State<InitialPage> {
     _showMoreMusicComingSoonMessage();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final pages = [
@@ -97,17 +94,18 @@ class _InitialPageState extends State<InitialPage> {
     );
   }
 
-
   ////!--------------- METHODS ----------------------///
   ///!-------------- Show More Music Message
-  Future<void> _showMoreMusicComingSoonMessage()async {
-
-    if(await MyHiveBoxes.settingBox.get(MyHiveKeys.showMoreMusicMessageHiveKey)) {
-      Future.delayed(const Duration(seconds: 10));
-      MyCustomSnackbars.showInfoSnackbar(
-          context, message: "More music on the way! Stay tuned 🎶",icon: Icon(EvaIcons.music));
-      await MyHiveBoxes.settingBox.put(MyHiveKeys.showMoreMusicMessageHiveKey, false);
-
+  Future<void> _showMoreMusicComingSoonMessage() async {
+    if (await MyHiveBoxes.settingBox
+            .get(MyHiveKeys.showMoreMusicMessageHiveKey) ??
+        true) {
+      Future.delayed(const Duration(seconds: 12));
+      MyCustomSnackbars.showInfoSnackbar(context,
+          message: "More music on the way! Stay tuned 🎶",
+          icon: const Icon(EvaIcons.music));
+      await MyHiveBoxes.settingBox
+          .put(MyHiveKeys.showMoreMusicMessageHiveKey, false);
     }
   }
 }
