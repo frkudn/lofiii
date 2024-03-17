@@ -23,9 +23,10 @@ class LofiiiAllMusicBloc extends Bloc<LofiiiAllMusicEvent, LofiiiAllMusicState> 
       final List<MusicModel> specialList = await _musicRepository.fetchLOFIIISpecialMusic();
       final List<MusicModel> popularList = await _musicRepository.fetchLOFIIIPopularMusic();
       final List<MusicModel> topPicksList = await _musicRepository.fetchLOFIIITopPicksMusic();
+      final List<MusicModel> vibesList = await _musicRepository.fetchLOFIIIVibesMusic();
 
       List<MusicModel> combinedList = [];
-      combinedList = [...specialList, ...popularList, ...topPicksList].toSet().toList();
+      combinedList = [...specialList, ...popularList, ...topPicksList, ...vibesList].toSet().toList();
 
 
       emit(LofiiiAllMusicSuccessState(musicList: combinedList));

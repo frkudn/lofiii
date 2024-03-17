@@ -15,8 +15,8 @@ import '../../../resources/my_assets/my_assets.dart';
 import '../../pages/player/player_page.dart';
 
 class MusicCardsListWidget extends StatelessWidget {
-  const MusicCardsListWidget({super.key, required this.list});
-
+  const MusicCardsListWidget({super.key, required this.list, required this.pageStorageKey,});
+final String pageStorageKey;
   final List<MusicModel> list;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class MusicCardsListWidget extends StatelessWidget {
           child: PageStorage(
             bucket: pageBucket,
             child: ListView.builder(
-                key: const PageStorageKey("MusicCardsPage"),
+                key: PageStorageKey(pageStorageKey),
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
 

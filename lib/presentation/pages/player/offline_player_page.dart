@@ -553,6 +553,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
       ///!-------  Change Selected Tile Index
       context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
+
     }
   }
 
@@ -577,6 +578,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
       ///!-------  Change Selected Tile Index
       context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
+
     }
   }
 }

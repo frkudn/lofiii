@@ -81,6 +81,7 @@ class LibraryPage extends StatelessWidget {
                       //!  Display the filtered favorite list using MusicCardsListWidget
                       return MusicCardsListWidget(
                         list: favoriteList,
+                        pageStorageKey: "favoriteStorageKey",
                       );
                     }
 

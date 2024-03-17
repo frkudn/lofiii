@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
+import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:lottie/lottie.dart';
 import 'package:one_context/one_context.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../logic/bloc/artists_data/artists_data_bloc.dart';
 import '../../logic/bloc/artists_data/artists_data_event.dart';
 import '../../logic/bloc/artists_data/artists_data_state.dart';
@@ -16,6 +18,9 @@ import '../../logic/bloc/lofiii_special_music/lofiii_special_music_bloc.dart';
 import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_bloc.dart';
 import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_event.dart';
 import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_state.dart';
+import '../../logic/bloc/lofiii_vibes_music/lofiii_vibes_music_bloc.dart';
+import '../../logic/bloc/lofiii_vibes_music/lofiii_vibes_music_event.dart';
+import '../../logic/bloc/lofiii_vibes_music/lofiii_vibes_music_state.dart';
 import '../../resources/my_assets/my_assets.dart';
 import '../widgets/artists_circle_avatar_list/artists_circle_cards_list_widget.dart';
 import '../widgets/heading_with_view_more_button/heading_with_view_more_button_widget.dart';
@@ -31,6 +36,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                 //?----Fetching music is success
                 if (state is LofiiiSpecialMusicSuccessState) {
                   if (state.musicList.isNotEmpty) {
-                    return MusicCardsListWidget(list: state.musicList);
+                    return MusicCardsListWidget(list: state.musicList,pageStorageKey: "specialStorageKey",);
                   } else {
                     return SliverToBoxAdapter(
                       child: SizedBox(
@@ -132,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                 //?----Fetching music is success
                 if (state is LofiiiPopularMusicSuccessState) {
                   if (state.musicList.isNotEmpty) {
-                    return MusicCardsListWidget(list: state.musicList);
+                    return MusicCardsListWidget(list: state.musicList,pageStorageKey: "popularStorageKey",);
                   } else {
                     return SliverToBoxAdapter(
                       child: SizedBox(
@@ -262,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   }
-                  return MusicCardsListWidget(list: state.musicList);
+                  return MusicCardsListWidget(list: state.musicList, pageStorageKey: "topPicksStorageKey",);
                 } else if (state is LofiiiTopPicksMusicLoadingState) {
                   return SliverToBoxAdapter(
                     child: SizedBox(
@@ -281,6 +290,68 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
+
+            ///-------------------------------------------------------------------------///
+            ///?----------------------Lo-fi Vibes Section----------------------///
+            ///! --------------------------      Vibes    Heading
+            BlocBuilder<LofiiiVibesMusicBloc, LofiiiVibesMusicState>(
+              builder: (context, state) {
+                return HeadingWithViewMoreButton(
+                    heading: "LOFIII Vibes",
+                    viewMoreOnTap: () {
+                      if (state is LofiiiVibesMusicSuccessState) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewMorePage(
+                              topHeading: "LOFIII Vibes",
+                              musicList: state.musicList,
+                            ),
+                          ),
+                        );
+                      }
+                    });
+              },
+            ),
+
+            ///! ----------------------------       Vibes  Music List      --------------//////
+            BlocBuilder<LofiiiVibesMusicBloc, LofiiiVibesMusicState>(
+              builder: (context, state) {
+                //?----Fetching music is success
+                if (state is LofiiiVibesMusicSuccessState) {
+                  if (state.musicList.isNotEmpty) {
+                    return MusicCardsListWidget(list: state.musicList, pageStorageKey: "vibesStorageKey",);
+                  } else {
+                    return SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 0.4.sh,
+                        child: const Center(
+                            child:
+                            Text("Something went wrong, refresh the page")),
+                      ),
+                    );
+                  }
+                } else if (state is LofiiiVibesMusicLoadingState) {
+                  return SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 0.30.sh,
+                      child: Center(
+                        child: Lottie.asset(MyAssets.lottieLoadingAnimation,width: 0.2.sw),
+                      ),
+                    ),
+                  );
+                }
+                //? ----   Music State is Failure State
+                else {
+                  return const SliverToBoxAdapter(
+                    child: NoInternetLottieAnimation(),
+                  );
+                }
+              },
+            ),
+            ///-------------------------------------------------------------------------///
+
+
 
             ///?------     Extra Sized Box
             SliverToBoxAdapter(
@@ -312,5 +383,14 @@ class _HomePageState extends State<HomePage> {
 
     ///!-----------Refresh Artist Data --------------///
     context.read<ArtistsDataBloc>().add(ArtistsDataFetchEvent());
+
+
+    ///!-----------Refresh LOFIII Vibes Music --------------///
+    context
+        .read<LofiiiVibesMusicBloc>()
+        .add(LofIIIVibesMusicFetchEvent());
   }
+
+
+
 }

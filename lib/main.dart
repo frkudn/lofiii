@@ -8,6 +8,7 @@ import 'package:lofiii/data/services/notification_service.dart';
 import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
+import 'package:lofiii/logic/bloc/lofiii_vibes_music/lofiii_vibes_music_bloc.dart';
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
@@ -121,6 +122,7 @@ class MyApp extends StatelessWidget {
       BlocProvider(create: (context) => LofiiiPopularMusicBloc(),),
       BlocProvider(create: (context) => LofiiiTopPicksMusicBloc(),),
       BlocProvider(create: (context) => LofiiiAllMusicBloc(),),
+      BlocProvider(create: (context) => LofiiiVibesMusicBloc(),),
       BlocProvider(create: (context) => ArtistsDataBloc(),),
       BlocProvider(create: (context) => CurrentlyPlayingMusicDataToPlayerCubit(),),
       BlocProvider(create: (context) => ShowMiniPlayerCubit(),),
