@@ -2,6 +2,7 @@
 
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 class SettingsListTileWidget extends StatelessWidget {
@@ -22,7 +23,7 @@ class SettingsListTileWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
-          leading: Icon(iconData),
+          leading: SlideInLeft(child: Icon(iconData)),
           title: Text(title),
           onTap: onTap,
         ),

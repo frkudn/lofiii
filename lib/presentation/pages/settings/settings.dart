@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,154 +33,156 @@ class _SettingsPageState extends State<SettingsPage> {
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.05.sh),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ///?-------------------   TOP SETTING HEADING  -----------------------------///
-              SizedBox(
-                height: 0.1.sh,
-                width: double.infinity,
-                child: Text(
-                  " Settings",
-                  style: TextStyle(fontSize: 19.sp, letterSpacing: 1),
-                ),
-              ),
-
-              ///!-------------------Theme SECTION-----------------------------///
-              Row(
-                children: [
-                  Text(
-                    "  APPEARANCE ",
-                    style: TextStyle(fontSize: 16.sp, letterSpacing: 1),
+          child: SlideInDown(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ///?-------------------   TOP SETTING HEADING  -----------------------------///
+                SizedBox(
+                  height: 0.1.sh,
+                  width: double.infinity,
+                  child: Text(
+                    " Settings",
+                    style: TextStyle(fontSize: 19.sp, letterSpacing: 1),
                   ),
-                  const Icon(EvaIcons.colorPalette)
-                ],
-              ),
-
-              SizedBox(
-                height: 0.01.sh,
-              ),
-
-              ///!-------------------Accent Color Switch Tile-----------------------------///
-              BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                builder: (context, state) {
-                  return ListTile(
-                    title: const Text("Accent Color"),
-                    trailing: CircleAvatar(
-                      radius: 15.spMax,
-                      backgroundColor: Color(state.accentColor),
+                ),
+            
+                ///!-------------------Theme SECTION-----------------------------///
+                Row(
+                  children: [
+                    Text(
+                      "  APPEARANCE ",
+                      style: TextStyle(fontSize: 16.sp, letterSpacing: 1),
                     ),
-                    onTap: _accentColorTileOnTap,
-                  );
-                },
-              ),
-
-              ///!-------------------Dark Mode Switch Tile-----------------------------///
-              BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                builder: (context, state) {
-                  return SwitchListTile(
-                      value: state.isDarkMode,
-                      onChanged: (value) {
-                        context.read<ThemeModeCubit>().changeThemeMode();
-                      },
-                      title: const Text("Dark Mode"));
-                },
-              ),
-
-              ///!-------------------Black Mode Switch Tile-----------------------------///
-              BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                builder: (context, state) {
-                  return Visibility(
-                    visible: state.isDarkMode,
-                    child: SwitchListTile(
-                        value: state.isBlackMode,
+                    const Icon(EvaIcons.colorPalette)
+                  ],
+                ),
+            
+                SizedBox(
+                  height: 0.01.sh,
+                ),
+            
+                ///!-------------------Accent Color Switch Tile-----------------------------///
+                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                  builder: (context, state) {
+                    return ListTile(
+                      title: const Text("Accent Color"),
+                      trailing: CircleAvatar(
+                        radius: 15.spMax,
+                        backgroundColor: Color(state.accentColor),
+                      ),
+                      onTap: _accentColorTileOnTap,
+                    );
+                  },
+                ),
+            
+                ///!-------------------Dark Mode Switch Tile-----------------------------///
+                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                  builder: (context, state) {
+                    return SwitchListTile(
+                        value: state.isDarkMode,
                         onChanged: (value) {
-                          context.read<ThemeModeCubit>().changeIntoBlackMode();
+                          context.read<ThemeModeCubit>().changeThemeMode();
                         },
-                        title: const Text("Black Mode")),
-                  );
-                },
-              ),
-
-              Gap(0.02.sh),
-
-              ///?-------------------GENERAL SECTION-----------------------------///
-              Text(
-                "  GENERAL",
-                style: TextStyle(fontSize: 16.sp, letterSpacing: 1.5),
-              ),
-
-              Gap(0.01.sh),
-
-              ///!-------------------Profile-----------------------------///
-              SettingsListTileWidget(
-                title: "Profile",
-                iconData: EvaIcons.person,
-                onTap: () {
-                  OneContext().push(MaterialPageRoute(
-                    builder: (context) => const ProfilePage(),
-                  ));
-                },
-              ),
-
-              _divider(),
-
-              ///!-------------------Equalizer-----------------------------///
-              BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                builder: (context, state) {
-                  return SettingsListTileWidget(
-                    title: "Equalizer",
-                    iconData: Icons.equalizer,
-                    onTap: equalizerOnTap,
-                  );
-                },
-              ),
-
-              _divider(),
-
-              ///!-------------------Feedback-----------------------------///
-              SettingsListTileWidget(
-                title: "Feedback",
-                iconData: Icons.feedback,
-                onTap: () async {
-                  await _feedBackButtonOnTap();
-                },
-              ),
-
-              _divider(),
-
-              ///!-------------------Privacy Policy-----------------------------///
-              SettingsListTileWidget(
-                title: "Privacy Policy",
-                iconData: Icons.policy,
-                onTap: () {
-                  OneContext().push(MaterialPageRoute(
-                    builder: (context) => const PrivacyPolicyPage(),
-                  ));
-                },
-              ),
-
-              _divider(),
-
-              ///!------------------- Licenses-----------------------------///
-              const LicenceWidget(),
-
-              _divider(),
-
-              ///!-------------------About-----------------------------///
-              SettingsListTileWidget(
-                  title: "About",
-                  iconData: CupertinoIcons.info,
+                        title: const Text("Dark Mode"));
+                  },
+                ),
+            
+                ///!-------------------Black Mode Switch Tile-----------------------------///
+                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                  builder: (context, state) {
+                    return Visibility(
+                      visible: state.isDarkMode,
+                      child: SwitchListTile(
+                          value: state.isBlackMode,
+                          onChanged: (value) {
+                            context.read<ThemeModeCubit>().changeIntoBlackMode();
+                          },
+                          title: const Text("Black Mode")),
+                    );
+                  },
+                ),
+            
+                Gap(0.02.sh),
+            
+                ///?-------------------GENERAL SECTION-----------------------------///
+                Text(
+                  "  GENERAL",
+                  style: TextStyle(fontSize: 16.sp, letterSpacing: 1.5),
+                ),
+            
+                Gap(0.01.sh),
+            
+                ///!-------------------Profile-----------------------------///
+                SettingsListTileWidget(
+                  title: "Profile",
+                  iconData: EvaIcons.person,
                   onTap: () {
                     OneContext().push(MaterialPageRoute(
-                      builder: (context) => const AboutPage(),
+                      builder: (context) => const ProfilePage(),
                     ));
-                  }),
-
-              SizedBox(
-                height: 0.1.sh,
-              ),
-            ],
+                  },
+                ),
+            
+                _divider(),
+            
+                ///!-------------------Equalizer-----------------------------///
+                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                  builder: (context, state) {
+                    return SettingsListTileWidget(
+                      title: "Equalizer",
+                      iconData: Icons.equalizer,
+                      onTap: equalizerOnTap,
+                    );
+                  },
+                ),
+            
+                _divider(),
+            
+                ///!-------------------Feedback-----------------------------///
+                SettingsListTileWidget(
+                  title: "Feedback",
+                  iconData: Icons.feedback,
+                  onTap: () async {
+                    await _feedBackButtonOnTap();
+                  },
+                ),
+            
+                _divider(),
+            
+                ///!-------------------Privacy Policy-----------------------------///
+                SettingsListTileWidget(
+                  title: "Privacy Policy",
+                  iconData: Icons.policy,
+                  onTap: () {
+                    OneContext().push(MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicyPage(),
+                    ));
+                  },
+                ),
+            
+                _divider(),
+            
+                ///!------------------- Licenses-----------------------------///
+                const LicenceWidget(),
+            
+                _divider(),
+            
+                ///!-------------------About-----------------------------///
+                SettingsListTileWidget(
+                    title: "About",
+                    iconData: CupertinoIcons.info,
+                    onTap: () {
+                      OneContext().push(MaterialPageRoute(
+                        builder: (context) => const AboutPage(),
+                      ));
+                    }),
+            
+                SizedBox(
+                  height: 0.1.sh,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -194,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
   //!/////////////////////////////////////////////////////////////////////
 
   _accentColorTileOnTap() {
-    OneContext().showModalBottomSheet(
+    OneContext.instance.showModalBottomSheet(
       elevation: 1,
       backgroundColor: Colors.transparent,
       showDragHandle: true,
@@ -203,7 +206,6 @@ class _SettingsPageState extends State<SettingsPage> {
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
         itemBuilder: (BuildContext context, int index) => _customGridTile(
-          context: context,
           colorCode: MyColor.colorHexCodesList[index],
         ),
       ),
@@ -212,13 +214,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   ///!---------------    Custom List of Accent Color
   _customGridTile({
-    required BuildContext context,
     required colorCode,
   }) {
     return InkWell(
       onTap: () {
-        context.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
-        OneContext().pop();
+       OneContext().context?.read<ThemeModeCubit>().changeAccentColor(colorCode: colorCode);
       },
       child: CircleAvatar(
         backgroundColor: Color(colorCode),

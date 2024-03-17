@@ -41,4 +41,5 @@ class MyHiveKeys {
   static const String blackModeHiveKey = "hive_black_mode";
   static const String themeAccentColorHiveKey = "hive_theme_accent_color";
   static const String showOnBoardingScreenHiveKey = "hive_show_on_boarding";
+  static const String showMoreMusicMessageHiveKey = "hive_more_music_message_key";
 }

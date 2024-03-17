@@ -27,25 +27,7 @@ class CustomGradientGlassCardWidget extends StatelessWidget {
           height:height?? 0.5.sh,
           width: width??0.8.sw,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors:
-
-                ///!--- IF DarkMode
-                themeState.isDarkMode
-                    ? [
-                  Colors.black.withOpacity(0.2),
-                  Color(themeState.accentColor)
-                      .withOpacity(0.2),
-                ]
-                    :
-
-                ///!---- IF LightMode
-                [
-                  Colors.white.withOpacity(0.2),
-                  Color(themeState.accentColor)
-                      .withOpacity(0.2),
-                ],
-              ),
+            color:   themeState.isDarkMode?Colors.black.withOpacity(0.12):Colors.white.withOpacity(0.12),
               borderRadius: BorderRadius.circular(20)),
 
           child: child,

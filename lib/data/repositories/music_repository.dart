@@ -49,4 +49,16 @@ class MusicRepository {
       throw Exception("Failed to fetch Artists");
     }
   }
+
+
+
+  ///? ------------------             LOFIII Vibes Music    ---------------///
+  Future<List<MusicModel>> fetchLOFIIIVibesMusic() async {
+    final List<dynamic> musicList = await musicData.getLOFIIIVibesMusic();
+    if (musicList.isNotEmpty) {
+      return musicList.map((e) => MusicModel.fromJson(e)).toList();
+    } else {
+      throw Exception("Failed to fetch LOFIII Vibes Music.");
+    }
+  }
 }

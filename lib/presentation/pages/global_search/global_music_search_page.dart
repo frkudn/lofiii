@@ -36,7 +36,7 @@ class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
               },
               icon: const Icon(CupertinoIcons.back)),
 
-          ///----------------- Text Field----------///
+          ///!----------------- Text Field----------------------///
           BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
             builder: (context, state) => Expanded(
               child: TextField(
@@ -71,45 +71,48 @@ class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
         fit: StackFit.expand,
         children: [
           ///     ------!              Filtered List
-          BlocBuilder<SearchSystemCubit, SearchSystemState>(
-            builder: (context, state) {
-              return ListView.builder(
-                itemCount: state.filteredlist.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: ListTile(
-                    ///------------!   List Tile On Pressed
-                    onTap: () {
-                      _playMusicMethod(state: state,  index: index);
-                    },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BlocBuilder<SearchSystemCubit, SearchSystemState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.filteredlist.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: ListTile(
+                      ///------------!   List Tile On Pressed
+                      onTap: () {
+                        _playMusicMethod(state: state,  index: index);
+                      },
 
-                    ///-----------! Music Title
-                    title: Text(state.filteredlist[index].title),
+                      ///-----------! Music Title
+                      title: Text(state.filteredlist[index].title),
 
-                    ///----------!Artist Name
-                    subtitle: Text(state.filteredlist[index].artists
-                        .join(" & ")
-                        .toString()),
+                      ///----------!Artist Name
+                      subtitle: Text(state.filteredlist[index].artists
+                          .join(" & ")
+                          .toString()),
 
-                    ///-----! Image Provider
-                    leading: Ink.image(
-                      image: CachedNetworkImageProvider(
-                        state.filteredlist[index].image,
+                      ///-----! Image Provider
+                      leading: Ink.image(
+                        image: CachedNetworkImageProvider(
+                          state.filteredlist[index].image,
+                        ),
+                        width: 0.15.sw,
+                        height: 0.1.sh,
                       ),
-                      width: 0.15.sw,
-                      height: 0.1.sh,
-                    ),
 
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(50),
-                            bottomRight: Radius.circular(50))),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(50),
+                              bottomRight: Radius.circular(50))),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
 
           ///? Mini Player ---------////

@@ -15,8 +15,8 @@ import '../../../resources/my_assets/my_assets.dart';
 import '../../pages/player/player_page.dart';
 
 class MusicCardsListWidget extends StatelessWidget {
-  const MusicCardsListWidget({super.key, required this.list});
-
+  const MusicCardsListWidget({super.key, required this.list, required this.pageStorageKey,});
+final String pageStorageKey;
   final List<MusicModel> list;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class MusicCardsListWidget extends StatelessWidget {
           child: PageStorage(
             bucket: pageBucket,
             child: ListView.builder(
-                key: const PageStorageKey("MusicCardsPage"),
+                key: PageStorageKey(pageStorageKey),
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
 
@@ -64,107 +64,109 @@ class MusicCardsListWidget extends StatelessWidget {
                         builder: (context) => const PlayerPage(),
                       );
                     },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ///!----------Cached Network Image--------///
-                        CachedNetworkImage(
-                          ///!--------Music Image Url List-------///
-                          imageUrl: list[index].image.toString(),
-
-                          ///!-------On Image Successfully Loaded---------///
-                          imageBuilder: (context, imageProvider) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              surfaceTintColor: Colors.transparent,
-                              color: Colors.transparent,
-                              margin: EdgeInsets.zero,
-                              child: Container(
-                                height: 0.25.sh,
-                                width: 0.35.sw,
-                                decoration: BoxDecoration(
+                    child: BounceInRight(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ///!----------Cached Network Image--------///
+                          CachedNetworkImage(
+                            ///!--------Music Image Url List-------///
+                            imageUrl: list[index].image.toString(),
+                      
+                            ///!-------On Image Successfully Loaded---------///
+                            imageBuilder: (context, imageProvider) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                                ),
+                                surfaceTintColor: Colors.transparent,
+                                color: Colors.transparent,
+                                margin: EdgeInsets.zero,
+                                child: Container(
+                                  height: 0.25.sh,
+                                  width: 0.35.sw,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-
-                          ///!----------------On Loading-------------///
-                          placeholder: (context, url) =>
-                              BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                            builder: (context, state) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 0.25.sh,
-                                  width: 0.35.sw,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: Color(state.accentColor).withOpacity(0.7),
-                                        width: 2),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Lottie.asset(MyAssets.lottieLoadingAnimation),
+                      
+                            ///!----------------On Loading-------------///
+                            placeholder: (context, url) =>
+                                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                              builder: (context, state) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 0.25.sh,
+                                    width: 0.35.sw,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: Color(state.accentColor).withOpacity(0.7),
+                                          width: 2),
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-
-                          ///!----------------On Error-------------///
-                          errorWidget: (context, url, error) =>
-                              BlocBuilder<ThemeModeCubit, ThemeModeState>(
-                            builder: (context, state) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 0.25.sh,
-                                  width: 0.35.sw,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: Color(state.accentColor),
-                                        width: 2),
-                                  ),
-                                  child: Center(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Icon(FontAwesomeIcons.music, size: 38.spMax,)
+                                      child: Center(
+                                        child: Lottie.asset(MyAssets.lottieLoadingAnimation),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
+                      
+                            ///!----------------On Error-------------///
+                            errorWidget: (context, url, error) =>
+                                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                              builder: (context, state) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 0.25.sh,
+                                    width: 0.35.sw,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: Color(state.accentColor),
+                                          width: 2),
+                                    ),
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(FontAwesomeIcons.music, size: 38.spMax,)
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-
-                        ///--------?             Music  Title         ----------///
-                        SizedBox(
-                          ///Set The Text Width as Image Width
-                          width: 0.35.sw,
-                          child: Text(
-                            list[index].title,
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 8.sp, fontWeight: FontWeight.w500),
-                          ),
-                        )
-                      ],
+                      
+                          ///--------?             Music  Title         ----------///
+                          SizedBox(
+                            ///Set The Text Width as Image Width
+                            width: 0.35.sw,
+                            child: Text(
+                              list[index].title,
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 8.sp, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 }),

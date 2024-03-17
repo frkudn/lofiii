@@ -12,6 +12,8 @@ import '../lofiii_popular_music/lofiii_popular_music_bloc.dart';
 import '../lofiii_special_music/lofiii_special_music_bloc.dart';
 import '../lofiii_top_picks_music/lofi_top_picks_music_bloc.dart';
 import '../lofiii_top_picks_music/lofi_top_picks_music_event.dart';
+import '../lofiii_vibes_music/lofiii_vibes_music_bloc.dart';
+import '../lofiii_vibes_music/lofiii_vibes_music_event.dart';
 
 part 'check_internet_connection_event.dart';
 part 'check_internet_connection_state.dart';
@@ -70,5 +72,13 @@ class CheckInternetConnectionBloc
           .read<ArtistsDataBloc>()
           .add(ArtistsDataFetchEvent());
     });
+
+
+
+    ///!-----------Refresh LOFIII Vibes Music --------------///
+    OneContext()
+        .context!
+        .read<LofiiiVibesMusicBloc>()
+        .add(LofIIIVibesMusicFetchEvent());
   }
 }

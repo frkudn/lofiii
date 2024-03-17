@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 
 import 'music_data_urls.dart';
 
 class MusicData extends MusicDataKeys{
-  final Dio _dio = Dio();
+  final Dio _dio = locator.get<Dio>();
 
 
   ///?----        LOFIII Special Music     ------------///
@@ -49,6 +50,19 @@ class MusicData extends MusicDataKeys{
       return response.data;
     } catch (e) {
       log("Error fetching Artists Data: $e");
+      return [];
+    }
+  }
+
+
+
+  ///?----        LOFIII Vibes Music     ------------///
+  Future<List> getLOFIIIVibesMusic() async {
+    try {
+      final response = await _dio.get(lofiiiVibesUrl);
+      return response.data;
+    } catch (e) {
+      log("Error fetching LOFIII Vibes Music: $e");
       return [];
     }
   }

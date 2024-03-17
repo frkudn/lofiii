@@ -81,7 +81,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           return CircleAvatar(
                             maxRadius: 100,
                             minRadius: 30,
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Colors.pink,
                             backgroundImage:
                                 FileImage(File(state.profileImageFilePath)),
                           );
@@ -89,7 +89,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           return const CircleAvatar(
                             maxRadius: 100,
                             minRadius: 30,
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Colors.pink,
                           );
                         }
                       },
@@ -132,7 +132,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           border: InputBorder.none,
                           prefixIcon: Icon(
                             EvaIcons.person,
-                            color: Colors.teal,
+                            color: Colors.pink,
                           ),
                           hintText: "Enter Your Name",
                           hintStyle: TextStyle(color: Colors.white70)),
@@ -146,7 +146,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         fixedSize: Size(0.8.sw, 0.06.sh),
-                        backgroundColor: Colors.teal,
+                        backgroundColor: Colors.pink,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))),
 

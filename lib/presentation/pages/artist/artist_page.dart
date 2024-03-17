@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:one_context/one_context.dart';
 
@@ -33,7 +32,7 @@ class ArtistPage extends StatefulWidget {
 }
 
 class _ArtistPageState extends State<ArtistPage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -71,16 +70,12 @@ class _ArtistPageState extends State<ArtistPage> {
                 floating: true,
               ),
 
-              //
-              // SliverToBoxAdapter(
-              //   child: Gap(0.01.sh),
-              // ),
 
               SliverToBoxAdapter(
                 child: BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
                   builder: (context, state) {
                     //?//////////////////////////////////////
-                    ///! ----------   If state is Sucess
+                    ///! ----------   If state is Success
                     ////?///////////////////////////////////
                     if (state is LofiiiAllMusicSuccessState) {
                       ///////////////////////////////////////////////////!

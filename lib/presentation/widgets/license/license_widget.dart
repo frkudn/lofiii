@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:lofiii/data/services/app_services.dart';
 import 'package:one_context/one_context.dart';
 
 import '../../../resources/consts/consts.dart';
@@ -30,13 +31,27 @@ class LicenceWidget extends StatelessWidget {
                   ),
                   Text(
                     mitLicenses,
+                    textAlign: TextAlign.start,
                     style: TextStyle(fontSize: 16),
                   ),
                   // Add more licenses as needed
                 ],
               ),
             ),
-            actions: <Widget>[
+            actions: [
+
+
+
+              TextButton(
+                onPressed: () {
+                  OneContext().showDialog(builder: (p0) => const AboutDialog(
+                    applicationVersion: AppServices.appFullVersion,
+
+                  ));
+                },
+                child: const Text('More Licenses'),
+              ),
+
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();

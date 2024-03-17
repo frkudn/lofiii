@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
+import 'package:lottie/lottie.dart';
 import 'package:one_context/one_context.dart';
 
 import '../../logic/bloc/favorite_button/favorite_button_bloc.dart';
 import '../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
 import '../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
+import '../../resources/my_assets/my_assets.dart';
 import '../widgets/heading_with_view_more_button/heading_with_view_more_button_widget.dart';
 import '../widgets/music_cards_list/music_cards_list_widget.dart';
 import '../widgets/lottie_animation/no_internet_lottie_animation_widget.dart';
@@ -79,6 +81,7 @@ class LibraryPage extends StatelessWidget {
                       //!  Display the filtered favorite list using MusicCardsListWidget
                       return MusicCardsListWidget(
                         list: favoriteList,
+                        pageStorageKey: "favoriteStorageKey",
                       );
                     }
 
@@ -100,9 +103,9 @@ class LibraryPage extends StatelessWidget {
                     return SliverToBoxAdapter(
                       child: SizedBox(
                         height: 0.30.sh,
-                        width: 1.sw,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
+                        child: Center(
+                          child: Lottie.asset(MyAssets.lottieLoadingAnimation,
+                              width: 0.2.sw),
                         ),
                       ),
                     );
@@ -115,7 +118,7 @@ class LibraryPage extends StatelessWidget {
                 },
               );
             },
-          )
+          ),
         ],
       ),
     );
