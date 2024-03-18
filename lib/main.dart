@@ -1,4 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,7 +131,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   ///?----------------   B L O C   P R O V I D E R S   -------------///
-  //!/////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
   List<SingleChildWidget> _providers() {
     return [
       BlocProvider(create: (context) => BottomNavigationIndexCubit(),),
@@ -163,3 +162,4 @@ class _MyAppState extends State<MyApp> {
     ];
   }
 }
+

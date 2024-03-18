@@ -16,6 +16,7 @@ import '../../../resources/my_assets/my_assets.dart';
 import '../../pages/global_search/global_music_search_page.dart';
 import '../../pages/settings/profile_page.dart';
 
+
 class HomePageSliverAppBar extends StatelessWidget {
   const HomePageSliverAppBar({super.key});
 

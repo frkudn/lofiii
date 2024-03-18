@@ -26,7 +26,7 @@ class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //---------? App Bar-------------------////
+      ///---------? App Bar-------------------////
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [

@@ -5,7 +5,6 @@ abstract class FetchMusicFromLocalStorageState extends Equatable{}
 
 class FetchMusicFromLocalStorageInitial extends FetchMusicFromLocalStorageState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 class FetchMusicFromLocalStorageLoadingState extends FetchMusicFromLocalStorageState {

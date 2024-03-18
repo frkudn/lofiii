@@ -5,6 +5,7 @@ import 'package:lofiii/di/dependency_injection.dart';
 
 import 'music_data_urls.dart';
 
+
 class MusicData extends MusicDataKeys{
   final Dio _dio = locator.get<Dio>();
 

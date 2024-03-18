@@ -8,7 +8,6 @@ abstract class LofiiiAllMusicState extends Equatable {}
 
 class LofiiiAllMusicInitial extends LofiiiAllMusicState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 

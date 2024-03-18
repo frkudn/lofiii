@@ -46,7 +46,7 @@ class MusicRepository {
     if (artistList.isNotEmpty) {
       return artistList.map((e) => ArtistModel.fromJson(e)).toList();
     } else {
-      throw Exception("Failed to fetch Artists");
+      throw Exception("Failed to fetch  Artists");
     }
   }
 

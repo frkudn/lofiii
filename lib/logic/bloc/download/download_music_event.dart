@@ -12,7 +12,6 @@ class DownloadNowEvent extends DownloadMusicEvent{
   final BuildContext context;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [url, fileName, context];
 
 }

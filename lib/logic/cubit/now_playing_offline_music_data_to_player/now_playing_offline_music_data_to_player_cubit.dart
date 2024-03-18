@@ -15,7 +15,7 @@ class NowPlayingOfflineMusicDataToPlayerCubit
   NowPlayingOfflineMusicDataToPlayerCubit()
       : super(  NowPlayingOfflineMusicDataToPlayerState(musicIndex: 0,futureMusicList: Future(() => []),musicTitle: "Unknown",musicArtist: "Unknown",musicListLength: 0,snapshotMusicList: []));
 
-  // Method to send updated music data to the player.
+  //! Method to send updated music data to the player.
   sendDataToPlayer(
       {
          required int musicIndex,

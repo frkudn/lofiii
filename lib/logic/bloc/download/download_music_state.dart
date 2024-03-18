@@ -14,7 +14,6 @@ class DownloadMusicLoadingState extends DownloadMusicState {
   final String fileName;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [fileName];
 }
 

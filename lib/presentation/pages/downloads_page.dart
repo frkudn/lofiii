@@ -84,7 +84,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                             child: SlideInDown(
                               duration: const Duration(milliseconds: 300),
                               child: SearchableList(
-                                ///-------- Scroll Controller ------//
+                                ///!-------- Scroll Controller ------//
                                 scrollController:
                                     locator.get<ScrollController>(),
                                 //! ----- For Storing List Position ------///

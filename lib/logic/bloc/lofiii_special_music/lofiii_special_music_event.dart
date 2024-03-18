@@ -6,7 +6,6 @@ abstract class LofiiiSpecialMusicEvent extends Equatable {}
 
 class LOFIIISpecialMusicFetchEvent extends LofiiiSpecialMusicEvent{
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }

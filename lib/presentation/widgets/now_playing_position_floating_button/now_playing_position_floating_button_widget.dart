@@ -16,6 +16,7 @@ class NowPlayingPositionFloatingButtonWidget extends StatelessWidget {
     super.key,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeModeCubit, ThemeModeState>(

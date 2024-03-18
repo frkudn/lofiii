@@ -54,7 +54,7 @@ class _PlayerPageState extends State<PlayerPage> {
         // fit: StackFit.expand,
         children: [
           ///!-------      IF LOADING SHOW THIS   ---------//
-          /// ///----------------------------   Background Colors-----------------------///
+          //////!----------------------------   Background Colors-----------------------///
           BlocBuilder<ThemeModeCubit, ThemeModeState>(
             builder: (context, state) {
               return Container(

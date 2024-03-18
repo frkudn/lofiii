@@ -5,7 +5,6 @@ abstract class LofiiiSpecialMusicState extends Equatable {}
 
 class LofiiiSpecialMusicInitial extends LofiiiSpecialMusicState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 

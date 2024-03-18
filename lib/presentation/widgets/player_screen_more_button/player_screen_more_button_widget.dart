@@ -6,7 +6,7 @@ import '../../../utils/menu_helper.dart';
 class PlayerScreenMoreButtonWidget extends StatelessWidget {
 
 
-   PlayerScreenMoreButtonWidget({
+   const PlayerScreenMoreButtonWidget({
     super.key,
   });
 
