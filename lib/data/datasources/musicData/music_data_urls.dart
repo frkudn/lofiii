@@ -6,3 +6,4 @@ abstract class MusicDataKeys {
   final String lofiiiVibesUrl = "https://bit.ly/3TnNQ4V";
 
 }
+

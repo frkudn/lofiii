@@ -11,6 +11,7 @@ class MySliverAppBarPersistentDelegate extends SliverPersistentHeaderDelegate {
   final String imageUrl;
   final String artistName;
 
+
   @override
   Widget build(BuildContext context, double shrinkOffset,
       bool overlapsContent) {

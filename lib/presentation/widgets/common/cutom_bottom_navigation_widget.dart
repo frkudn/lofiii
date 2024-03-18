@@ -19,6 +19,7 @@ class CustomBottomNavigationWidget extends StatelessWidget {
     EvaIcons.settings
   ];
 
+
   @override
   Widget build(BuildContext context) {
     final bottomNavigationIndexState = state;

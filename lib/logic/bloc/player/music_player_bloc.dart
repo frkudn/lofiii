@@ -17,7 +17,7 @@ part 'music_player_state.dart';
 class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
   final audioPlayer = locator.get<AudioPlayer>();
 
-  // Constructor for the MusicPlayerBloc class, initializing it with AudioPlayer instance.
+  //! Constructor for the MusicPlayerBloc class, initializing it with AudioPlayer instance.
   MusicPlayerBloc()
       : super(MusicPlayerLoadingState()) {
     on<MusicPlayerInitializeEvent>(_musicPlayerInitializeEvent);
@@ -31,7 +31,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     on<MusicPlayerBackwardEvent>(_musicPlayerBackwardEvent);
   }
 
-  // Method to handle MusicPlayerInitializeEvent and Play Music.
+  //! Method to handle MusicPlayerInitializeEvent and Play Music.
   FutureOr<void> _musicPlayerInitializeEvent(
       MusicPlayerInitializeEvent event, Emitter<MusicPlayerState> emit) async {
     try {

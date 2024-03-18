@@ -10,6 +10,7 @@ import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 
 
 
+
 class HeadingWithViewMoreButton extends StatelessWidget {
   const HeadingWithViewMoreButton({super.key, required this.heading,required this.viewMoreOnTap});
 

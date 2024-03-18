@@ -17,7 +17,6 @@ part 'download_music_event.dart';
 part 'download_music_state.dart';
 
 class DownloadMusicBloc extends Bloc<DownloadMusicEvent, DownloadMusicState> {
-  // final MediaDownload mediaDownloader;
   final  dio = locator.get<Dio>();
 
   DownloadMusicBloc() : super(DownloadMusicInitialState()) {

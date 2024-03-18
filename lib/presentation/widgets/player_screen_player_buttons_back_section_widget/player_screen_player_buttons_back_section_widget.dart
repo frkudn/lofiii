@@ -52,7 +52,7 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                 return BlocBuilder<NowPlayingOfflineMusicDataToPlayerCubit,
                     NowPlayingOfflineMusicDataToPlayerState>(
                   builder: (context, nowPlayingState) {
-                    ///!---- Check Music is Downloaded (Available In Local Storage ) Are Not ----------///
+                    ///!----- Check Music is Downloaded (Available In Local Storage ) Are Not ----------///
                     // // Check if music is already downloaded
                     // bool isDownloaded = nowPlayingState.snapshotMusicList
                     //     ?.any((e) => e.title.trim().toLowerCase().contains(currentlyPlayingMusicState

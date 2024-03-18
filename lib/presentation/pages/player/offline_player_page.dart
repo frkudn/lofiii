@@ -51,7 +51,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
         automaticallyImplyLeading: false,
 
-        ///!----      Drag Handle    ----///
+        ///!-----      Drag Handle    ----///
         title: SlideInUp(child: myCustomDragHandle),
         centerTitle: true,
         toolbarHeight: 0.15.sh,

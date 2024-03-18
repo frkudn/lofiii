@@ -25,19 +25,19 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
       FetchMusicFromLocalStorageInitializationEvent event,
       Emitter<FetchMusicFromLocalStorageState> emit) async {
     try {
-      // Check if storage permission is granted
+      //! Check if storage permission is granted
       if (await AppPermissionService.storagePermission()) {
         emit(FetchMusicFromLocalStorageLoadingState());
 
         Future<List<SongModel>> musicList = audioQuery.querySongs();
 
-        // Emit success state with updated music list
+        //! Emit success state with updated music list
         emit(FetchMusicFromLocalStorageSuccessState(musicsList:musicList));
       } else {
         await AppPermissionService.storagePermission();
       }
     } catch (e) {
-      // Handle any errors that occur during the process
+      //! Handle any errors that occur during the process
       emit(
           FetchMusicFromLocalStorageFailureState(failureMessage: e.toString()));
     }

@@ -13,6 +13,7 @@ class AppPermissionService {
     final int androidVersion = int.parse(androidInfo.version.release);
     bool havePermission = false;
 
+
     if (androidVersion >= 13) {
 
       await Permission.photos.request();

@@ -5,7 +5,6 @@ abstract class FetchMusicFromLocalStorageEvent extends Equatable {}
 
 class FetchMusicFromLocalStorageInitializationEvent extends FetchMusicFromLocalStorageEvent{
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }

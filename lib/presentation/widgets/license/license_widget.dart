@@ -12,6 +12,7 @@ class LicenceWidget extends StatelessWidget {
     super.key,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return SettingsListTileWidget(

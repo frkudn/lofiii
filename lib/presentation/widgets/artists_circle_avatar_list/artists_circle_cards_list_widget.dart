@@ -24,7 +24,7 @@ class ArtistsCardsListWidget extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
 
-            ///------------Total Items-------///
+            ///!------------Total Items-------///
             itemCount: artistList.length,
             itemBuilder: (context, index) {
               return GestureDetector(

@@ -15,7 +15,7 @@ class NotificationService {
   }
 
   NotificationDetails notificationDetails() {
-    // Fill in appropriate values for channelId and channelName
+    //! Fill in appropriate values for channelId and channelName
     const androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'lofiii_notification', // Change this to a unique value for your app
       'lofiii', // Change this to a unique value for your app

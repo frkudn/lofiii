@@ -8,7 +8,6 @@ abstract class MusicPlayerState extends Equatable{}
 
 class MusicPlayerLoadingState extends MusicPlayerState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 

@@ -7,7 +7,6 @@ abstract class ArtistsDataState extends Equatable {}
 
 class ArtistsDataInitialState extends ArtistsDataState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 

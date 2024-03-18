@@ -1,5 +1,6 @@
 
 class MyColor {
+
   static const teal = 0XFF008080;
   static const List<int> colorHexCodesList = [
     0XFF008080, // Teal
