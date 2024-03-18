@@ -10,6 +10,5 @@ class MyAssets{
   static const userDefaultProfileImage = "assets/user_default_profile_image.jpeg";
   static const lottieLoadingAnimation = "assets/lottie_loading_animation.json";
   static const lottieWorkInProgressAnimation = "assets/lottie_work_in_progress.json";
-  static const gradientImage = "assets/gradient_background.jpg";
 
 }
