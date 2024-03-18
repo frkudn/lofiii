@@ -132,7 +132,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   ///?----------------   B L O C   P R O V I D E R S   -------------///
-  //!/////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
   List<SingleChildWidget> _providers() {
     return [
       BlocProvider(create: (context) => BottomNavigationIndexCubit(),),
@@ -163,3 +163,4 @@ class _MyAppState extends State<MyApp> {
     ];
   }
 }
+
