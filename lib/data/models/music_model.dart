@@ -1,13 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
 
+part 'music_model.g.dart';
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class MusicModel {
-  final int id;
-  final String title;
-  final List<String> artists;
-  final String url;
-  final String image;
-
-  MusicModel({
+  const MusicModel({
     required this.id,
     required this.title,
     required this.artists,
@@ -15,23 +12,25 @@ class MusicModel {
     required this.image,
   });
 
-  factory MusicModel.fromJson(Map<String, dynamic> json) {
-    return MusicModel(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      artists: List<String>.from(json['artists'] as List),
-      url: json['url'] as String,
-      image: json['image'] as String,
-    );
-  }
+  /// The unique identifier of the music.
+  final int id;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'artists': artists,
-      'url': url,
-      'image': image,
-    };
-  }
+  /// The title of the music.
+  final String title;
+
+  /// The artist/s associated with the music.
+  final List<String> artists;
+
+  /// The public url of the music.
+  final String url;
+
+  /// The photo or cover of the music.
+  final String image;
+
+  /// Converts a `Map<String, dynamic>` into a [MusicModel] instance.
+  static MusicModel fromJson(Map<String, dynamic> json) =>
+      _$MusicModelFromJson(json);
+
+  /// Converts the current instance to a `Map<String, dynamic>`.
+  Map<String, dynamic> toJson() => _$MusicModelToJson(this);
 }
