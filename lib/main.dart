@@ -31,10 +31,13 @@ import 'logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
 import 'logic/cubit/greeting/greeting_cubit.dart';
 import 'logic/cubit/gridview_max_count/gridview_max_cout_cubit.dart';
 import 'logic/cubit/search_system/search_system_cubit.dart';
+import 'logic/cubit/searchable_list_scroll_controller/searchableList_scroll_controller_cubit.dart';
 import 'logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import 'logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import 'logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'resources/theme/themes.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,10 +63,27 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({
     super.key,
   });
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    locator.get<ScrollController>().dispose();
+    super.dispose();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +158,8 @@ class MyApp extends StatelessWidget {
       BlocProvider(create: (context) => FlipCardCubit()),
       BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc()),
       BlocProvider(create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
+      BlocProvider(create: (context) => SearchableListScrollControllerCubit()),
+
     ];
   }
 }

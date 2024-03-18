@@ -53,25 +53,26 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                     NowPlayingOfflineMusicDataToPlayerState>(
                   builder: (context, nowPlayingState) {
                     ///!---- Check Music is Downloaded (Available In Local Storage ) Are Not ----------///
-                    // Check if music is already downloaded
-                    bool isDownloaded = nowPlayingState.snapshotMusicList
-                        ?.any((e) => e.title.trim().toLowerCase().contains(currentlyPlayingMusicState
-                        .fullMusicList[currentlyPlayingMusicState.musicIndex]
-                        .title.trim().toLowerCase()))??false;
+                    // // Check if music is already downloaded
+                    // bool isDownloaded = nowPlayingState.snapshotMusicList
+                    //     ?.any((e) => e.title.trim().toLowerCase().contains(currentlyPlayingMusicState
+                    //     .fullMusicList[currentlyPlayingMusicState.musicIndex]
+                    //     .title.trim().toLowerCase()))??false;
 
-                    if (isDownloaded) {
-                      return const Center(
-                        child: Text(
-                          "Music is Already Downloaded",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w500),
-                        ),
-                      );
-                    }
+                    // if (isDownloaded) {
+                    //   return const Center(
+                    //     child: Text(
+                    //       "Music is Already Downloaded",
+                    //       style: TextStyle(
+                    //           color: Colors.white, fontWeight: FontWeight.w500),
+                    //     ),
+                    //   );
+                    // }
 
                     ///!---------- If already not Downloaded shows this
-                    else {
-                      return Column(
+                    // else {
+                      return
+                      Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ///!-------  Download Button ------////
@@ -112,7 +113,7 @@ class PlayerScreenPlayerButtonsBackSectionWidget extends StatelessWidget {
                               ),
                             ),
                           ]);
-                    }
+                    // }
                   },
                 );
               },

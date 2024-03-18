@@ -77,6 +77,7 @@ dependencies:
   flutter_local_notifications: ^17.0.0
   get_it: ^7.6.7
   animated_react_button: ^0.0.4
+#  scroll_pos: ^0.5.0
 #  avatar_glow: ^3.0.1
 #  interactive_slider: ^0.2.2
 dev_dependencies:
