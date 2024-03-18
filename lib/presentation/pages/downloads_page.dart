@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
@@ -11,8 +13,10 @@ import 'package:lofiii/presentation/pages/player/offline_player_page.dart';
 import 'package:lofiii/presentation/widgets/music_cards_list/music_cards_list_widget.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
+import '../../logic/cubit/searchable_list_scroll_controller/searchableList_scroll_controller_cubit.dart';
 import '../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../widgets/mini_music_visualizer/mini_music_visualizer_widget.dart';
+import '../widgets/now_playing_position_floating_button/now_playing_position_floating_button_widget.dart';
 
 class DownloadsPage extends StatefulWidget {
   const DownloadsPage({super.key});
@@ -29,17 +33,29 @@ class _DownloadsPageState extends State<DownloadsPage> {
     context
         .read<FetchMusicFromLocalStorageBloc>()
         .add(FetchMusicFromLocalStorageInitializationEvent());
+    locator.get<ScrollController>();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      ///!------------ App Bar ------------///
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        bottomOpacity: 0,
+        elevation: 0,
         title: Text(
           "L o c a l  M u s i c",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.sp),
         ),
       ),
+
+      ///!----------  Floating Action Button ------------------///
+      floatingActionButton: const NowPlayingPositionFloatingButtonWidget(),
+
+
+      ///!-------------   Body ---------//
       body:
 
           // !/------------------  Music List -----////
@@ -68,22 +84,22 @@ class _DownloadsPageState extends State<DownloadsPage> {
                             child: SlideInDown(
                               duration: const Duration(milliseconds: 300),
                               child: SearchableList(
-
+                                ///-------- Scroll Controller ------//
+                                scrollController:
+                                    locator.get<ScrollController>(),
                                 //! ----- For Storing List Position ------///
                                 key: const PageStorageKey("LocalMusic"),
 
                                 ///!------  Local Music List
                                 initialList: snapshot.data!,
 
-                                builder: (musicList, index, music) =>
-                                    ListTile(
-                                  selected: themeState
-                                              .localMusicSelectedTileIndex ==
-                                          index
-                                      ? true
-                                      : false,
-                                  selectedColor:
-                                      Color(themeState.accentColor),
+                                builder: (musicList, index, music) => ListTile(
+                                  selected:
+                                      themeState.localMusicSelectedTileIndex ==
+                                              index
+                                          ? true
+                                          : false,
+                                  selectedColor: Color(themeState.accentColor),
 
                                   ///!-------  On Tap
                                   onTap: () {
@@ -126,11 +142,11 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                   ),
 
                                   ///!--------  Music Visualization
-                                  trailing: themeState
-                                              .localMusicSelectedTileIndex ==
-                                          index
-                                      ? const MiniMusicVisualizerWidget()
-                                      : null,
+                                  trailing:
+                                      themeState.localMusicSelectedTileIndex ==
+                                              index
+                                          ? const MiniMusicVisualizerWidget()
+                                          : null,
                                 ),
 
                                 ///!-------  Search Filter Logic
@@ -138,8 +154,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                     .where(
                                       (music) => music.title
                                           .toLowerCase()
-                                          .contains(
-                                              value.trim().toLowerCase()),
+                                          .contains(value.trim().toLowerCase()),
                                     )
                                     .toList(),
 
@@ -162,8 +177,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
 
                                   ///------ Focus Border
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
                                 ),
                                 physics: const BouncingScrollPhysics(),
@@ -243,5 +257,16 @@ class _DownloadsPageState extends State<DownloadsPage> {
     ///!-------  Change Selected Tile Index
     context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
 
+
+    ///!-------  Save Current Playing Music Offset
+    context
+        .read<
+        SearchableListScrollControllerCubit>()
+        .updateScrollOffset(
+        scrollOffset: locator
+            .get<ScrollController>()
+            .offset);
   }
 }
+
+

@@ -2,6 +2,7 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,4 +23,5 @@ void initializeLocator(){
   locator.registerSingleton<FlipCardController>(FlipCardController());
   locator.registerSingleton<OnAudioQuery>(OnAudioQuery());
   locator.registerSingleton<MusicData>(MusicData());
+  locator.registerSingleton<ScrollController>(ScrollController());
 }

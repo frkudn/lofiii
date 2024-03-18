@@ -78,8 +78,10 @@ dependencies:
   get_it: ^7.6.7
   animated_react_button: ^0.0.4
   json_annotation: ^4.8.1
-#  avatar_glow: ^3.0.1
-#  interactive_slider: ^0.2.2
+
+
+
+
 
 dev_dependencies:
   build_runner: ^2.4.8
