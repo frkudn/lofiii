@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
-import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 
 import '../../../logic/bloc/user_profie/user_profile_bloc.dart';
 import '../../../resources/my_assets/my_assets.dart';

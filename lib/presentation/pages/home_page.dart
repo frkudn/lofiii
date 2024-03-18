@@ -1,13 +1,10 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
-import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:lottie/lottie.dart';
 import 'package:one_context/one_context.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../logic/bloc/artists_data/artists_data_bloc.dart';
 import '../../logic/bloc/artists_data/artists_data_event.dart';
 import '../../logic/bloc/artists_data/artists_data_state.dart';

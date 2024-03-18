@@ -1,10 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
-import 'package:lofiii/logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import '../../../utils/menu_helper.dart';
 

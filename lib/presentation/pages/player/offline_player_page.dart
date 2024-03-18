@@ -199,16 +199,14 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                       secondaryTrackValue:
                                                           bufferedPositionSnapshot!
                                                                   .inSeconds
-                                                                  .toDouble() ??
-                                                              0,
+                                                                  .toDouble(),
                                                       min: 0,
                                                       max: durationSnapshot!
                                                           .inSeconds
                                                           .toDouble(),
                                                       value: positionSnapshot!
                                                               .inSeconds
-                                                              .toDouble() ??
-                                                          0,
+                                                              .toDouble(),
                                                       onChanged: (value) {
                                                         context
                                                             .read<
@@ -255,8 +253,6 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                           snapshot.data!.first;
                                                       final durationSnapshot =
                                                           snapshot.data![1];
-                                                      final bufferedPositionSnapshot =
-                                                          snapshot.data!.last;
 
                                                       return Row(
                                                         mainAxisAlignment:

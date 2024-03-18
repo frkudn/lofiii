@@ -1,11 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:one_context/one_context.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/services/app_permissions_service.dart';
 import '../../../resources/hive/hive_resources.dart';
