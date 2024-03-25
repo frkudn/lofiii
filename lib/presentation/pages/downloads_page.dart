@@ -111,8 +111,6 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                         artistsName: music.artist,
                                         musicListLength: musicListLength,
                                         snapshotMusicList: musicList);
-
-
                                   },
 
                                   ///!-------  Music Icon
@@ -234,6 +232,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
 
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();
     context.read<ShowMiniPlayerCubit>().offlineMusicIsPlaying();
+    context.read<ShowMiniPlayerCubit>().youtubeMusicIsNotPlaying();
 
     // ///!-----Show Offline Player Screen ----///
     showModalBottomSheet(

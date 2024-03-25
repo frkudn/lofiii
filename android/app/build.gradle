@@ -27,9 +27,7 @@ android {
     compileSdk 34
     ndkVersion flutter.ndkVersion
 
-    defaultConfig {
-        multiDexEnabled true
-    }
+
 
 
     sourceSets {

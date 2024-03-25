@@ -226,5 +226,6 @@ class _ViewMorePageState extends State<ViewMorePage> {
 
     ///!-----        Show Mini Player-----///
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+    context.read<ShowMiniPlayerCubit>().youtubeMusicIsNotPlaying();
   }
 }

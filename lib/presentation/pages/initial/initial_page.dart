@@ -13,6 +13,7 @@ import '../downloads_page.dart';
 import '../home_page.dart';
 import '../library_page.dart';
 import '../settings/settings.dart';
+import '../youtube_music/youtube_music_page.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({
@@ -38,6 +39,7 @@ class _InitialPageState extends State<InitialPage> {
   Widget build(BuildContext context) {
     final pages = [
       const HomePage(),
+      const YoutubeMusicPage(),
       const LibraryPage(),
       const DownloadsPage(),
       const SettingsPage()

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../logic/cubit/bottom_navigation_change_page_index/bottom_navigation_index_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
@@ -14,6 +15,7 @@ class CustomBottomNavigationWidget extends StatelessWidget {
 
   final _icons = <IconData>[
     EvaIcons.home,
+    FontAwesomeIcons.youtube,
     CupertinoIcons.music_note_list,
     EvaIcons.download,
     EvaIcons.settings
@@ -40,7 +42,7 @@ class CustomBottomNavigationWidget extends StatelessWidget {
             return Container(
               margin: EdgeInsets.only(bottom: 0.01.sh),
               height: 0.08.sh,
-              width: 0.8.sw,
+              width: 0.85.sw,
               decoration: BoxDecoration(
                   color: state.isDarkMode
                       ? Theme.of(context).primaryColor
@@ -53,7 +55,7 @@ class CustomBottomNavigationWidget extends StatelessWidget {
                 itemCount: _icons.length,
                 ///Check Here
                 itemBuilder: (context, index) => Container(
-                  width: 0.2.sw,
+                  width: 0.17.sw,
                   color: Colors.transparent,
                   alignment: Alignment.center,
                   child: CircleAvatar(

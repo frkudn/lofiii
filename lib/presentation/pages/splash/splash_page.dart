@@ -12,6 +12,7 @@ import '../../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_bloc.dar
 import '../../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_event.dart';
 import '../../../logic/cubit/greeting/greeting_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
+import '../../../logic/cubit/youtube_music/youtube_music_cubit.dart';
 import '../../../resources/hive/hive_resources.dart';
 import '../../../resources/my_assets/my_assets.dart';
 import '../initial/initial_page.dart';
@@ -107,6 +108,9 @@ class _SplashPageState extends State<SplashPage> {
 
     ///?-------------Update Home Page Greeting Message -------/////
     context.read<GreetingCubit>().updateGreeting();
+
+    ///?--------------- Fetch Youtube Music ------------------///
+    context.read<YoutubeMusicCubit>().fetchMusic();
   }
 
 

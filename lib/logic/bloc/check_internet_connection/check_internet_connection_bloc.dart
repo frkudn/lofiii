@@ -4,6 +4,7 @@ import 'package:flutter/material.dart'; // Import this for BuildContext
 import 'package:lofiii/di/dependency_injection.dart';
 import 'package:one_context/one_context.dart';
 
+import '../../cubit/youtube_music/youtube_music_cubit.dart';
 import '../artists_data/artists_data_bloc.dart';
 import '../artists_data/artists_data_event.dart';
 import '../lofiii_all_music/lofiii_all_music_bloc.dart';
@@ -73,12 +74,12 @@ class CheckInternetConnectionBloc
           .add(ArtistsDataFetchEvent());
     });
 
-
-
     ///!-----------Refresh LOFIII Vibes Music --------------///
     OneContext()
         .context!
         .read<LofiiiVibesMusicBloc>()
         .add(LofIIIVibesMusicFetchEvent());
+
+    OneContext().context!.read<YoutubeMusicCubit>().fetchMusic();
   }
 }

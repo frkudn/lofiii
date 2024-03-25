@@ -11,6 +11,7 @@ import 'package:lofiii/logic/bloc/lofiii_vibes_music/lofiii_vibes_music_bloc.dar
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';
+import 'package:lofiii/logic/cubit/youtube_music/youtube_music_cubit.dart';
 import 'package:lofiii/presentation/pages/splash/splash_page.dart';
 import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
@@ -34,6 +35,7 @@ import 'logic/cubit/searchable_list_scroll_controller/searchableList_scroll_cont
 import 'logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import 'logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import 'logic/cubit/theme_mode/theme_mode_cubit.dart';
+import 'logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import 'resources/theme/themes.dart';
 
 
@@ -49,6 +51,8 @@ void main() async {
 
   // The following line will enable the Android and iOS wakelock.
   WakelockPlus.enable();
+
+
 
   //!  Initialize Hive Database
   await MyHive.initializeHive();
@@ -158,6 +162,8 @@ class _MyAppState extends State<MyApp> {
       BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc()),
       BlocProvider(create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
       BlocProvider(create: (context) => SearchableListScrollControllerCubit()),
+      BlocProvider(create: (context) => YoutubeMusicCubit()),
+      BlocProvider(create: (context) => YoutubeMusicPlayerCubit()),
 
     ];
   }

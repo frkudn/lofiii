@@ -47,6 +47,7 @@ final String pageStorageKey;
                       ///!-----Show Mini Player-----///
                       context.read<ShowMiniPlayerCubit>().showMiniPlayer();
                       context.read<ShowMiniPlayerCubit>().onlineMusicIsPlaying();
+                      context.read<ShowMiniPlayerCubit>().youtubeMusicIsNotPlaying();
 
                       ///!-----Send Current Music Data-----///
                       context
