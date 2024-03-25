@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:youtube_scrape_api/models/video.dart';
 
 import '../../../data/models/music_model.dart';
 
@@ -14,7 +15,7 @@ class CurrentlyPlayingMusicDataToPlayerCubit
   // Constructor for the cubit, initializing it with default music data.
   CurrentlyPlayingMusicDataToPlayerCubit()
       : super(const FetchCurrentPlayingMusicDataToPlayerState(
-            fullMusicList: [],musicIndex: 0));
+            fullMusicList: [],musicIndex: 0,youtubeMusicList: []));
 
   // Method to send updated music data to the player.
   sendDataToPlayer(
@@ -28,5 +29,10 @@ class CurrentlyPlayingMusicDataToPlayerCubit
     fullMusicList: fullMusicList,
       musicIndex: musicIndex,
     ));
+  }
+
+
+  sendYouTubeDataToPlayer({required List<Video> youtubeList, musicIndex}){
+    emit(state.copyWith(youtubeMusicList: youtubeList,musicIndex: musicIndex));
   }
 }

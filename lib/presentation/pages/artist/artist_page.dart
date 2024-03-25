@@ -237,6 +237,7 @@ class _ArtistPageState extends State<ArtistPage> {
 
     ///!-----Show Mini Player-----///
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+    context.read<ShowMiniPlayerCubit>().youtubeMusicIsNotPlaying();
 
     ///!-----Send Current Music Data-----///
     context.read<CurrentlyPlayingMusicDataToPlayerCubit>().sendDataToPlayer(

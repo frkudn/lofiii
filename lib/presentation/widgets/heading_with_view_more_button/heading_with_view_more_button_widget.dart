@@ -25,7 +25,7 @@ class HeadingWithViewMoreButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(heading, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.sp, letterSpacing: 1),),
+            Text(heading, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.sp, letterSpacing: 1,fontFamily: "Poppins"),),
 
             BlocBuilder<ThemeModeCubit, ThemeModeState>(
   builder: (context, state) {

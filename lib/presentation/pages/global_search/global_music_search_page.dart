@@ -21,8 +21,24 @@ class GlobalMusicSearchPage extends StatefulWidget {
 }
 
 class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
-  TextEditingController searchController = TextEditingController();
+  late TextEditingController searchController;
+  late ScrollController _scrollController;
 
+
+  @override
+  void initState() {
+    searchController = TextEditingController();
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +63,7 @@ class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
                       }
                       ///! Add
                       context.read<SearchSystemCubit>().searchNow(val: value);
+                      _scrollController.jumpTo(0);
                     },
                     controller: searchController,
                     maxLines: 1,
@@ -154,5 +171,6 @@ class _GlobalMusicSearchPageState extends State<GlobalMusicSearchPage> {
 
     ///!-----Show Mini Player-----///
     context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+    context.read<ShowMiniPlayerCubit>().youtubeMusicIsNotPlaying();
   }
 }
