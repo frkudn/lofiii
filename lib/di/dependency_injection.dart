@@ -11,6 +11,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:youtube_scrape_api/youtube_scrape_api.dart';
 import '../data/datasources/musicData/music_data_api.dart';
+import '../data/repositories/youtube_repository.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -26,5 +27,6 @@ void initializeLocator(){
   locator.registerSingleton<MusicData>(MusicData());
   locator.registerSingleton<ScrollController>(ScrollController());
   locator.registerSingleton<YoutubeDataApi>(YoutubeDataApi());
+  locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
 
 }

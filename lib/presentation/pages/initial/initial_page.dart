@@ -31,7 +31,6 @@ class _InitialPageState extends State<InitialPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _showMoreMusicComingSoonMessage();
 
   }
 
@@ -97,17 +96,5 @@ class _InitialPageState extends State<InitialPage> {
   }
 
   ////!--------------- METHODS ----------------------///
-  ///!-------------- Show More Music Message
-  Future<void> _showMoreMusicComingSoonMessage() async {
-    if (await MyHiveBoxes.settingBox
-            .get(MyHiveKeys.showMoreMusicMessageHiveKey) ??
-        true) {
-      Future.delayed(const Duration(seconds: 12));
-      MyCustomSnackbars.showInfoSnackbar(context,
-          message: "More music on the way! Stay tuned 🎶",
-          icon: const Icon(EvaIcons.music));
-      await MyHiveBoxes.settingBox
-          .put(MyHiveKeys.showMoreMusicMessageHiveKey, false);
-    }
-  }
+
 }

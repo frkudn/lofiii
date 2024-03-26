@@ -7,62 +7,23 @@ import 'package:rxdart/rxdart.dart';
 import 'package:youtube_scrape_api/models/video.dart';
 import 'package:youtube_scrape_api/youtube_scrape_api.dart';
 
+import '../../../data/repositories/youtube_repository.dart';
+
 part 'youtube_music_state.dart';
 
 class YoutubeMusicCubit extends Cubit<YoutubeMusicState> {
-  final YoutubeDataApi yt = locator.get<YoutubeDataApi>();
+  YoutubeDataApi yt = locator.get<YoutubeDataApi>();
+  YouTubeDataRepository ytRepo = locator.get<YouTubeDataRepository>();
   YoutubeMusicCubit() : super(YoutubeMusicInitialState());
 
   fetchMusic() {
     emit(YoutubeMusicLoadingState());
 
     try {
-      ///!---------------------------Future Lists--------------------------------///
-
-      Future<List<Video>> bollywoodLofi = yt.fetchPlayListVideos(
-          YoutubePlaylistsIDs.bollywoodLofiYoutubeMusicOrignal, 73);
-      Future<List<Video>> gravero =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.mashupByGravero, 17);
-      Future<List<Video>> afterMorning =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.aftermorningRevolved, 18);
-      Future<List<Video>> bollywoodChill =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.bollywoodChill, 38);
-      Future<List<Video>> fasetyaFavorite =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.fasetyaFavorite, 61);
-      Future<List<Video>> aeloLofi = yt.fetchPlayListVideos(YoutubePlaylistsIDs.AeloLofi, 5);
-
-      Future<List<Video>> fasetyaMix =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.fasetyaMix, 70);
-
-      Future<List<Video>> eternal =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.EternalLofi, 11);
-
-      Future<List<Video>> saregama =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.SaregamaLofi, 308);
-
-      Future<List<Video>> tSeriesLofi =
-          yt.fetchPlayListVideos(YoutubePlaylistsIDs.tSeriesLofi, 47);
-
-      ///!------------------- Combined List-----------------///
-      List<Future<List<Video>>> combinedFuture() {
-        return [
-          bollywoodLofi,
-          gravero,
-          afterMorning,
-          fasetyaFavorite,
-          fasetyaMix,
-          aeloLofi,
-          eternal,
-          bollywoodChill,
-          saregama,
-          tSeriesLofi,
-        ];
-      }
-
       ///------------Emit Success State--------------///
       emit(YoutubeMusicSuccessState(
-        musicList: yt.fetchTrendingMusic(),
-        favoriteFuturePlayLists: combinedFuture(),
+        musicList: ytRepo.trendingMusic(),
+        favoriteFuturePlayLists: ytRepo.combinedPlaylistsFuture(),
       ));
     }
 
@@ -76,7 +37,9 @@ class YoutubeMusicCubit extends Cubit<YoutubeMusicState> {
     emit(YoutubeMusicLoadingState());
     try {
       Future<List<Video>> searchList = yt.fetchSearchVideo(query);
-      emit(YoutubeMusicSearchState(searchList: searchList));
+      Future<List<String>> searchSuggestion = yt.fetchSuggestions(query);
+      emit(YoutubeMusicSearchState(
+          searchList: searchList, searchSuggestions: searchSuggestion));
     } catch (e) {
       emit(YoutubeMusicErrorState(errorMessage: e.toString()));
     }
