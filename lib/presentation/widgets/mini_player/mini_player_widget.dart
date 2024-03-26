@@ -395,7 +395,9 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(vertical: 8),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(20),
-                                              child: PodVideoPlayer(controller: ytState.controller,
+                                              child: PodVideoPlayer(
+                                                alwaysShowProgressBar: false,
+                                                controller: ytState.controller,
                                               overlayBuilder: (options) => const SizedBox.shrink(),
                                               ),
                                             ),
