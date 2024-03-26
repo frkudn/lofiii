@@ -19,6 +19,7 @@ import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/se
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../pages/player/player_page.dart';
 import '../../pages/youtube_music/youtube_music_player_page.dart';
+import '../my_youtube_video_player_widget/my_youtube_video_player_widget.dart';
 
 class MiniPlayerPageWidget extends StatelessWidget {
   const MiniPlayerPageWidget(
@@ -395,11 +396,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(vertical: 8),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(20),
-                                              child: PodVideoPlayer(
-                                                alwaysShowProgressBar: false,
-                                                controller: ytState.controller,
-                                              overlayBuilder: (options) => const SizedBox.shrink(),
-                                              ),
+                                              child: MyYouTubeVideoPlayerWidget(playerState: ytState,),
                                             ),
                                           );
                                         }
@@ -526,7 +523,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const YouTubeMusicPlayerPage(),
+            builder: (context) =>  YouTubeMusicPlayerPage(),
           ));
     } else {
       if (showMiniPlayerState.isOnlineMusic) {

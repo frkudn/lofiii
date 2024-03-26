@@ -15,13 +15,17 @@ import 'package:pod_player/pod_player.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
+import '../../widgets/my_youtube_video_player_widget/my_youtube_video_player_widget.dart';
 
 class YouTubeMusicPlayerPage extends StatelessWidget {
-  const YouTubeMusicPlayerPage({
+  YouTubeMusicPlayerPage({
     super.key,
   });
 
-
+  final videoPosition = signal(0);
+  final videoTotalDuration = signal(0);
+  final videoState = signal(PodVideoState.loading);
+  final videoIsBuffering = signal(true);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,15 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
           return BlocBuilder<YoutubeMusicPlayerCubit, YoutubeMusicPlayerState>(
             builder: (context, playerState) {
               if (playerState is YoutubeMusicPlayerSuccessState) {
+
+                playerState.controller.addListener(() {
+                  videoPosition.value = playerState.controller.currentVideoPosition.inSeconds;
+                  videoTotalDuration.value = playerState.controller.totalVideoLength.inSeconds;
+                  videoState.value = playerState.controller.videoState;
+                  videoIsBuffering.value = playerState.controller.isVideoBuffering;
+                });
+                
+                
                 return Scaffold(
                   backgroundColor: Colors.black,
                   extendBodyBehindAppBar: true,
@@ -58,7 +71,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                         onTap: () async {
                           context
                               .read<YoutubeMusicPlayerCubit>()
-                              .showPlayerButtons(state: playerState);
+                              .showPlayerButtonsToggle(state: playerState);
                         },
 
                         ///!-----------    Play Pause Toggle
@@ -83,22 +96,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                           ///?-------------------------------------------------------////
                           ////!--------------------------  Player --------------------///
                           ///?-------------------------------------------------------////
-                          child: PodVideoPlayer(
-                            matchFrameAspectRatioToVideo: true,
-                            matchVideoAspectRatioToFrame: true,
-                            controller: playerState.controller,
-                            alwaysShowProgressBar: false,
-                            podProgressBarConfig: const PodProgressBarConfig(
-                              bufferedBarColor: Colors.transparent,
-                              alwaysVisibleCircleHandler: false,
-                              circleHandlerRadius: 0,
-                              playingBarColor: Colors.transparent,
-                            ),
-                            overlayBuilder: (options) {
-
-                              return const SizedBox.shrink();
-                            },
-                          ),
+                          child: MyYouTubeVideoPlayerWidget(playerState: playerState,),
                         ),
                       ),
 
@@ -171,7 +169,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                           width: 1.sw,
                           child: Center(
                             child: Text(
-                              " ${FormatDuration.format(Duration(seconds: watchSignal(context,  playerState.videoPosition)))}/${FormatDuration.format(Duration(seconds: watchSignal(context, playerState.videoTotalDuration)))}",
+                              " ${FormatDuration.format(Duration(seconds: watchSignal(context,  videoPosition)))}/${FormatDuration.format(Duration(seconds: watchSignal(context, videoTotalDuration)))}",
                               style: TextStyle(
                                   color: Colors.white,
                                   shadows: const [Shadow(color: Colors.black87,offset: Offset.zero)],
@@ -230,7 +228,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                   min: 0,
                   max: playerState.controller.totalVideoLength.inSeconds
                       .toDouble(),
-                  value: watchSignal(context,  playerState.videoPosition).toDouble(),
+                  value: watchSignal(context,  videoPosition).toDouble(),
                   onChanged: (value) {
                     playerState.controller
                         .videoSeekTo(Duration(seconds: value.toInt()));
@@ -247,7 +245,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                     ///!------------ Position
                     Text(
                       FormatDuration.format(Duration(
-                              seconds: watchSignal(context,  playerState.videoPosition)))
+                              seconds: watchSignal(context,  videoPosition)))
                           .toString(),
                       style: const TextStyle(color: Colors.white),
                     ),
@@ -255,7 +253,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                     ///!---------Duration
                     Text(
                       FormatDuration.format(Duration(
-                              seconds: watchSignal(context,  playerState.videoTotalDuration)))
+                              seconds: watchSignal(context,  videoTotalDuration)))
                           .toString(),
                       style: const TextStyle(color: Colors.white),
                     ),
@@ -275,7 +273,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                           onPressed: () {
                             if (fetchState.musicIndex > 0) {
                               backwardButtonClicked(
-                                  fetchState, controller, context);
+                                  fetchState, controller, playerState);
                             }
                           },
                           icon: Icon(
@@ -306,7 +304,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       ///!---------If Loading
-                      if (watchSignal(context,  playerState.videoIsBuffering))
+                      if (watchSignal(context,  videoIsBuffering))
                         CircularProgressIndicator(
                           strokeWidth: 10.sp,
                           color: Colors.white,
@@ -316,7 +314,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                           playerState.controller.togglePlayPause();
                         },
                         icon: Icon(
-                          watchSignal(context,  playerState.videoState) ==
+                          watchSignal(context,  videoState) ==
                                   PodVideoState.playing
                               ? EvaIcons.pauseCircle
                               : EvaIcons.playCircle,
@@ -349,7 +347,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                             if (fetchState.musicIndex <
                                 fetchState.youtubeMusicList.length) {
                               nextMusicButtonClicked(
-                                  fetchState, controller, context);
+                                  fetchState, controller, playerState);
                             }
                           },
                           icon: Icon(
@@ -405,7 +403,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     ///!---------If Loading
-                    if (watchSignal(context,  playerState.videoIsBuffering))
+                    if (watchSignal(context,  videoIsBuffering))
                       CircularProgressIndicator(
                         strokeWidth: 7.sp,
                         color: Colors.white,
@@ -415,7 +413,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                         playerState.controller.togglePlayPause();
                       },
                       icon: Icon(
-                        watchSignal(context,  playerState.videoState) ==
+                        watchSignal(context,  videoState) ==
                                 PodVideoState.playing
                             ? EvaIcons.pauseCircle
                             : EvaIcons.playCircle,
@@ -464,7 +462,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                         min: 0,
                         max: playerState.controller.totalVideoLength.inSeconds
                             .toDouble(),
-                        value: watchSignal(context,  playerState.videoPosition).toDouble(),
+                        value: watchSignal(context,  videoPosition).toDouble(),
                         onChanged: (value) {
                           playerState.controller
                               .videoSeekTo(Duration(seconds: value.toInt()));
@@ -482,7 +480,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                           Text(
                             FormatDuration.format(Duration(
                                     seconds:
-                                        watchSignal(context,  playerState.videoPosition)))
+                                        watchSignal(context,  videoPosition)))
                                 .toString(),
                             style: const TextStyle(color: Colors.white),
                           ),
@@ -491,7 +489,7 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
                           Text(
                             FormatDuration.format(Duration(
                                     seconds: watchSignal(
-                                        context,  playerState.videoTotalDuration)))
+                                        context,  videoTotalDuration)))
                                 .toString(),
                             style: const TextStyle(color: Colors.white),
                           ),
@@ -539,15 +537,18 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
   void nextMusicButtonClicked(
       FetchCurrentPlayingMusicDataToPlayerState fetchState,
       PodPlayerController controller,
-      BuildContext context) {
+      YoutubeMusicPlayerSuccessState playerState
+      ) {
     int index = fetchState.musicIndex;
     if (index < fetchState.youtubeMusicList.length) {
       index++;
 
+
+      OneContext().context!.read<YoutubeMusicPlayerCubit>().hidePlayerButtons(state: playerState);
       controller.changeVideo(
           playVideoFrom: PlayVideoFrom.youtube(
               fetchState.youtubeMusicList[index].videoId.toString()));
-      context
+      OneContext().context!
           .read<CurrentlyPlayingMusicDataToPlayerCubit>()
           .sendYouTubeDataToPlayer(
               youtubeList: fetchState.youtubeMusicList, musicIndex: index);
@@ -557,15 +558,17 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
   void backwardButtonClicked(
       FetchCurrentPlayingMusicDataToPlayerState fetchState,
       PodPlayerController controller,
-      BuildContext context) {
+      YoutubeMusicPlayerSuccessState playerState
+      ) {
     int index = fetchState.musicIndex;
     if (index > 0) {
       index--;
 
+      OneContext().context!.read<YoutubeMusicPlayerCubit>().hidePlayerButtons(state: playerState);
       controller.changeVideo(
           playVideoFrom: PlayVideoFrom.youtube(
               fetchState.youtubeMusicList[index].videoId.toString()));
-      context
+      OneContext().context!
           .read<CurrentlyPlayingMusicDataToPlayerCubit>()
           .sendYouTubeDataToPlayer(
               youtubeList: fetchState.youtubeMusicList, musicIndex: index);
@@ -582,3 +585,5 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
         inactiveTrackColor: Colors.grey.withOpacity(0.5));
   }
 }
+
+

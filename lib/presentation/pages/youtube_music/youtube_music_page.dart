@@ -317,7 +317,7 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
     ///!-----Show Player Screen ----///
 
     OneContext().push(MaterialPageRoute(
-      builder: (context) =>  const YouTubeMusicPlayerPage(),
+      builder: (context) =>   YouTubeMusicPlayerPage(),
     ));
 
     ///!-----Send Current Music Data-----///

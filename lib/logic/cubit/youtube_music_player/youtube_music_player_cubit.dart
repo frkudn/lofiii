@@ -16,10 +16,6 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
   YoutubeMusicPlayerCubit() : super(YoutubeMusicPlayerInitialState());
 
   initializePlayer({required videoId}) async {
-    final videoPosition = signal(0);
-    final videoTotalDuration = signal(0);
-    final videoState = signal(PodVideoState.loading);
-    final videoIsBuffering = signal(true);
     emit(YoutubeMusicPlayerLoadingState());
     final controller = PodPlayerController(
         podPlayerConfig: const PodPlayerConfig(
@@ -32,44 +28,40 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
         playVideoFrom: PlayVideoFrom.youtube(videoId))
       ..initialise();
 
-    controller.addListener(() {
-      videoPosition.value = controller.currentVideoPosition.inSeconds;
-      videoTotalDuration.value = controller.totalVideoLength.inSeconds;
-      videoState.value = controller.videoState;
-      videoIsBuffering.value = controller.isVideoBuffering;
-    });
-
     emit(YoutubeMusicPlayerSuccessState(
-        controller: controller,
-        screenLock: false,
-        showPlayerButtons: false,
-        showVideoPositionOnHDragging: false,
-        videoPosition: videoPosition,
-        videoTotalDuration: videoTotalDuration,
-        videoState: videoState,
-        videoIsBuffering: videoIsBuffering));
+      controller: controller,
+      screenLock: false,
+      showPlayerButtons: false,
+      showVideoPositionOnHDragging: false,
+    ));
   }
 
   showCurrentPositionOnHorizontalDragging(
       {required YoutubeMusicPlayerState state}) async {
     if (state is YoutubeMusicPlayerSuccessState) {
       emit(state.copyWith(showVideoPositionOnHDragging: true));
-      await Future.delayed(const Duration(seconds: 2)).then((value) {
+      await Future.delayed(const Duration(milliseconds: 2400)).then((value) {
         emit(state.copyWith(showVideoPositionOnHDragging: false));
       });
     }
   }
 
-  showPlayerButtons({required YoutubeMusicPlayerState state}) async {
+  showPlayerButtonsToggle({required YoutubeMusicPlayerState state}) async {
     if (state is YoutubeMusicPlayerSuccessState) {
       emit(state.copyWith(showPlayerButtons: true));
-      await Future.delayed(const Duration(seconds: 5)).then((value) {
+      await Future.delayed(const Duration(seconds: 6)).then((value) {
         emit(state.copyWith(showPlayerButtons: false));
       });
     }
   }
 
-  sreenLockToggle({required YoutubeMusicPlayerState state}) async {
+  hidePlayerButtons({required YoutubeMusicPlayerState state}) async {
+    if (state is YoutubeMusicPlayerSuccessState) {
+      emit(state.copyWith(showPlayerButtons: false));
+    }
+  }
+
+  screenLockToggle({required YoutubeMusicPlayerState state}) async {
     if (state is YoutubeMusicPlayerSuccessState) {
       emit(state.copyWith(screenLock: !state.screenLock));
     }
@@ -81,5 +73,3 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
     }
   }
 }
-
-
