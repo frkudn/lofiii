@@ -27,12 +27,6 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage> {
   int backButtonPressCount = 0;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
