@@ -18,8 +18,22 @@ import '../../../logic/cubit/youtube_music_player/youtube_music_player_cubit.dar
 import '../../../resources/my_assets/my_assets.dart';
 import '../../widgets/youtube_favorite_playlist/youtube_favorite_playlists_widget.dart';
 
-class YoutubeMusicPage extends StatelessWidget {
+class YoutubeMusicPage extends StatefulWidget {
   const YoutubeMusicPage({super.key});
+
+  @override
+  State<YoutubeMusicPage> createState() => _YoutubeMusicPageState();
+}
+
+class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
+
+
+  @override
+  void initState() {
+    ///?--------------- Fetch Youtube Music ------------------///
+    context.read<YoutubeMusicCubit>().fetchMusic();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +51,7 @@ class YoutubeMusicPage extends StatelessWidget {
                   fontSize: 18.sp),
             ),
             const Icon(FontAwesomeIcons.youtube),
-            Text(
-              "  Beta",
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 11.sp,
-                  color: Colors.red.shade900),
-            ),
+
           ],
         ),
         actions: [
@@ -84,7 +92,6 @@ class YoutubeMusicPage extends StatelessWidget {
 
               ///!------------------------------------ Trending List
               SizedBox(
-                // color: Colors.amber,
                 height: 0.25.sh,
                 width: 1.sw,
                 child: BlocBuilder<YoutubeMusicCubit, YoutubeMusicState>(
@@ -97,7 +104,7 @@ class YoutubeMusicPage extends StatelessWidget {
                             return ListView.builder(
                               physics: const BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
-                              itemCount: snapshot.data?.length ?? 0,
+                              itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
                                 ///!-------- Video Item
                                 final video = snapshot.data![index];
@@ -117,7 +124,6 @@ class YoutubeMusicPage extends StatelessWidget {
                                             MainAxisAlignment.center,
                                         children: [
                                           ///!--------- Music Thumbnail
-                                          ///!----------Cached Network Image--------///
                                           CachedNetworkImage(
                                             ///!--------Music Image Url List-------///
                                             imageUrl: video

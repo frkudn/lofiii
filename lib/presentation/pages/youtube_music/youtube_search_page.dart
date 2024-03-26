@@ -50,11 +50,10 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
               ///!-----------------------Search Text Field --------------------------///
               Row(
                 children: [
-                  ///----------Back Button------//
+                  ///!----------Back Button------//
                   IconButton(
                       onPressed: () {
                         OneContext().pop();
-
                       },
                       icon: const Icon(
                         CupertinoIcons.back,

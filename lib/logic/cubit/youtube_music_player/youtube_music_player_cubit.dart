@@ -16,12 +16,11 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
   YoutubeMusicPlayerCubit() : super(YoutubeMusicPlayerInitialState());
 
   initializePlayer({required videoId}) async {
+    emit(YoutubeMusicPlayerLoadingState());
     final videoPosition = signal(0);
     final videoTotalDuration = signal(0);
     final videoState = signal(PodVideoState.loading);
     final videoIsBuffering = signal(true);
-
-    emit(YoutubeMusicPlayerLoadingState());
     final controller = PodPlayerController(
         podPlayerConfig: const PodPlayerConfig(
           videoQualityPriority: [1080, 720, 480, 360, 240],

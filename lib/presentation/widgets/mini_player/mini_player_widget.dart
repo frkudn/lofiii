@@ -78,7 +78,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
                         margin:
                             EdgeInsets.only(bottom: bottomMargin ?? 0.06.sh),
                         height: playerHeight ?? 0.1.sh,
-                        width: playerWidth ?? 0.8.sw,
+                        width: playerWidth ?? 0.85.sw,
                         decoration: BoxDecoration(
                           gradient: themeState.isDarkMode
                               ? LinearGradient(colors: [
@@ -386,36 +386,74 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 6),
                                 child: Row(
                                   children: [
-                                    CachedNetworkImage(
-                                      imageUrl: musicDataState
-                                          .youtubeMusicList[
-                                              musicDataState.musicIndex]
-                                          .thumbnails!
-                                          .last
-                                          .url
-                                          .toString(),
-                                      imageBuilder: (context, imageProvider) =>
+                                    ///!-------- Thumbnail
+                                    BlocBuilder<YoutubeMusicPlayerCubit,
+                                        YoutubeMusicPlayerState>(
+                                      builder: (context, ytState) {
+                                        if(ytState is YoutubeMusicPlayerSuccessState){
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 8),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(20),
+                                              child: PodVideoPlayer(controller: ytState.controller,
+                                              overlayBuilder: (options) => const SizedBox.shrink(),
+                                              ),
+                                            ),
+                                          );
+                                        }
 
-                                          ///!---- Animation
-                                          SpinPerfect(
-                                        infinite: true,
-                                        duration: const Duration(seconds: 15),
-                                        child: CircleAvatar(
-                                          backgroundImage: imageProvider,
-                                          radius: 19.spMax,
-                                        ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          CircleAvatar(
-                                        radius: 19.spMax,
-                                        child: Icon(
-                                          FontAwesomeIcons.music,
-                                          size: 12.spMax,
-                                          color: Color(themeState.accentColor),
-                                        ),
-                                      ),
+                                        else {
+                                          return CachedNetworkImage(
+                                            imageUrl: musicDataState
+                                                .youtubeMusicList[
+                                            musicDataState.musicIndex]
+                                                .thumbnails!
+                                                .last
+                                                .url
+                                                .toString(),
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+
+                                            ///!---- Animation
+                                            SpinPerfect(
+                                              infinite: true,
+                                              duration:
+                                              const Duration(seconds: 15),
+                                              child: CircleAvatar(
+                                                backgroundImage: imageProvider,
+                                                radius: 19.spMax,
+                                              ),
+                                            ),
+                                            placeholder: (context, url) =>
+                                                CircleAvatar(
+                                                  radius: 19.spMax,
+                                                  child: Icon(
+                                                    FontAwesomeIcons.video,
+                                                    size: 12.spMax,
+                                                    color:
+                                                    Color(
+                                                        themeState.accentColor),
+                                                  ),
+                                                ),
+                                            errorWidget: (context, url,
+                                                error) =>
+                                                CircleAvatar(
+                                                  radius: 19.spMax,
+                                                  child: Icon(
+                                                    FontAwesomeIcons.music,
+                                                    size: 12.spMax,
+                                                    color:
+                                                    Color(
+                                                        themeState.accentColor),
+                                                  ),
+                                                ),
+                                          );
+                                        }
+                                      },
                                     ),
                                     const Gap(5),
+
+                                    ///!------ Title & Artist
                                     Expanded(
                                       flex: 2,
                                       child: Column(
@@ -434,8 +472,10 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                                 .toString(),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style:  TextStyle(
-                                                fontWeight: FontWeight.bold, fontSize: 11.sp, ),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 11.sp,
+                                            ),
                                           ),
 
                                           ///-----!  Music Artists
@@ -445,16 +485,13 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                                         musicDataState
                                                             .musicIndex]
                                                     .channelName ??
-                                                "...",
+                                                "",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 9.sp, fontFamily: "Poppins"),
+                                            style: TextStyle(
+                                                fontSize: 9.sp,
+                                                fontFamily: "Poppins"),
                                           ),
-
-
-
-
-
                                         ],
                                       ),
                                     ),
