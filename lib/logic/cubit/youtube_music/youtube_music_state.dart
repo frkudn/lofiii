@@ -28,12 +28,13 @@ final class YoutubeMusicSuccessState extends YoutubeMusicState {
 
 
 final class YoutubeMusicSearchState extends YoutubeMusicState{
-  YoutubeMusicSearchState({required this.searchList});
+  YoutubeMusicSearchState({required this.searchList, required this.searchSuggestions});
 final Future<List<Video>> searchList;
+final Future<List<String>> searchSuggestions;
 
   @override
   // TODO: implement props
-  List<Object?> get props => [searchList];
+  List<Object?> get props => [searchList, searchSuggestions];
 }
 
 final class YoutubeMusicErrorState extends YoutubeMusicState {

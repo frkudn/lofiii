@@ -5,10 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
-import 'package:lofiii/presentation/widgets/music_cards_list/music_cards_list_widget.dart';
+import 'package:one_context/one_context.dart';
 import 'package:youtube_scrape_api/models/video.dart';
 
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
@@ -46,7 +45,6 @@ class _YouTubeFavoritePlaylistPageState
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-
         children: [
           ///!------------------ Background Image -------------///
           ImageFiltered(
@@ -75,7 +73,9 @@ class _YouTubeFavoritePlaylistPageState
                 width: 1.sw,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.white.withOpacity(0.3),strokeAlign: BorderSide.strokeAlignInside),
+                  border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      strokeAlign: BorderSide.strokeAlignInside),
                   image: DecorationImage(
                       image: CachedNetworkImageProvider(
                         widget.playlistThumbnail.toString(),
@@ -84,7 +84,6 @@ class _YouTubeFavoritePlaylistPageState
                 ),
                 child: Stack(
                   children: [
-
                     ///!------ Back Button
                     IconButton(
                         onPressed: () {
@@ -118,15 +117,13 @@ class _YouTubeFavoritePlaylistPageState
                 child: FutureBuilder(
                     future: widget.musicList,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                          return const Expanded(
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Expanded(
                           child: Center(
                             child: CircularProgressIndicator(),
                           ),
                         );
-                      }
-                      else {
+                      } else {
                         if (snapshot.hasData) {
                           return ListView.builder(
                             shrinkWrap: true,
@@ -138,35 +135,40 @@ class _YouTubeFavoritePlaylistPageState
                                   .data![index].thumbnails!.last.url
                                   .toString();
                               final title =
-                              snapshot.data![index].title.toString();
+                                  snapshot.data![index].title.toString();
                               final videoId =
-                              snapshot.data![index].videoId.toString();
+                                  snapshot.data![index].videoId.toString();
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 3, horizontal: 4),
-                                child:
-                                BlocBuilder<ThemeModeCubit, ThemeModeState>(
+                                child: BlocBuilder<ThemeModeCubit,
+                                    ThemeModeState>(
                                   builder: (context, themeState) {
                                     ///!--- Tile
                                     return ListTile(
                                       onTap: () {
-                                        _listTileOnTap(
-                                            context, videoId, snapshot, index);
+                                        _listTileOnTap(videoId, snapshot,
+                                            index, );
                                       },
                                       titleTextStyle: TextStyle(
-                                          color: Colors.white.withOpacity(0.9)),
+                                          color: Colors.white
+                                              .withOpacity(0.9)),
                                       iconColor: Colors.white,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius:
+                                            BorderRadius.circular(10),
                                       ),
-                                      tileColor: Color(themeState.accentColor)
-                                          .withOpacity(0.1),
+                                      tileColor:
+                                          Color(themeState.accentColor)
+                                              .withOpacity(0.1),
+
                                       ///! ---- Thumbnail
                                       leading: CircleAvatar(
                                         maxRadius: 25.spMax,
                                         minRadius: 20.spMin,
                                         backgroundImage:
-                                        CachedNetworkImageProvider(thumbnail),
+                                            CachedNetworkImageProvider(
+                                                thumbnail),
                                       ),
 
                                       ///! ---- title
@@ -176,7 +178,6 @@ class _YouTubeFavoritePlaylistPageState
                                           fontSize: 14.sp,
                                         ),
                                       ),
-
                                     );
                                   },
                                 ),
@@ -191,15 +192,12 @@ class _YouTubeFavoritePlaylistPageState
                             ),
                           );
                         } else {
-                          return const Expanded(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
                         }
                       }
-                    }
-                    ),
+                    }),
               ),
             ],
           ),
@@ -210,22 +208,29 @@ class _YouTubeFavoritePlaylistPageState
 
   ///?------------------------------------------------------------------------------------------------////
   ///!----------------------------------------------  Methods ---------------------------------------/////
-  void _listTileOnTap(BuildContext context, String videoId,
-      AsyncSnapshot<List<Video>> snapshot, int index) {
-    context.read<YoutubeMusicPlayerCubit>().initializePlayer(videoId: videoId);
+  void _listTileOnTap(String videoId, AsyncSnapshot<List<Video>> snapshot,
+      int index, ) {
+
+
+    ///!---- Initialize Player
+    OneContext()
+        .context!
+        .read<YoutubeMusicPlayerCubit>()
+        .initializePlayer(videoId: videoId);
 
     ///!-----Show Player Screen ----///
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const YouTubeMusicPlayerPage(),
-        )).then((value) {
+    OneContext()
+        .push(MaterialPageRoute(
+      builder: (context) =>  YouTubeMusicPlayerPage(),
+    ))
+        .then((value) {
       ///!-----Show Mini Player-----///
-      context.read<ShowMiniPlayerCubit>().showMiniPlayer();
-      context.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
+      OneContext().context!.read<ShowMiniPlayerCubit>().showMiniPlayer();
+      OneContext().context!.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
 
       ///!-----Send Current Music Data-----///
-      context
+      OneContext()
+          .context!
           .read<CurrentlyPlayingMusicDataToPlayerCubit>()
           .sendYouTubeDataToPlayer(
               youtubeList: snapshot.data!, musicIndex: index);

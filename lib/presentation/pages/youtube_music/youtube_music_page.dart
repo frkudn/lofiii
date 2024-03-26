@@ -8,6 +8,7 @@ import 'package:lofiii/logic/cubit/youtube_music/youtube_music_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_search_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:one_context/one_context.dart';
 import 'package:youtube_scrape_api/models/video.dart';
 
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
@@ -17,20 +18,8 @@ import '../../../logic/cubit/youtube_music_player/youtube_music_player_cubit.dar
 import '../../../resources/my_assets/my_assets.dart';
 import '../../widgets/youtube_favorite_playlist/youtube_favorite_playlists_widget.dart';
 
-class YoutubeMusicPage extends StatefulWidget {
+class YoutubeMusicPage extends StatelessWidget {
   const YoutubeMusicPage({super.key});
-
-  @override
-  State<YoutubeMusicPage> createState() => _YoutubeMusicPageState();
-}
-
-class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
-  @override
-  void initState() {
-    ///?--------------- Fetch Youtube Music ------------------///
-    context.read<YoutubeMusicCubit>().fetchMusic();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +31,18 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
           children: [
             Text(
               "LOFIIITube ",
-              style: TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w500, fontSize: 18.sp),
+              style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18.sp),
             ),
             const Icon(FontAwesomeIcons.youtube),
             Text(
               "  Beta",
-              style: TextStyle( fontWeight: FontWeight.w500, fontSize: 11.sp, color: Colors.red.shade900),
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 11.sp,
+                  color: Colors.red.shade900),
             ),
           ],
         ),
@@ -114,12 +109,8 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                     child: GestureDetector(
                                       ///!--------------------------------------- ON TAP
                                       onTap: () {
-                                        _trendingCardOnTap(
-                                          context,
-                                          video,
-                                          snapshot,
-                                          index,
-                                        );
+                                        _trendingCardOnTap( video,
+                                            snapshot, index, );
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -129,7 +120,8 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                           ///!----------Cached Network Image--------///
                                           CachedNetworkImage(
                                             ///!--------Music Image Url List-------///
-                                            imageUrl: video.thumbnails!.last.url
+                                            imageUrl: video
+                                                .thumbnails!.last.url
                                                 .toString(),
 
                                             ///!-------On Image Successfully Loaded---------///
@@ -139,9 +131,11 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Card(
-                                                shape: RoundedRectangleBorder(
+                                                shape:
+                                                    RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(10),
+                                                      BorderRadius.circular(
+                                                          10),
                                                 ),
                                                 surfaceTintColor:
                                                     Colors.transparent,
@@ -152,8 +146,8 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                                   width: 0.65.sw,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                        BorderRadius
+                                                            .circular(10),
                                                     image: DecorationImage(
                                                       image: imageProvider,
                                                       fit: BoxFit.cover,
@@ -170,28 +164,33 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                               builder: (context, state) {
                                                 return Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(
+                                                          8.0),
                                                   child: Container(
                                                     height: 0.18.sh,
                                                     width: 0.65.sw,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.transparent,
+                                                    decoration:
+                                                        BoxDecoration(
+                                                      color: Colors
+                                                          .transparent,
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                          BorderRadius
+                                                              .circular(10),
                                                       border: Border.all(
                                                           color: Color(state
                                                                   .accentColor)
-                                                              .withOpacity(0.7),
+                                                              .withOpacity(
+                                                                  0.7),
                                                           width: 2),
                                                     ),
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
+                                                          const EdgeInsets
+                                                              .all(8.0),
                                                       child: Center(
-                                                        child: Lottie.asset(MyAssets
-                                                            .lottieLoadingAnimation),
+                                                        child: Lottie.asset(
+                                                            MyAssets
+                                                                .lottieLoadingAnimation),
                                                       ),
                                                     ),
                                                   ),
@@ -202,20 +201,24 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                             ///!----------------On Error-------------///
                                             errorWidget:
                                                 (context, url, error) =>
-                                                    BlocBuilder<ThemeModeCubit,
+                                                    BlocBuilder<
+                                                        ThemeModeCubit,
                                                         ThemeModeState>(
                                               builder: (context, state) {
                                                 return Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(
+                                                          8.0),
                                                   child: Container(
                                                     height: 0.18.sh,
                                                     width: 0.65.sw,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.transparent,
+                                                    decoration:
+                                                        BoxDecoration(
+                                                      color: Colors
+                                                          .transparent,
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                          BorderRadius
+                                                              .circular(10),
                                                       border: Border.all(
                                                           color: Color(state
                                                               .accentColor),
@@ -243,7 +246,8 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                                             video.title.toString(),
                                             maxLines: 1,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 12.sp),
+                                            style:
+                                                TextStyle(fontSize: 12.sp),
                                           )
                                         ],
                                       ),
@@ -259,11 +263,7 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                           }
                         },
                       );
-                    } else if (state is YoutubeMusicLoadingState) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
+                    }  else {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
@@ -300,37 +300,32 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
   ///?------------------------------------------------------------------------///
   ///!-------------------------------- Methods ------------------------------///
 
-  void _trendingCardOnTap(
-    BuildContext context,
-    Video video,
-    AsyncSnapshot<List<Video>> snapshot,
-    int index,
-  ) async {
-    context
-        .read<YoutubeMusicPlayerCubit>()
+  void _trendingCardOnTap(Video video,
+      AsyncSnapshot<List<Video>> snapshot, int index,) async {
+
+
+    ///!---- Initialize Player
+        OneContext().context!.read<YoutubeMusicPlayerCubit>()
         .initializePlayer(videoId: video.videoId);
 
     ///!-----Show Player Screen ----///
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const YouTubeMusicPlayerPage(),
-        )).then((value) {
-      ///!-----Show Mini Player-----///
-      context.read<ShowMiniPlayerCubit>().showMiniPlayer();
-      context.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
+    OneContext().push(MaterialPageRoute(
+      builder: (context) =>  const YouTubeMusicPlayerPage(),
+    ));
 
-      ///!-----Send Current Music Data-----///
-      context
-          .read<CurrentlyPlayingMusicDataToPlayerCubit>()
-          .sendYouTubeDataToPlayer(
-              youtubeList: snapshot.data!, musicIndex: index);
-    });
+    ///!-----Send Current Music Data-----///
+        OneContext().context!.read<CurrentlyPlayingMusicDataToPlayerCubit>()
+        .sendYouTubeDataToPlayer(
+            youtubeList: snapshot.data!, musicIndex: index);
+
+    ///!-----Show Mini Player-----///
+        OneContext().context!.read<ShowMiniPlayerCubit>().showMiniPlayer();
+        OneContext().context!.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
   }
 
   Future _onRefresh() async {
     ///?--------------- Fetch Youtube Music ------------------///
-    context.read<YoutubeMusicCubit>().fetchMusic();
+    OneContext().context!.read<YoutubeMusicCubit>().fetchMusic();
   }
 }

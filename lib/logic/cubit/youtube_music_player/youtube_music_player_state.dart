@@ -21,6 +21,10 @@ final class YoutubeMusicPlayerSuccessState extends YoutubeMusicPlayerState {
     required this.showPlayerButtons,
     required this.showVideoPositionOnHDragging,
     required this.screenLock,
+    required this.videoPosition,
+    required this.videoTotalDuration,
+    required this.videoIsBuffering,
+    required this.videoState,
 
   });
   final PodPlayerController controller;
@@ -28,6 +32,11 @@ final class YoutubeMusicPlayerSuccessState extends YoutubeMusicPlayerState {
   bool showVideoPositionOnHDragging;
   bool showPlayerButtons;
   bool screenLock;
+
+  final videoPosition;
+  final videoTotalDuration ;
+  final videoState ;
+  final videoIsBuffering ;
 
   YoutubeMusicPlayerSuccessState copyWith(
       {showVideoPositionOnHDragging, showPlayerButtons, rotateScreen, screenLock}) {
@@ -37,6 +46,10 @@ final class YoutubeMusicPlayerSuccessState extends YoutubeMusicPlayerState {
       showPlayerButtons: showPlayerButtons ?? this.showPlayerButtons,
       showVideoPositionOnHDragging:
           showVideoPositionOnHDragging ?? this.showVideoPositionOnHDragging,
+      videoIsBuffering: videoIsBuffering,
+      videoState: videoState,
+      videoPosition: videoPosition,
+      videoTotalDuration: videoTotalDuration
     );
   }
 
@@ -45,7 +58,8 @@ final class YoutubeMusicPlayerSuccessState extends YoutubeMusicPlayerState {
   List<Object?> get props => [
         controller,
         showVideoPositionOnHDragging, showPlayerButtons,
-        screenLock
+        screenLock,
+
       ];
 }
 

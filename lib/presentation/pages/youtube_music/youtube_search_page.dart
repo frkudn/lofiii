@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:lofiii/logic/cubit/youtube_music/youtube_music_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
 import 'package:lofiii/presentation/widgets/music_cards_list/music_cards_list_widget.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
@@ -22,9 +23,11 @@ class YouTubeSearchPage extends StatefulWidget {
 
 class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
   late TextEditingController controller;
+  late ScrollController _scrollController;
   @override
   void initState() {
     controller = TextEditingController();
+    _scrollController = ScrollController();
     super.initState();
   }
 
@@ -50,9 +53,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                   ///----------Back Button------//
                   IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
-                        ///?--------------- Fetch Youtube Music ------------------///
-                         context.read<YoutubeMusicCubit>().fetchMusic();
+                        OneContext().pop();
+
                       },
                       icon: const Icon(
                         CupertinoIcons.back,
@@ -69,14 +71,16 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                         controller: controller,
                         autofocus: true,
                         onSubmitted: (value) {
-                          context
+                          OneContext().context!
                               .read<YoutubeMusicCubit>()
                               .searchMusic(query: value);
                         },
                         onChanged: (value) {
-                          context
+                         OneContext().context!
                               .read<YoutubeMusicCubit>()
                               .searchMusic(query: value);
+                         _scrollController.jumpTo(0);
+
                         },
                         maxLines: 1,
                         enableSuggestions: true,
@@ -119,8 +123,11 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                   child: ListView.builder(
                                       key: const PageStorageKey(
                                           "Youtube Search"),
-                                      padding: EdgeInsets.only(bottom: 0.1.sh),
-                                      physics: const BouncingScrollPhysics(),
+                                      controller: _scrollController,
+                                      padding:
+                                          EdgeInsets.only(bottom: 0.1.sh),
+                                      physics:
+                                          const BouncingScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) {
@@ -128,7 +135,10 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                             .data![index].videoId
                                             .toString();
                                         final thumbnail = snapshot
-                                            .data![index].thumbnails!.last.url
+                                            .data![index]
+                                            .thumbnails!
+                                            .last
+                                            .url
                                             .toString();
                                         final videoTitle = snapshot
                                             .data![index].title
@@ -140,8 +150,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                             snapshot.data![index].duration;
                                         final videoViews =
                                             snapshot.data![index].views;
-                                        final uploadDate =
-                                            snapshot.data![index].uploadDate;
+                                        final uploadDate = snapshot
+                                            .data![index].uploadDate;
 
                                         ///---------------------- Item Box -----------------------///
                                         return GestureDetector(
@@ -149,7 +159,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                             _playMusic(
                                                 videoId: videoId,
                                                 videosList: snapshot.data,
-                                                index: index);
+                                                index: index,
+                                                );
                                           },
                                           child: Card(
                                             shape: RoundedRectangleBorder(
@@ -160,32 +171,40 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Column(
-                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisSize:
+                                                    MainAxisSize.min,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    CrossAxisAlignment
+                                                        .center,
                                                 children: [
                                                   ///!------------Thumbnail ----------------///
                                                   Container(
                                                     height: 0.24.sh,
                                                     width: 0.94.sw,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                          BorderRadius
+                                                              .circular(10),
                                                       border: Border.all(
-                                                          color: Colors.white,
-                                                          strokeAlign: BorderSide
-                                                              .strokeAlignInside,
+                                                          color:
+                                                              Colors.white,
+                                                          strokeAlign:
+                                                              BorderSide
+                                                                  .strokeAlignInside,
                                                           width: 0.3),
                                                       image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              thumbnail),
+                                                          image:
+                                                              NetworkImage(
+                                                                  thumbnail),
                                                           filterQuality:
-                                                              FilterQuality.low,
-                                                          fit: BoxFit.cover),
+                                                              FilterQuality
+                                                                  .low,
+                                                          fit:
+                                                              BoxFit.cover),
                                                     ),
-                                                    margin:
-                                                        EdgeInsets.symmetric(
+                                                    margin: EdgeInsets
+                                                        .symmetric(
                                                             vertical: 5.sp),
 
                                                     //!------------------------- Video Duration
@@ -204,9 +223,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
+                                                                  fontWeight: FontWeight.w500,
                                                                   shadows: [
                                                                     Shadow(
                                                                         color: Colors
@@ -226,16 +243,19 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                   ///!---------------- Video Title & Channel Name & Views ---------------------------///
                                                   Container(
                                                     width: 0.94.sw,
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 10.sp,
+                                                    padding: EdgeInsets
+                                                        .symmetric(
+                                                            horizontal:
+                                                                10.sp,
                                                             vertical: 8.sp),
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        BoxDecoration(
                                                       color: Colors.white
-                                                          .withOpacity(0.15),
+                                                          .withOpacity(
+                                                              0.15),
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                          BorderRadius
+                                                              .circular(10),
                                                     ),
                                                     child: Column(
                                                       crossAxisAlignment:
@@ -252,9 +272,10 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
 
                                                         ///!------ Channel Name
                                                         Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 8.sp),
+                                                          margin: EdgeInsets
+                                                              .only(
+                                                                  top:
+                                                                      8.sp),
                                                           padding: EdgeInsets
                                                               .symmetric(
                                                                   vertical:
@@ -262,15 +283,17 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   horizontal:
                                                                       13.sp),
                                                           decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.black,
+                                                              color: Colors
+                                                                  .black,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
                                                                           10)),
                                                           child: Text(
                                                             channelName,
-                                                            overflow: TextOverflow.ellipsis,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             maxLines: 1,
                                                             style: TextStyle(
                                                                 fontFamily:
@@ -280,8 +303,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                         .bold,
                                                                 color: Colors
                                                                     .white,
-                                                            fontSize: 12.sp
-                                                            ),
+                                                                fontSize:
+                                                                    12.sp),
                                                           ),
                                                         ),
                                                       ],
@@ -290,14 +313,40 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
 
                                                   ///!----- Video Views & upload date
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets
+                                                            .all(8.0),
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
                                                         ///!---Date
-                                                        Text(uploadDate??"", overflow: TextOverflow.ellipsis,style: TextStyle(fontFamily: "Poppins",fontSize: 10.sp),),
+                                                        Text(
+                                                          uploadDate ?? "",
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  "Poppins",
+                                                              fontSize:
+                                                                  10.sp),
+                                                        ),
+
                                                         ///!--- Views
-                                                        Text(videoViews??"", overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500),),
+                                                        Text(
+                                                          videoViews ?? "",
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  11.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
                                                       ],
                                                     ),
                                                   )
@@ -366,23 +415,33 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
     );
   }
 
-  _playMusic({required videoId, required videosList, required index}) async {
-    context.read<YoutubeMusicPlayerCubit>().initializePlayer(videoId: videoId);
+  _playMusic(
+      {required videoId,
+      required videosList,
+      required index,
+      }) async {
+
+
+    ///!------- Initialize Player
+    OneContext()
+        .context!
+        .read<YoutubeMusicPlayerCubit>()
+        .initializePlayer(videoId: videoId);
 
     ///!-----Show Player Screen ----///
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const YouTubeMusicPlayerPage(),
-        )).then((value) {
-      ///!-----Show Mini Player-----///
-      context.read<ShowMiniPlayerCubit>().showMiniPlayer();
-      context.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
+    OneContext()
+        .push(MaterialPageRoute(
+      builder: (context) =>  const YouTubeMusicPlayerPage(),
+    ));
 
-      ///!-----Send Current Music Data-----///
-      context
-          .read<CurrentlyPlayingMusicDataToPlayerCubit>()
-          .sendYouTubeDataToPlayer(youtubeList: videosList, musicIndex: index);
-    });
+    ///!-----Send Current Music Data-----///
+    OneContext()
+        .context!
+        .read<CurrentlyPlayingMusicDataToPlayerCubit>()
+        .sendYouTubeDataToPlayer(youtubeList: videosList, musicIndex: index);
+
+    ///!-----Show Mini Player-----///
+    context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+    context.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
   }
 }

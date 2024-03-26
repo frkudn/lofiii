@@ -12,6 +12,8 @@ import 'package:lofiii/logic/cubit/show_mini_player/show_mini_player_cubit.dart'
 import 'package:lofiii/logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import 'package:lofiii/presentation/pages/player/offline_player_page.dart';
 import 'package:pod_player/pod_player.dart';
+import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
@@ -381,7 +383,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
                             else {
                               return Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 4),
+                                    const EdgeInsets.symmetric(horizontal: 6),
                                 child: Row(
                                   children: [
                                     CachedNetworkImage(
@@ -394,8 +396,8 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                           .toString(),
                                       imageBuilder: (context, imageProvider) =>
 
-                                          ///---- Animation
-                                          Spin(
+                                          ///!---- Animation
+                                          SpinPerfect(
                                         infinite: true,
                                         duration: const Duration(seconds: 15),
                                         child: CircleAvatar(
@@ -432,8 +434,8 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                                 .toString(),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                            style:  TextStyle(
+                                                fontWeight: FontWeight.bold, fontSize: 11.sp, ),
                                           ),
 
                                           ///-----!  Music Artists
@@ -446,92 +448,17 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                                 "...",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontSize: 9),
+                                            style: TextStyle(fontSize: 9.sp, fontFamily: "Poppins"),
                                           ),
+
+
+
+
+
                                         ],
                                       ),
                                     ),
 
-                                    BlocBuilder<YoutubeMusicPlayerCubit,
-                                        YoutubeMusicPlayerState>(
-                                      builder: (context, ytPlayerState) {
-                                        if (ytPlayerState
-                                            is YoutubeMusicPlayerSuccessState) {
-                                          ValueNotifier<bool> isPlaying =
-                                              ValueNotifier(false);
-                                          ValueNotifier<PodVideoState>
-                                              videoState = ValueNotifier(
-                                                  PodVideoState.paused);
-                                          ValueNotifier<bool> isBuffering =
-                                              ValueNotifier(false);
-
-                                          ytPlayerState.controller
-                                              .addListener(() {
-                                            isPlaying.value = ytPlayerState
-                                                .controller.isVideoPlaying;
-                                            videoState.value = ytPlayerState
-                                                .controller.videoState;
-                                          });
-                                          return ValueListenableBuilder(
-                                            valueListenable: isPlaying,
-                                            builder: (context, value, child) =>
-                                                ValueListenableBuilder(
-                                              valueListenable: isBuffering,
-                                              builder: (context,
-                                                      isBufferingValue,
-                                                      child) =>
-                                                  isBufferingValue
-                                                      ? Padding(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal:
-                                                                  4),
-                                                          child:
-                                                              CircleAvatar(
-                                                            radius:
-                                                                12.sp,
-                                                            backgroundColor:
-                                                                Color(themeState
-                                                                    .accentColor),
-                                                            child:
-                                                                const CircularProgressIndicator(
-                                                              color: Colors
-                                                                  .white,
-                                                            ),
-                                                          ),
-                                                        )
-                                                      : IconButton(
-                                                          onPressed:
-                                                              ()  {
-                                                            ytPlayerState
-                                                                .controller
-                                                                .togglePlayPause();
-                                                          },
-                                                          icon: Icon(
-                                                            value
-                                                                ? FontAwesomeIcons
-                                                                    .circlePause
-                                                                : FontAwesomeIcons
-                                                                    .circlePlay,
-                                                            color: Colors
-                                                                .white,
-                                                            size: 30.sp,
-                                                          ),
-                                                        ),
-                                            ),
-                                          );
-                                        } else {
-                                          return CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              child: CircularProgressIndicator(
-                                                color: Colors.white,
-                                                backgroundColor: Color(
-                                                    themeState.accentColor),
-                                              ));
-                                        }
-                                      },
-                                    ),
                                     const Gap(5),
                                   ],
                                 ),
@@ -557,7 +484,11 @@ class MiniPlayerPageWidget extends StatelessWidget {
   _miniPlayerOnTap(showMiniPlayerState, context) async {
     if (showMiniPlayerState.isYouTubeMusic) {
       ///!-----Show Player Screen ----///
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const YouTubeMusicPlayerPage(),));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const YouTubeMusicPlayerPage(),
+          ));
     } else {
       if (showMiniPlayerState.isOnlineMusic) {
         //?-----Show Online Player Screen-----///
