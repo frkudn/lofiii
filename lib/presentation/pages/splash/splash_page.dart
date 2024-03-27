@@ -86,7 +86,7 @@ class _SplashPageState extends State<SplashPage> {
             MaterialPageRoute(builder: (context) => const OnBoardingPage()));
       } else {
         OneContext().pushReplacement(
-            MaterialPageRoute(builder: (context) => const InitialPage()));
+            MaterialPageRoute(builder: (context) =>  InitialPage()));
       }
     });
   }

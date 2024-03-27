@@ -21,7 +21,7 @@ import '../../pages/player/player_page.dart';
 import '../../pages/youtube_music/youtube_music_player_page.dart';
 import '../my_youtube_video_player_widget/my_youtube_video_player_widget.dart';
 
-class MiniPlayerPageWidget extends StatelessWidget {
+class MiniPlayerPageWidget extends StatefulWidget {
   const MiniPlayerPageWidget(
       {super.key,
       this.playerHeight,
@@ -47,6 +47,11 @@ class MiniPlayerPageWidget extends StatelessWidget {
   final borderRadiusTopRight;
 
   @override
+  State<MiniPlayerPageWidget> createState() => _MiniPlayerPageWidgetState();
+}
+
+class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<CurrentlyPlayingMusicDataToPlayerCubit,
         FetchCurrentPlayingMusicDataToPlayerState>(
@@ -54,7 +59,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
         return BlocBuilder<ShowMiniPlayerCubit, ShowMiniPlayerState>(
           builder: (context, showMiniPlayerState) {
             return Align(
-              alignment: playerAlignment ?? Alignment.bottomCenter,
+              alignment: widget.playerAlignment ?? Alignment.bottomCenter,
               child: Card(
                 color: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
@@ -62,8 +67,8 @@ class MiniPlayerPageWidget extends StatelessWidget {
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(borderRadiusTopLeft ?? 50),
-                    topRight: Radius.circular(borderRadiusTopRight ?? 50),
+                    topLeft: Radius.circular(widget.borderRadiusTopLeft ?? 50),
+                    topRight: Radius.circular(widget.borderRadiusTopRight ?? 50),
                   ),
                 ),
                 child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
@@ -77,9 +82,9 @@ class MiniPlayerPageWidget extends StatelessWidget {
                       ///----------!
                       child: Container(
                         margin:
-                            EdgeInsets.only(bottom: bottomMargin ?? 0.06.sh),
-                        height: playerHeight ?? 0.1.sh,
-                        width: playerWidth ?? 0.85.sw,
+                            EdgeInsets.only(bottom: widget.bottomMargin ?? 0.06.sh),
+                        height: widget.playerHeight ?? 0.1.sh,
+                        width: widget.playerWidth ?? 0.85.sw,
                         decoration: BoxDecoration(
                           gradient: themeState.isDarkMode
                               ? LinearGradient(colors: [
@@ -91,17 +96,17 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                   Color(themeState.accentColor),
                                 ]),
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(borderRadiusTopLeft ?? 50),
+                            topLeft: Radius.circular(widget.borderRadiusTopLeft ?? 50),
                             topRight:
-                                Radius.circular(borderRadiusTopRight ?? 50),
+                                Radius.circular(widget.borderRadiusTopRight ?? 50),
                           ),
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
-                              bottom: paddingBottom ?? 0.03.sh,
-                              left: paddingLeft ?? 0.05.sw,
-                              right: paddingRight ?? 0,
-                              top: paddingTop ?? 0),
+                              bottom: widget.paddingBottom ?? 0.03.sh,
+                              left: widget.paddingLeft ?? 0.05.sw,
+                              right: widget.paddingRight ?? 0,
+                              top: widget.paddingTop ?? 0),
 
                           ///------------------?  M A I N  R O W
                           child: Builder(builder: (context) {
@@ -387,22 +392,24 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 6),
                                 child: Row(
                                   children: [
-                                    ///!-------- Thumbnail
-                                    BlocBuilder<YoutubeMusicPlayerCubit,
-                                        YoutubeMusicPlayerState>(
-                                      builder: (context, ytState) {
-                                        if(ytState is YoutubeMusicPlayerSuccessState){
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 8),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(20),
-                                              child: MyYouTubeVideoPlayerWidget(playerState: ytState,),
-                                            ),
-                                          );
-                                        }
+                                    ///!-------- Video Player
+                                    // BlocBuilder<YoutubeMusicPlayerCubit,
+                                    //     YoutubeMusicPlayerState>(
+                                    //   builder: (context, ytState) {
+                                    //     if(ytState is YoutubeMusicPlayerSuccessState){
+                                    //       return Padding(
+                                    //         padding: const EdgeInsets.symmetric(vertical: 8),
+                                    //         child: ClipRRect(
+                                    //           borderRadius: BorderRadius.circular(20),
+                                    //           child: const MyYouTubeVideoPlayerWidget(),
+                                    //         ),
+                                    //       );
+                                    //     }
 
-                                        else {
-                                          return CachedNetworkImage(
+                                        ///!-------- Thumbnail
+                                        // else {
+                                        //   return
+                                            CachedNetworkImage(
                                             imageUrl: musicDataState
                                                 .youtubeMusicList[
                                             musicDataState.musicIndex]
@@ -419,6 +426,8 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                               duration:
                                               const Duration(seconds: 15),
                                               child: CircleAvatar(
+                                                backgroundColor: Colors.transparent,
+                                                onBackgroundImageError: (exception, stackTrace) => const Icon(Icons.music_note),
                                                 backgroundImage: imageProvider,
                                                 radius: 19.spMax,
                                               ),
@@ -446,10 +455,10 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                                         themeState.accentColor),
                                                   ),
                                                 ),
-                                          );
-                                        }
-                                      },
-                                    ),
+                                          ),
+                                    //     }
+                                    //   },
+                                    // ),
                                     const Gap(5),
 
                                     ///!------ Title & Artist
@@ -473,7 +482,7 @@ class MiniPlayerPageWidget extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 11.sp,
+                                              fontSize: 12.sp,
                                             ),
                                           ),
 

@@ -1,4 +1,5 @@
 
+import 'package:floating/floating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,6 +72,8 @@ class MyApp extends StatefulWidget {
     super.key,
   });
 
+
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -83,6 +86,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     // TODO: implement dispose
     locator.get<ScrollController>().dispose();
+    locator.get<Floating>().dispose();
     super.dispose();
 
   }

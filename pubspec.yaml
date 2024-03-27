@@ -80,6 +80,7 @@ dependencies:
   youtube_scrape_api: ^0.0.6
   pod_player: ^0.2.1
   signals: ^4.5.1
+  floating: ^2.0.2
 
 
 

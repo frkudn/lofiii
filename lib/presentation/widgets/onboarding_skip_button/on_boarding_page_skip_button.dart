@@ -31,7 +31,7 @@ class OnBoardingSkipButton extends StatelessWidget {
 
          OneContext().pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const InitialPage(),
+                builder: (context) =>  InitialPage(),
               ),
             );
           },

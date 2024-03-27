@@ -2,6 +2,7 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:floating/floating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:get_it/get_it.dart';
@@ -28,5 +29,6 @@ void initializeLocator(){
   locator.registerSingleton<ScrollController>(ScrollController());
   locator.registerSingleton<YoutubeDataApi>(YoutubeDataApi());
   locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
+  locator.registerSingleton<Floating>(Floating());
 
 }
