@@ -6,27 +6,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lofiii/di/dependency_injection.dart';
 import 'package:meta/meta.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:signals/signals.dart';
 
 part 'youtube_music_player_state.dart';
 
+
 class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
+
+
   YoutubeMusicPlayerCubit() : super(YoutubeMusicPlayerInitialState());
 
   initializePlayer({required videoId}) async {
     emit(YoutubeMusicPlayerLoadingState());
+
     final controller = PodPlayerController(
         podPlayerConfig: const PodPlayerConfig(
           videoQualityPriority: [1080, 720, 480, 360, 240],
           isLooping: false,
           autoPlay: true,
           wakelockEnabled: true,
-          forcedVideoFocus: true,
         ),
         playVideoFrom: PlayVideoFrom.youtube(videoId))
       ..initialise();
+
 
     emit(YoutubeMusicPlayerSuccessState(
       controller: controller,
@@ -73,3 +78,6 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
     }
   }
 }
+
+
+

@@ -392,22 +392,24 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                     const EdgeInsets.symmetric(horizontal: 6),
                                 child: Row(
                                   children: [
-                                    ///!-------- Thumbnail
-                                    BlocBuilder<YoutubeMusicPlayerCubit,
-                                        YoutubeMusicPlayerState>(
-                                      builder: (context, ytState) {
-                                        if(ytState is YoutubeMusicPlayerSuccessState){
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 8),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(20),
-                                              child: MyYouTubeVideoPlayerWidget(playerState: ytState,),
-                                            ),
-                                          );
-                                        }
+                                    ///!-------- Video Player
+                                    // BlocBuilder<YoutubeMusicPlayerCubit,
+                                    //     YoutubeMusicPlayerState>(
+                                    //   builder: (context, ytState) {
+                                    //     if(ytState is YoutubeMusicPlayerSuccessState){
+                                    //       return Padding(
+                                    //         padding: const EdgeInsets.symmetric(vertical: 8),
+                                    //         child: ClipRRect(
+                                    //           borderRadius: BorderRadius.circular(20),
+                                    //           child: const MyYouTubeVideoPlayerWidget(),
+                                    //         ),
+                                    //       );
+                                    //     }
 
-                                        else {
-                                          return CachedNetworkImage(
+                                        ///!-------- Thumbnail
+                                        // else {
+                                        //   return
+                                            CachedNetworkImage(
                                             imageUrl: musicDataState
                                                 .youtubeMusicList[
                                             musicDataState.musicIndex]
@@ -424,6 +426,8 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                               duration:
                                               const Duration(seconds: 15),
                                               child: CircleAvatar(
+                                                backgroundColor: Colors.transparent,
+                                                onBackgroundImageError: (exception, stackTrace) => const Icon(Icons.music_note),
                                                 backgroundImage: imageProvider,
                                                 radius: 19.spMax,
                                               ),
@@ -451,10 +455,10 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                                         themeState.accentColor),
                                                   ),
                                                 ),
-                                          );
-                                        }
-                                      },
-                                    ),
+                                          ),
+                                    //     }
+                                    //   },
+                                    // ),
                                     const Gap(5),
 
                                     ///!------ Title & Artist
@@ -478,7 +482,7 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 11.sp,
+                                              fontSize: 12.sp,
                                             ),
                                           ),
 

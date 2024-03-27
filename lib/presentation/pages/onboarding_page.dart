@@ -198,7 +198,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     ///--!  Navigate to Initial Page
    OneContext().pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const InitialPage(),
+          builder: (context) =>  InitialPage(),
         ));
 
     ///---! Don't Show this screen after restarting app
