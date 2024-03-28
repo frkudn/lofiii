@@ -459,7 +459,7 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                     //     }
                                     //   },
                                     // ),
-                                    const Gap(5),
+                                    const Gap(8),
 
                                     ///!------ Title & Artist
                                     Expanded(
@@ -493,7 +493,7 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                                         musicDataState
                                                             .musicIndex]
                                                     .channelName ??
-                                                "",
+                                                "youtube",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
