@@ -18,8 +18,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
   final audioPlayer = locator.get<AudioPlayer>();
 
   //! Constructor for the MusicPlayerBloc class, initializing it with AudioPlayer instance.
-  MusicPlayerBloc()
-      : super(MusicPlayerLoadingState()) {
+  MusicPlayerBloc() : super(MusicPlayerLoadingState()) {
     on<MusicPlayerInitializeEvent>(_musicPlayerInitializeEvent);
     on<MusicPlayerTogglePlayPauseEvent>(_musicPlayerTogglePlayPauseEvent);
     on<MusicPlayerSeekEvent>(_musicPlayerSeekEvent);
@@ -29,6 +28,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
     on<MusicPlayerVolumeSetEvent>(_musicPlayerVolumeSetEvent);
     on<MusicPlayerForwardEvent>(_musicPlayerForwardEvent);
     on<MusicPlayerBackwardEvent>(_musicPlayerBackwardEvent);
+    on<MusicPlayerDisposeEvent>(_musicPlayerDisposeEvent);
   }
 
   //! Method to handle MusicPlayerInitializeEvent and Play Music.
@@ -49,8 +49,6 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
         audioPlayer.bufferedPositionStream,
         (position, duration, buffered) => [position, duration, buffered],
       ).publish().autoConnect();
-      
-      
 
       emit(MusicPlayerSuccessState(
         positionStream: audioPlayer.positionStream,
@@ -125,13 +123,16 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
 
   FutureOr<void> _musicPlayerForwardEvent(
       MusicPlayerForwardEvent event, Emitter<MusicPlayerState> emit) {
-    audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds+5));
+    audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds + 5));
   }
 
+  FutureOr<void> _musicPlayerBackwardEvent(
+      MusicPlayerBackwardEvent event, Emitter<MusicPlayerState> emit) {
+    audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds - 5));
+  }
 
-
-
-  FutureOr<void> _musicPlayerBackwardEvent(MusicPlayerBackwardEvent event, Emitter<MusicPlayerState> emit) {
-    audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds-5));
+  FutureOr<void> _musicPlayerDisposeEvent(
+      MusicPlayerDisposeEvent event, Emitter<MusicPlayerState> emit) async {
+    await audioPlayer.dispose();
   }
 }

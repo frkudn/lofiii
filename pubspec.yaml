@@ -82,6 +82,7 @@ dependencies:
   signals: ^4.5.1
   floating: ^2.0.2
   shimmer: ^3.0.0
+  flutter_background: ^1.2.0
 
 
 

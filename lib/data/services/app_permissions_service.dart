@@ -13,20 +13,25 @@ class AppPermissionService {
     final int androidVersion = int.parse(androidInfo.version.release);
     bool havePermission = false;
 
-
     if (androidVersion >= 13) {
-
       await Permission.photos.request();
       await Permission.videos.request();
       await Permission.audio.request();
 
       await Permission.manageExternalStorage.request();
-      NotificationService().notificationsPlugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
+      // await Permission.ignoreBatteryOptimizations.request();
+
+      NotificationService()
+          .notificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestNotificationsPermission();
+
       final status = await Permission.manageExternalStorage.status;
       havePermission = status.isGranted;
     } else {
       await Permission.notification.request();
+      // await Permission.ignoreBatteryOptimizations.request();
       await Permission.storage.request();
       final status = await Permission.storage.request();
       havePermission = status.isGranted;

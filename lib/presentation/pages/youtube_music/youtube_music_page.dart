@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
 import 'package:lofiii/logic/cubit/youtube_music/youtube_music_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_search_page.dart';
@@ -45,7 +46,7 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              "LOFIIITube ",
+              "LOFIIITube Beta ",
               style: TextStyle(
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
@@ -373,13 +374,19 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
               ///?-----------------------------------------------------------------------------------------------------------///
               ///!----------------------------------- Favorite Playlists  Section-------------------------------------
               ///?-----------------------------------------------------------------------------------------------------------///
-              Text(
-                "Lo-Fi Playlists",
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20.sp,
-                    letterSpacing: 1.5),
+              BlocBuilder<YoutubeMusicCubit, YoutubeMusicState>(
+                builder: (context, state) {
+                  return state is YoutubeMusicSuccessState
+                      ? Text(
+                          "Lo-Fi Playlists",
+                          style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20.sp,
+                              letterSpacing: 1.5),
+                        )
+                      : const SizedBox.shrink();
+                },
               ),
 
               Gap(0.01.sh),
@@ -404,21 +411,26 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
     ///----- Hide Status Bar Values
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
+
+       context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
+
     ///!---- Initialize Player
-    
-        context
+
+    context
         .read<YoutubeMusicPlayerCubit>()
         .initializePlayer(videoId: video.videoId!);
 
     ///!-----Show Player Screen ----///
 
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) => YouTubeMusicPlayerPage(),
-    ));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => YouTubeMusicPlayerPage(),
+        ));
 
     ///!-----Send Current Music Data-----///
-    
-        context
+
+    context
         .read<CurrentlyPlayingMusicDataToPlayerCubit>()
         .sendYouTubeDataToPlayer(
             youtubeList: snapshot.data!, musicIndex: index);

@@ -37,29 +37,34 @@ class LibraryPage extends StatelessWidget {
             builder: (context, favoriteState) {
               return BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
                 builder: (context, state) {
-                  //! Heading with View More Button Widget
-                  return HeadingWithViewMoreButton(
-                    heading: "My Favorite ❤️",
-                    viewMoreOnTap: () {
-                      if (state is LofiiiAllMusicSuccessState) {
-                        //! Filter the favorite list
-                        final favoriteList = state.musicList
-                            .where((element) => favoriteState.favoriteList
-                                .contains(element.title))
-                            .toList();
-                        //! Navigate to View More Page with filtered list
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ViewMorePage(
-                              topHeading: "My Favorite ❤️",
-                              musicList: favoriteList,
+                  ///?------------        If  Success State
+                  if (state is LofiiiAllMusicSuccessState) {
+                    //! Heading with View More Button Widget
+                    return HeadingWithViewMoreButton(
+                      heading: "My Favorite ❤️",
+                      viewMoreOnTap: () {
+                        if (state is LofiiiAllMusicSuccessState) {
+                          //! Filter the favorite list
+                          final favoriteList = state.musicList
+                              .where((element) => favoriteState.favoriteList
+                                  .contains(element.title))
+                              .toList();
+                          //! Navigate to View More Page with filtered list
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewMorePage(
+                                topHeading: "My Favorite ❤️",
+                                musicList: favoriteList,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    },
-                  );
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    return const SliverToBoxAdapter();
+                  }
                 },
               );
             },

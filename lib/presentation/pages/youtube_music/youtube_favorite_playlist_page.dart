@@ -10,6 +10,7 @@ import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
 import 'package:youtube_scrape_api/models/video.dart';
 
+import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
@@ -213,11 +214,11 @@ class _YouTubeFavoritePlaylistPageState
                                             filter: ImageFilter.blur(
                                                 sigmaX: 5, sigmaY: 5),
                                             child: ListTile(
-                                              contentPadding:
-                                                 const EdgeInsets.symmetric(
-                                                      vertical: 15,
-                                                      horizontal:
-                                                          16), // Balanced padding
+                                              contentPadding: const EdgeInsets
+                                                  .symmetric(
+                                                  vertical: 15,
+                                                  horizontal:
+                                                      16), // Balanced padding
                                               leading: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
@@ -231,7 +232,7 @@ class _YouTubeFavoritePlaylistPageState
                                                           FontWeight.bold,
                                                     ),
                                                   ),
-                                                 const SizedBox(
+                                                  const SizedBox(
                                                       width:
                                                           15), // Space between number and thumbnail
                                                   ClipRRect(
@@ -300,6 +301,7 @@ class _YouTubeFavoritePlaylistPageState
     ///----- Hide Status Bar Values
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: []);
+    context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
 
     ///!---- Initialize Player
 

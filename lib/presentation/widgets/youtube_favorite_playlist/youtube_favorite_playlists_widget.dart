@@ -108,10 +108,7 @@ class YoutubeFavoritePlaylistWidget extends StatelessWidget {
               ),
             );
           } else {
-            // Show a loading indicator when data is being fetched
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return SizedBox.shrink();
           }
         },
       ),

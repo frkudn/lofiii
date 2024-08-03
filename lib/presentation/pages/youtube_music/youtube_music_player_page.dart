@@ -532,7 +532,6 @@ class YouTubeMusicPlayerPage extends StatelessWidget {
 
     if (canUsePiP) {
       await floating.enable();
-
       context
           .read<YoutubeMusicPlayerCubit>()
           .hidePlayerButtons(state: playerState);

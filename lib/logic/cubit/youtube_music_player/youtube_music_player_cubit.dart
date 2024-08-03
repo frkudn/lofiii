@@ -1,67 +1,59 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pod_player/pod_player.dart';
 
 part 'youtube_music_player_state.dart';
 
 class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
   Timer? _hideButtonsTimer;
+  Timer? _showCurrentPositionOnHorizontalTimer;
 
   YoutubeMusicPlayerCubit() : super(YoutubeMusicPlayerInitialState());
 
   initializePlayer({required videoId}) async {
     emit(YoutubeMusicPlayerLoadingState());
-    if (YoutubeMusicPlayerState is YoutubeMusicPlayerSuccessState) {
-      disposeThePlayer(state: state);
 
-      final PodPlayerController controller = await PodPlayerController(
-          podPlayerConfig: const PodPlayerConfig(
-            videoQualityPriority: [1080, 720, 480, 360, 240],
-            isLooping: false,
-            autoPlay: true,
-            wakelockEnabled: true,
-          ),
-          playVideoFrom: PlayVideoFrom.youtube(videoId))
-        ..initialise();
-
-      emit(YoutubeMusicPlayerSuccessState(
-        controller: controller,
-        screenLock: false,
-        showPlayerButtons: false,
-        showVideoPositionOnHDragging: false,
-      ));
-    } else {
-      final PodPlayerController controller = await PodPlayerController(
-          podPlayerConfig: const PodPlayerConfig(
-            videoQualityPriority: [1080, 720, 480, 360, 240],
-            isLooping: false,
-            autoPlay: true,
-            wakelockEnabled: true,
-          ),
-          playVideoFrom: PlayVideoFrom.youtube(videoId))
-        ..initialise();
-
-      emit(YoutubeMusicPlayerSuccessState(
-        controller: controller,
-        screenLock: false,
-        showPlayerButtons: false,
-        showVideoPositionOnHDragging: false,
-      ));
+    // Dispose the existing player only if it's in a success state
+    if (state is YoutubeMusicPlayerSuccessState) {
+      disposeThePlayer(state: state as YoutubeMusicPlayerSuccessState);
     }
+
+    final PodPlayerController controller = await PodPlayerController(
+        podPlayerConfig: const PodPlayerConfig(
+            videoQualityPriority:[1080, 720, 360],
+            isLooping: false,
+            autoPlay: true,
+            wakelockEnabled: true,
+
+            forcedVideoFocus: true),
+        playVideoFrom: PlayVideoFrom.youtube(videoId))
+      ..initialise();
+
+    emit(YoutubeMusicPlayerSuccessState(
+      controller: controller,
+      screenLock: false,
+      showPlayerButtons: false,
+      showVideoPositionOnHDragging: false,
+    ));
   }
 
   showCurrentPositionOnHorizontalDragging(
       {required YoutubeMusicPlayerState state}) async {
     if (state is YoutubeMusicPlayerSuccessState) {
       emit(state.copyWith(showVideoPositionOnHDragging: true));
-      await Future.delayed(const Duration(milliseconds: 2400)).then((value) {
+
+      // Cancel any previous timers
+      _showCurrentPositionOnHorizontalTimer?.cancel();
+
+      // Start a new timer to hide the buttons after 3 seconds
+      _showCurrentPositionOnHorizontalTimer =
+          Timer(const Duration(milliseconds: 3000), () {
         emit(state.copyWith(showVideoPositionOnHDragging: false));
       });
     }
@@ -97,9 +89,7 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
     }
   }
 
-  disposeThePlayer({required state}) {
-    if (state is YoutubeMusicPlayerSuccessState) {
-      state.controller.dispose();
-    }
+  disposeThePlayer({required YoutubeMusicPlayerSuccessState state}) {
+    state.controller.dispose();
   }
 }

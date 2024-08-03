@@ -10,6 +10,7 @@ import 'package:lofiii/presentation/widgets/common/listViewShimmerBoxWidget.dart
 import 'package:lofiii/presentation/widgets/music_cards_list/music_cards_list_widget.dart';
 import 'package:one_context/one_context.dart';
 
+import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
@@ -115,12 +116,17 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Expanded(
-                              child: ListViewShimmerBoxWidget(
-                                scrollDirection: Axis.vertical,
-                                boxWidth: 1.sw,
-                                boxHeight: 1.sh,
-                                itemHeight: 0.23.sh,
-                                itemWidth: 1.sw,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 5),
+                                child: ListViewShimmerBoxWidget(
+                                  showHeader: false,
+                                  scrollDirection: Axis.vertical,
+                                  boxWidth: 1.sw,
+                                  boxHeight: 1.sh,
+                                  itemHeight: 0.23.sh,
+                                  itemWidth: 1.sw,
+                                ),
                               ),
                             );
                           } else {
@@ -380,9 +386,9 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
           BlocBuilder<ShowMiniPlayerCubit, ShowMiniPlayerState>(
             builder: (context, state) {
               return Visibility(
-                  visible: state.showMiniPlayer,
-                  child: FadeInUp(
-                      child: MiniPlayerPageWidget(
+                visible: state.showMiniPlayer,
+                child: FadeInUp(
+                  child: MiniPlayerPageWidget(
                     playerHeight: 0.1.sh,
                     playerWidth: 1.sw,
                     paddingBottom: 0.1,
@@ -391,7 +397,9 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                     playerAlignment: Alignment.bottomCenter,
                     borderRadiusTopLeft: 0.0,
                     borderRadiusTopRight: 0.0,
-                  )));
+                  ),
+                ),
+              );
             },
           ),
         ],
@@ -404,10 +412,15 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
     required videoId,
     required videosList,
     required index,
-  }) async{
+  }) async {
+
+      context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
+      
     ///!------- Initialize Player
 
-   await context.read<YoutubeMusicPlayerCubit>().initializePlayer(videoId: videoId);
+    await context
+        .read<YoutubeMusicPlayerCubit>()
+        .initializePlayer( videoId: videoId);
 
     ///!-----Show Player Screen ----///
     Navigator.push(

@@ -1,7 +1,7 @@
-
 import 'package:floating/floating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/data/services/notification_service.dart';
@@ -18,6 +18,7 @@ import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
 import 'package:one_context/one_context.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'data/services/background_services.dart';
 import 'logic/bloc/artists_data/artists_data_bloc.dart';
 import 'logic/bloc/check_internet_connection/check_internet_connection_bloc.dart';
 import 'logic/bloc/favorite_button/favorite_button_bloc.dart';
@@ -39,8 +40,6 @@ import 'logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import 'resources/theme/themes.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -53,8 +52,6 @@ void main() async {
   // The following line will enable the Android and iOS wakelock.
   WakelockPlus.enable();
 
-
-
   //!  Initialize Hive Database
   await MyHive.initializeHive();
 
@@ -64,6 +61,9 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+// Initialize background execution
+  // await initializeBackgroundExecution();
+
   runApp(const MyApp());
 }
 
@@ -72,25 +72,18 @@ class MyApp extends StatefulWidget {
     super.key,
   });
 
-
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
-
-
   @override
   void dispose() {
     // TODO: implement dispose
     locator.get<ScrollController>().dispose();
     locator.get<Floating>().dispose();
     super.dispose();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -142,34 +135,65 @@ class _MyAppState extends State<MyApp> {
   ///////////////////////////////////////////////////////////////////
   List<SingleChildWidget> _providers() {
     return [
-      BlocProvider(create: (context) => BottomNavigationIndexCubit(),),
-      BlocProvider(create: (context) => ThemeModeCubit(),),
-      BlocProvider(create: (context) => MusicPlayerBloc(),),
-      BlocProvider(create: (context) => LofiiiSpecialMusicBloc(),),
-      BlocProvider(create: (context) => LofiiiPopularMusicBloc(),),
-      BlocProvider(create: (context) => LofiiiTopPicksMusicBloc(),),
-      BlocProvider(create: (context) => LofiiiAllMusicBloc(),),
-      BlocProvider(create: (context) => LofiiiVibesMusicBloc(),),
-      BlocProvider(create: (context) => ArtistsDataBloc(),),
-      BlocProvider(create: (context) => CurrentlyPlayingMusicDataToPlayerCubit(),),
-      BlocProvider(create: (context) => ShowMiniPlayerCubit(),),
-      BlocProvider(create: (context) => GreetingCubit(),),
-      BlocProvider(create: (context) => CheckInternetConnectionBloc(),),
-      BlocProvider(create: (context) => SearchSystemCubit(),),
-      BlocProvider(create: (context) => GridviewMaxCountCubit(),),
-      BlocProvider(create: (context) => ChangeSystemVolumeCubit(),),
+      BlocProvider(
+        create: (context) => BottomNavigationIndexCubit(),
+      ),
+      BlocProvider(
+        create: (context) => ThemeModeCubit(),
+      ),
+      BlocProvider(
+        create: (context) => MusicPlayerBloc(),
+      ),
+      BlocProvider(
+        create: (context) => LofiiiSpecialMusicBloc(),
+      ),
+      BlocProvider(
+        create: (context) => LofiiiPopularMusicBloc(),
+      ),
+      BlocProvider(
+        create: (context) => LofiiiTopPicksMusicBloc(),
+      ),
+      BlocProvider(
+        create: (context) => LofiiiAllMusicBloc(),
+      ),
+      BlocProvider(
+        create: (context) => LofiiiVibesMusicBloc(),
+      ),
+      BlocProvider(
+        create: (context) => ArtistsDataBloc(),
+      ),
+      BlocProvider(
+        create: (context) => CurrentlyPlayingMusicDataToPlayerCubit(),
+      ),
+      BlocProvider(
+        create: (context) => ShowMiniPlayerCubit(),
+      ),
+      BlocProvider(
+        create: (context) => GreetingCubit(),
+      ),
+      BlocProvider(
+        create: (context) => CheckInternetConnectionBloc(),
+      ),
+      BlocProvider(
+        create: (context) => SearchSystemCubit(),
+      ),
+      BlocProvider(
+        create: (context) => GridviewMaxCountCubit(),
+      ),
+      BlocProvider(
+        create: (context) => ChangeSystemVolumeCubit(),
+      ),
       BlocProvider(create: (context) => FavoriteButtonBloc()),
       BlocProvider(create: (context) => RepeatMusicCubit()),
       BlocProvider(create: (context) => DownloadMusicBloc()),
       BlocProvider(create: (context) => UserProfileBloc()),
       BlocProvider(create: (context) => FlipCardCubit()),
       BlocProvider(create: (context) => FetchMusicFromLocalStorageBloc()),
-      BlocProvider(create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
+      BlocProvider(
+          create: (context) => NowPlayingOfflineMusicDataToPlayerCubit()),
       BlocProvider(create: (context) => SearchableListScrollControllerCubit()),
       BlocProvider(create: (context) => YoutubeMusicCubit()),
       BlocProvider(create: (context) => YoutubeMusicPlayerCubit()),
-
     ];
   }
 }
-
