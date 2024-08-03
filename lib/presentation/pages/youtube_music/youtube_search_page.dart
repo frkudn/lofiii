@@ -404,10 +404,10 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
     required videoId,
     required videosList,
     required index,
-  }) async {
+  }) async{
     ///!------- Initialize Player
 
-    context.read<YoutubeMusicPlayerCubit>().initializePlayer(videoId: videoId);
+   await context.read<YoutubeMusicPlayerCubit>().initializePlayer(videoId: videoId);
 
     ///!-----Show Player Screen ----///
     Navigator.push(

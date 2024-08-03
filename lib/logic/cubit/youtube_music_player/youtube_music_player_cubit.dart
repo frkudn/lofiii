@@ -18,23 +18,43 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
 
   initializePlayer({required videoId}) async {
     emit(YoutubeMusicPlayerLoadingState());
+    if (YoutubeMusicPlayerState is YoutubeMusicPlayerSuccessState) {
+      disposeThePlayer(state: state);
 
-    final controller = PodPlayerController(
-        podPlayerConfig: const PodPlayerConfig(
-          videoQualityPriority: [1080, 720, 480, 360, 240],
-          isLooping: false,
-          autoPlay: true,
-          wakelockEnabled: true,
-        ),
-        playVideoFrom: PlayVideoFrom.youtube(videoId))
-      ..initialise();
+      final PodPlayerController controller = await PodPlayerController(
+          podPlayerConfig: const PodPlayerConfig(
+            videoQualityPriority: [1080, 720, 480, 360, 240],
+            isLooping: false,
+            autoPlay: true,
+            wakelockEnabled: true,
+          ),
+          playVideoFrom: PlayVideoFrom.youtube(videoId))
+        ..initialise();
 
-    emit(YoutubeMusicPlayerSuccessState(
-      controller: controller,
-      screenLock: false,
-      showPlayerButtons: false,
-      showVideoPositionOnHDragging: false,
-    ));
+      emit(YoutubeMusicPlayerSuccessState(
+        controller: controller,
+        screenLock: false,
+        showPlayerButtons: false,
+        showVideoPositionOnHDragging: false,
+      ));
+    } else {
+      final PodPlayerController controller = await PodPlayerController(
+          podPlayerConfig: const PodPlayerConfig(
+            videoQualityPriority: [1080, 720, 480, 360, 240],
+            isLooping: false,
+            autoPlay: true,
+            wakelockEnabled: true,
+          ),
+          playVideoFrom: PlayVideoFrom.youtube(videoId))
+        ..initialise();
+
+      emit(YoutubeMusicPlayerSuccessState(
+        controller: controller,
+        screenLock: false,
+        showPlayerButtons: false,
+        showVideoPositionOnHDragging: false,
+      ));
+    }
   }
 
   showCurrentPositionOnHorizontalDragging(

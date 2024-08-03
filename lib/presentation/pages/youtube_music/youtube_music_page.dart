@@ -405,31 +405,31 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
     ///!---- Initialize Player
-    OneContext()
-        .context!
+    
+        context
         .read<YoutubeMusicPlayerCubit>()
         .initializePlayer(videoId: video.videoId!);
 
     ///!-----Show Player Screen ----///
 
-    OneContext().push(MaterialPageRoute(
+    Navigator.push(context, MaterialPageRoute(
       builder: (context) => YouTubeMusicPlayerPage(),
     ));
 
     ///!-----Send Current Music Data-----///
-    OneContext()
-        .context!
+    
+        context
         .read<CurrentlyPlayingMusicDataToPlayerCubit>()
         .sendYouTubeDataToPlayer(
             youtubeList: snapshot.data!, musicIndex: index);
 
     ///!-----Show Mini Player-----///
-    OneContext().context!.read<ShowMiniPlayerCubit>().showMiniPlayer();
-    OneContext().context!.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
+    context.read<ShowMiniPlayerCubit>().showMiniPlayer();
+    context.read<ShowMiniPlayerCubit>().youtubeMusicIsPlaying();
   }
 
   Future _onRefresh() async {
     ///?--------------- Fetch Youtube Music ------------------///
-    OneContext().context!.read<YoutubeMusicCubit>().fetchMusic();
+    context.read<YoutubeMusicCubit>().fetchMusic();
   }
 }
