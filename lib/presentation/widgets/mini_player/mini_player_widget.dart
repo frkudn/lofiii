@@ -520,11 +520,11 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
   ///!--------------------------------   M E T H O D S -----------------///
   ///-------------------------------------------------------------------///
   _miniPlayerOnTap(showMiniPlayerState, context) async {
-    ///----- Hide Status Bar Values
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: []);
-
     if (showMiniPlayerState.isYouTubeMusic) {
+      ///----- Hide Status Bar Values
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+          overlays: []);
+
       ///!-----Show Player Screen ----///
       Navigator.push(
           context,

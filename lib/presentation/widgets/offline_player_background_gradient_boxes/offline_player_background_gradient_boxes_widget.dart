@@ -11,7 +11,6 @@ class OfflinePlayerBackgroundGradientBoxesWidget extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeModeCubit, ThemeModeState>(
@@ -21,80 +20,74 @@ class OfflinePlayerBackgroundGradientBoxesWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                   gradient: SweepGradient(
-                      startAngle: 3,
-                      center: Alignment.bottomLeft,
+                      startAngle: 0,
+                      center: Alignment.bottomCenter,
                       colors: [
-                        Colors.cyan,
-                        Colors.purple.shade600,
-                        Colors.red.shade800,
-                      ])),
+                    Color(themeState.accentColor),
+                    Color.fromARGB(217, 228, 220, 224),
+                    Color.fromARGB(255, 177, 170, 170),
+                    Color.fromARGB(255, 194, 184, 184),
+                  ])),
             ),
-
 
             ///!--------- Center Circle Rotating Box
             BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
               builder: (context, state) {
-
                 ///!----- If Music Player is Success State
-                if(state is MusicPlayerSuccessState) {
+                if (state is MusicPlayerSuccessState) {
                   return StreamBuilder(
-                    stream: state.playingStream,
-                    builder: (context, snapshot) {
-                      ///!------ If music state is playing
-                      if(snapshot.data == true) {
-                        return Stack(
-                          children: [
-
-
-                            Flash(
-                              duration: const Duration(seconds: 5),
-                              animate: true,
-                              infinite: true,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    gradient: SweepGradient(
-                                        startAngle: 3,
-                                        center: Alignment.bottomLeft,
-                                        colors: [
-                                          Colors.pink,
-                                          Colors.cyan,
-                                          Colors.teal.shade800,
-                                          Colors.lightGreen.shade800,
-                                          Colors.pink,
-                                          Colors.purple.shade600,
-                                          Colors.deepPurple.shade800,
-                                          Colors.pink,
-                                        ])),
-                              ),
-                            ),
-
-                            Spin(
-                              infinite: true,
-                              duration: const Duration(seconds: 10),
-                              child: Center(
+                      stream: state.playingStream,
+                      builder: (context, snapshot) {
+                        ///!------ If music state is playing
+                        if (snapshot.data == true) {
+                          return Stack(
+                            children: [
+                              Flash(
+                                duration: const Duration(seconds: 8),
+                                animate: true,
+                                infinite: true,
                                 child: Container(
-                                  width: 0.35.sw,
                                   decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    
+                                      gradient: SweepGradient(
+                                          startAngle: 6,
+                                          center: Alignment.bottomLeft,
+                                          colors: [
+                                        Color(themeState.accentColor)
+                                            .withOpacity(0.8),
+                                        Color(themeState.accentColor)
+                                            .withOpacity(0.9),
+                                        Color(themeState.accentColor),
+                                        Color(themeState.accentColor),
+                                      ])),
+                                ),
+                              ),
+                              Spin(
+                                infinite: true,
+                                duration: const Duration(seconds: 10),
+                                child: Center(
+                                  child: Container(
+                                    width: 0.35.sw,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
 
-                                    ///!---- Border
-                                    border: Border.all(
-                                        color: Color(themeState.accentColor), width: 2),
+                                      ///!---- Border
+                                      border: Border.all(
+                                          color: Color(themeState.accentColor),
+                                          width: 2),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      }
-                      ///!------ If music state is pause
-                      else{
-                        return const SizedBox.shrink();
-                      }
-                    }
-                  );
-                } else{
+                            ],
+                          );
+                        }
+
+                        ///!------ If music state is pause
+                        else {
+                          return const SizedBox.shrink();
+                        }
+                      });
+                } else {
                   return const SizedBox.shrink();
                 }
               },

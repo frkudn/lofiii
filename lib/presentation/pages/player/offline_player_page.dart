@@ -128,7 +128,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                               ),
                               margin: EdgeInsets.symmetric(horizontal: 0.04.sw),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.09),
+                                color: Colors.white.withOpacity(0.08),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Column(

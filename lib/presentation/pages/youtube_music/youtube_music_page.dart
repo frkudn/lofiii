@@ -412,7 +412,6 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
 
-       context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
 
     ///!---- Initialize Player
 

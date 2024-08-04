@@ -301,7 +301,6 @@ class _YouTubeFavoritePlaylistPageState
     ///----- Hide Status Bar Values
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: []);
-    context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
 
     ///!---- Initialize Player
 

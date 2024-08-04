@@ -55,7 +55,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                   ///!----------Back Button------//
                   IconButton(
                       onPressed: () {
-                        OneContext().pop();
+                        Navigator.pop(context);
                       },
                       icon: const Icon(
                         CupertinoIcons.back,
@@ -75,14 +75,12 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                         controller: controller,
                         autofocus: true,
                         onSubmitted: (value) {
-                          OneContext()
-                              .context!
+                          context
                               .read<YoutubeMusicCubit>()
                               .searchMusic(query: value);
                         },
                         onChanged: (value) {
-                          OneContext()
-                              .context!
+                          context
                               .read<YoutubeMusicCubit>()
                               .searchMusic(query: value);
                           _scrollController.jumpTo(0);
@@ -413,14 +411,10 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
     required videosList,
     required index,
   }) async {
+    context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
 
-      context.read<MusicPlayerBloc>().add(MusicPlayerDisposeEvent());
-      
     ///!------- Initialize Player
-
-    await context
-        .read<YoutubeMusicPlayerCubit>()
-        .initializePlayer( videoId: videoId);
+    context.read<YoutubeMusicPlayerCubit>().initializePlayer(videoId: videoId);
 
     ///!-----Show Player Screen ----///
     Navigator.push(

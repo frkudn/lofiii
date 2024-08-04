@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:lofiii/data/models/music_model.dart';
 import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
@@ -11,7 +13,7 @@ import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/presentation/pages/player/offline_player_page.dart';
 import 'package:lofiii/presentation/widgets/music_cards_list/music_cards_list_widget.dart';
-import 'package:searchable_listview/searchable_listview.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 import '../../logic/cubit/searchable_list_scroll_controller/searchableList_scroll_controller_cubit.dart';
 import '../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
@@ -26,6 +28,9 @@ class DownloadsPage extends StatefulWidget {
 }
 
 class _DownloadsPageState extends State<DownloadsPage> {
+  List filteredList = [];
+  bool isSearching = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -39,7 +44,6 @@ class _DownloadsPageState extends State<DownloadsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       ///!------------ App Bar ------------///
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -49,11 +53,22 @@ class _DownloadsPageState extends State<DownloadsPage> {
           "L o c a l  M u s i c",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.sp),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching;
+                if (!isSearching) filteredList.clear();
+              });
+            },
+            icon: const Icon(Icons.search),
+          ),
+          const Gap(10),
+        ],
       ),
 
       ///!----------  Floating Action Button ------------------///
       floatingActionButton: const NowPlayingPositionFloatingButtonWidget(),
-
 
       ///!-------------   Body ---------//
       body:
@@ -73,116 +88,153 @@ class _DownloadsPageState extends State<DownloadsPage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final musicListLength = snapshot.data!.length;
+                        final musicList = snapshot.data!;
 
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 0.03.sw, vertical: 0.01.sh),
-                          child: PageStorage(
-                            bucket: pageBucket,
+                        return PageStorage(
+                          bucket: pageBucket,
 
-                            ///!-------- Animation ------///
-                            child: SlideInDown(
-                              duration: const Duration(milliseconds: 300),
-                              child: SearchableList(
-                                ///!-------- Scroll Controller ------//
-                                scrollController:
-                                    locator.get<ScrollController>(),
-                                //! ----- For Storing List Position ------///
-                                key: const PageStorageKey("LocalMusic"),
-
-                                ///!------  Local Music List
-                                initialList: snapshot.data!,
-
-                                builder: (musicList, index, music) => ListTile(
-                                  selected:
-                                      themeState.localMusicSelectedTileIndex ==
-                                              index
-                                          ? true
-                                          : false,
-                                  selectedColor: Color(themeState.accentColor),
-
-                                  ///!-------  On Tap
-                                  onTap: () {
-                                    _listTileOnTap(
-                                        index: index,
-                                        musicList: state.musicsList,
-                                        currentMusic: music.uri,
-                                        musicTitle: music.title,
-                                        artistsName: music.artist,
-                                        musicListLength: musicListLength,
-                                        snapshotMusicList: musicList);
-                                  },
-
-                                  ///!-------  Music Icon
-                                  leading: SlideInLeft(
-                                    child: const Icon(
-                                      EvaIcons.music,
-                                      // color: Colors.white,
+                          ///!-------- Animation ------///
+                          child: SlideInDown(
+                            duration: const Duration(milliseconds: 300),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ///--------------------- Search Field ---------------------///
+                                if (isSearching)
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.sp),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 8.sp, vertical: 8.sp),
+                                    decoration: BoxDecoration(
+                                      color: Color(themeState.accentColor)
+                                          .withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: TextField(
+                                      autofocus: isSearching,
+                                      cursorOpacityAnimates: true,
+                                      maxLines: 1,
+                                      onTapOutside: (event) {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
+                                      onChanged: (val) {
+                                        setState(() {
+                                          filteredList = musicList.where(
+                                            (element) {
+                                              return element.displayName
+                                                      .toLowerCase()
+                                                      .contains(
+                                                          val.toLowerCase()) ||
+                                                  element.artist!
+                                                      .toLowerCase()
+                                                      .contains(
+                                                          val.toLowerCase());
+                                            },
+                                          ).toList();
+                                        });
+                                      },
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          suffix: IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                isSearching = false;
+                                                filteredList.clear();
+                                              });
+                                            },
+                                            icon: const Icon(Icons.clear),
+                                          ),
+                                          hintText:
+                                              "  Search eg. title, artist"),
                                     ),
                                   ),
 
-                                  ///!------------------  Music Title
-                                  title: Text(
-                                    music.title,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.spMax),
+                                ///-------------------- Music List --------------///
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: isSearching
+                                        ? filteredList.length
+                                        : musicList.length,
+                                    controller: locator.get<ScrollController>(),
+                                    itemBuilder: (context, index) {
+                                      final music = isSearching
+                                          ? filteredList[index]
+                                          : musicList[index];
+
+                                      return ListTile(
+                                        selected: !isSearching
+                                            ? themeState.localMusicSelectedTileIndex ==
+                                                    index
+                                                ? true
+                                                : false
+                                            : false,
+                                        selectedColor:
+                                            Color(themeState.accentColor),
+
+                                        ///!-------  On Tap
+                                        onTap: () {
+                                          if (isSearching &&
+                                              filteredList.isNotEmpty) {
+                                            _listTileOnTap(
+                                                index: index,
+                                                musicList: filteredList,
+                                                currentMusic: music.uri,
+                                                musicTitle: music.title,
+                                                artistsName: music.artist,
+                                                musicListLength:
+                                                    musicListLength,
+                                                snapshotMusicList: musicList);
+                                          }
+                                          _listTileOnTap(
+                                              index: index,
+                                              musicList: state.musicsList,
+                                              currentMusic: music.uri,
+                                              musicTitle: music.title,
+                                              artistsName: music.artist,
+                                              musicListLength: musicListLength,
+                                              snapshotMusicList: musicList);
+                                        },
+
+                                        ///!-------  Music Icon
+                                        leading: SlideInLeft(
+                                          child: const Icon(
+                                            EvaIcons.music,
+                                            // color: Colors.white,
+                                          ),
+                                        ),
+
+                                        ///!------------------  Music Title
+                                        title: Text(
+                                          music.title,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15.spMax),
+                                        ),
+
+                                        ///!--------  Artists
+                                        subtitle: Text(
+                                          music.artist ?? "Unknown",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 11.spMax),
+                                        ),
+
+                                        ///!--------  Music Visualization
+                                        trailing: isSearching
+                                            ? null
+                                            : themeState.localMusicSelectedTileIndex ==
+                                                    index
+                                                ? const MiniMusicVisualizerWidget()
+                                                : null,
+                                      );
+                                    },
                                   ),
-
-                                  ///!--------  Artists
-                                  subtitle: Text(
-                                    music.artist ?? "Unknown",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 11.spMax),
-                                  ),
-
-                                  ///!--------  Music Visualization
-                                  trailing:
-                                      themeState.localMusicSelectedTileIndex ==
-                                              index
-                                          ? const MiniMusicVisualizerWidget()
-                                          : null,
                                 ),
-
-                                ///!-------  Search Filter Logic
-                                filter: (value) => snapshot.data!
-                                    .where(
-                                      (music) => music.title
-                                          .toLowerCase()
-                                          .contains(value.trim().toLowerCase()),
-                                    )
-                                    .toList(),
-
-                                ///!------  No Music Found on Searching
-                                emptyWidget: const Center(
-                                  child: Text("No Music Found!"),
-                                ),
-
-                                ////!---------------------  Search Field Input Decoration
-                                inputDecoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 12.sp, vertical: 8.sp),
-                                  border: InputBorder.none,
-                                  filled: true,
-                                  fillColor: themeState.isDarkMode
-                                      ? null
-                                      : Colors.grey.shade100,
-                                  enabled: true,
-                                  hintText: " Search",
-
-                                  ///------ Focus Border
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                ),
-                                physics: const BouncingScrollPhysics(),
-                                cursorColor: Color(themeState.accentColor),
-                                maxLines: 1,
-                                closeKeyboardWhenScrolling: true,
-                              ),
+                              ],
                             ),
                           ),
                         );
@@ -256,16 +308,8 @@ class _DownloadsPageState extends State<DownloadsPage> {
     ///!-------  Change Selected Tile Index
     context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
 
-
     ///!-------  Save Current Playing Music Offset
-    context
-        .read<
-        SearchableListScrollControllerCubit>()
-        .updateScrollOffset(
-        scrollOffset: locator
-            .get<ScrollController>()
-            .offset);
+    context.read<SearchableListScrollControllerCubit>().updateScrollOffset(
+        scrollOffset: locator.get<ScrollController>().offset);
   }
 }
-
-

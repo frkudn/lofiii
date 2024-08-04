@@ -16,21 +16,15 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
 
   YoutubeMusicPlayerCubit() : super(YoutubeMusicPlayerInitialState());
 
-  initializePlayer({required videoId}) async {
+  void initializePlayer({required videoId}) {
     emit(YoutubeMusicPlayerLoadingState());
 
-    // Dispose the existing player only if it's in a success state
-    if (state is YoutubeMusicPlayerSuccessState) {
-      disposeThePlayer(state: state as YoutubeMusicPlayerSuccessState);
-    }
-
-    final PodPlayerController controller = await PodPlayerController(
+    PodPlayerController controller = PodPlayerController(
         podPlayerConfig: const PodPlayerConfig(
-            videoQualityPriority:[1080, 720, 360],
+            videoQualityPriority: [1080, 720, 360],
             isLooping: false,
             autoPlay: true,
             wakelockEnabled: true,
-
             forcedVideoFocus: true),
         playVideoFrom: PlayVideoFrom.youtube(videoId))
       ..initialise();
@@ -46,10 +40,11 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
   showCurrentPositionOnHorizontalDragging(
       {required YoutubeMusicPlayerState state}) async {
     if (state is YoutubeMusicPlayerSuccessState) {
+      
       emit(state.copyWith(showVideoPositionOnHDragging: true));
 
       // Cancel any previous timers
-      _showCurrentPositionOnHorizontalTimer?.cancel();
+     _showCurrentPositionOnHorizontalTimer?.cancel();
 
       // Start a new timer to hide the buttons after 3 seconds
       _showCurrentPositionOnHorizontalTimer =
@@ -87,9 +82,5 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
     if (state is YoutubeMusicPlayerSuccessState) {
       emit(state.copyWith(screenLock: !state.screenLock));
     }
-  }
-
-  disposeThePlayer({required YoutubeMusicPlayerSuccessState state}) {
-    state.controller.dispose();
   }
 }

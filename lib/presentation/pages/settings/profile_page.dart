@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:one_context/one_context.dart';
 import '../../../logic/bloc/user_profie/user_profile_bloc.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
@@ -50,50 +51,46 @@ class _ProfilePageState extends State<ProfilePage> {
             )),
         backgroundColor: Colors.transparent,
       ),
-      body: Stack(
-          fit: StackFit.expand,
-          children: [
+      body: Stack(fit: StackFit.expand, children: [
+        ///!---------------------------------------------------//
+        ///?-----------------  Profile Image    --------- ///
+        ///!---------------------------------------------------//
+        const _ProfileImageCircleAvatarButton(),
 
-            ///!---------------------------------------------------//
-            ///?-----------------  Profile Image    --------- ///
-            ///!---------------------------------------------------//
-            const _ProfileImageCircleAvatarButton(),
+        ///!---------------------------------------------------//
+        ///?-----------------  Background Image    --------- ///
+        ///!---------------------------------------------------//
+        const BlurBackgroundProfileImageWidget(),
 
-            ///!---------------------------------------------------//
-            ///?-----------------  Background Image    --------- ///
-            ///!---------------------------------------------------//
-            const BlurBackgroundProfileImageWidget(),
+        ///!---------------------------------------------------//
+        ///?------------   Main Center Box   -------------------////
+        ///!---------------------------------------------------//
+        Center(
+          child: CustomGradientGlassCardWidget(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ///!---------------------------------------------------//
+                ///?------------   Profile Image   -------------------////
+                ///!---------------------------------------------------//
+                const _ProfileImageWidget(),
 
-            ///!---------------------------------------------------//
-            ///?------------   Main Center Box   -------------------////
-            ///!---------------------------------------------------//
-            Center(
-              child: CustomGradientGlassCardWidget(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                ///!---------------------------------------------------//
+                ///?------------   Profile Name Field   -------------------////
+                ///!---------------------------------------------------//
 
-                    ///!---------------------------------------------------//
-                    ///?------------   Profile Image   -------------------////
-                    ///!---------------------------------------------------//
-                    const _ProfileImageWidget(),
+                _ProfileNameTextFieldWidget(
+                    usernameController: usernameController),
 
-                    ///!---------------------------------------------------//
-                    ///?------------   Profile Name Field   -------------------////
-                    ///!---------------------------------------------------//
-
-                    _ProfileNameTextFieldWidget(
-                        usernameController: usernameController),
-
-                    ///!---------------------------------------------------//
-                    ///?------------   Save Button   -------------------////
-                    ///!---------------------------------------------------//
-                    _SaveButtonWidget(usernameController: usernameController)
-                  ],
-                ),
-              ),
+                ///!---------------------------------------------------//
+                ///?------------   Save Button   -------------------////
+                ///!---------------------------------------------------//
+                _SaveButtonWidget(usernameController: usernameController)
+              ],
             ),
-          ]),
+          ),
+        ),
+      ]),
     );
   }
 }
@@ -123,16 +120,19 @@ class _ProfileImageCircleAvatarButton extends StatelessWidget {
               height: 0.4.sw,
               width: 0.4.sw,
               child: Stack(children: [
-
                 ///! ----------   Profile Image
                 BlocBuilder<UserProfileBloc, UserProfileState>(
                   builder: (context, state) {
                     if (state.profileImageFilePath.isNotEmpty) {
-                      return CircleAvatar(
-                        maxRadius: 100,
-                        minRadius: 30,
-                        backgroundImage:
-                        FileImage(File(state.profileImageFilePath)),
+                      return Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(state.profileImageFilePath),
+                            ),
+                          ),
+                        ),
                       );
                     } else {
                       return BlocBuilder<ThemeModeCubit, ThemeModeState>(
@@ -202,7 +202,7 @@ class _ProfileNameTextFieldWidget extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontSize: 15.spMax,
                             color:
-                            themeState.isDarkMode?null:Colors.white70),
+                                themeState.isDarkMode ? null : Colors.white70),
                       )),
                   TextField(
                     maxLines: 1,
@@ -210,7 +210,7 @@ class _ProfileNameTextFieldWidget extends StatelessWidget {
                       context.read<UserProfileBloc>().add(
                           UserProfileChangeUsernameEvent(
                               username: usernameController.text));
-                      OneContext().pop();
+                      Navigator.pop(context);
                     },
                     controller: usernameController,
                     decoration: InputDecoration(
@@ -249,10 +249,14 @@ class _ProfileImageWidget extends StatelessWidget {
           builder: (context, state) {
             if (state.profileImageFilePath.isNotEmpty) {
               return SpinPerfect(
-                child: CircleAvatar(
-                  maxRadius: 100,
-                  minRadius: 30,
-                  backgroundImage: FileImage(File(state.profileImageFilePath)),
+                child: InstaImageViewer(
+                  child: CircleAvatar(
+                    maxRadius: 100,
+                    minRadius: 30,
+                    backgroundImage: FileImage(
+                      File(state.profileImageFilePath),
+                    ),
+                  ),
                 ),
               );
             } else {

@@ -18,7 +18,6 @@ import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:nested/nested.dart';
 import 'package:one_context/one_context.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'data/services/background_services.dart';
 import 'logic/bloc/artists_data/artists_data_bloc.dart';
 import 'logic/bloc/check_internet_connection/check_internet_connection_bloc.dart';
 import 'logic/bloc/favorite_button/favorite_button_bloc.dart';
@@ -79,7 +78,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
-    // TODO: implement dispose
     locator.get<ScrollController>().dispose();
     locator.get<Floating>().dispose();
     super.dispose();

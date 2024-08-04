@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../data/models/music_model.dart';
 import '../../../logic/bloc/player/music_player_bloc.dart';
@@ -74,7 +74,7 @@ final String pageStorageKey;
                           CachedNetworkImage(
                             ///!--------Music Image Url List-------///
                             imageUrl: list[index].image.toString(),
-                      
+                                                
                             ///!-------On Image Successfully Loaded---------///
                             imageBuilder: (context, imageProvider) => Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -98,7 +98,7 @@ final String pageStorageKey;
                                 ),
                               ),
                             ),
-                      
+                                                
                             ///!----------------On Loading-------------///
                             placeholder: (context, url) =>
                                 BlocBuilder<ThemeModeCubit, ThemeModeState>(
@@ -125,7 +125,7 @@ final String pageStorageKey;
                                 );
                               },
                             ),
-                      
+                                                
                             ///!----------------On Error-------------///
                             errorWidget: (context, url, error) =>
                                 BlocBuilder<ThemeModeCubit, ThemeModeState>(
