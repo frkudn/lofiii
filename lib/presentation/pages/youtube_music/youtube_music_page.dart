@@ -343,6 +343,7 @@ class _YoutubeMusicPageState extends State<YoutubeMusicPage> {
                     } else if (state is YoutubeMusicLoadingState) {
                       return Center(
                         child: ListViewShimmerBoxWidget(
+                          showHeader: false,
                           itemHeight: 0.1.sh,
                           itemWidth: 0.6.sw,
                           boxHeight: 0.19.sh,

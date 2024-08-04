@@ -63,42 +63,47 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
 
                   ///---------Field---------///
                   Flexible(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondary
-                              .withOpacity(0.1)),
-                      padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                      child: TextField(
-                        controller: controller,
-                        autofocus: true,
-                        onSubmitted: (value) {
-                          context
-                              .read<YoutubeMusicCubit>()
-                              .searchMusic(query: value);
-                        },
-                        onChanged: (value) {
-                          context
-                              .read<YoutubeMusicCubit>()
-                              .searchMusic(query: value);
-                          _scrollController.jumpTo(0);
-                        },
-                        maxLines: 1,
-                        enableSuggestions: true,
-                        onTapOutside: (event) {
-                          ///----Hide keyboard if active
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        decoration: const InputDecoration(
-                          hintText: "Search Music",
-                          border: InputBorder.none,
-                          filled: false,
+                    child: Padding(
+                     padding: EdgeInsets.only(top: 10.sp),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.1)),
+                        padding: EdgeInsets.symmetric(horizontal: 10.sp, ),
+                        
+                        child: TextField(
+                          controller: controller,
+                          autofocus: true,
+                          onSubmitted: (value) {
+                            context
+                                .read<YoutubeMusicCubit>()
+                                .searchMusic(query: value);
+                          },
+                          onChanged: (value) {
+                            context
+                                .read<YoutubeMusicCubit>()
+                                .searchMusic(query: value);
+                            _scrollController.jumpTo(0);
+                          },
+                          maxLines: 1,
+                          enableSuggestions: true,
+                          onTapOutside: (event) {
+                            ///----Hide keyboard if active
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          decoration: const InputDecoration(
+                            hintText: "Search Music",
+                            border: InputBorder.none,
+                            filled: false,
+                          ),
                         ),
                       ),
                     ),
                   ),
+                  const Gap(10),
                 ],
               ),
 
