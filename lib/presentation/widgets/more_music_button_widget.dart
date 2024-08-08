@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:lofiii/logic/cubit/addLocalMusicToFavorite/add_local_music_to_favorite_music_list_cubit.dart';
-import 'package:lofiii/utils/custom_snackbar.dart';
+import 'package:lofiii/logic/cubit/localMusicToFavorite/local_music_to_favorite_music_list_cubit.dart';
 import 'package:lofiii/utils/format_duration.dart';
 import 'package:lofiii/utils/menu_helper.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -30,54 +30,35 @@ class _MoreMusicButtonWidgetState extends State<MoreMusicButtonWidget> {
         SearchableListScrollControllerState>(
       builder: (context, state) {
         return BlocConsumer<LocalMusicToFavoriteMusicListCubit,
-            LocalMusicToFavoriteMusicListState>(
-          listener: (context, favoriteState) {
-            if (favoriteState
-                is LocalMusicToFavoriteMusicListIsSuccessfullyAddedState) {
-              MyCustomSnackbars.showSimpleSnackbar(context,
-                  message: "Music is added to Favorite");
-            }
+            LocalMusicFavoriteState>(
+          listener: (context, favoriteState) {},
+          builder: (context, favoriteState) {
+            bool isFavorite =
+                favoriteState.favoriteList.contains(widget.song.title);
 
-            if(favoriteState is LocalMusicToFavoriteMusicListIsAlreadyExistsState){
-               MyCustomSnackbars.showSimpleSnackbar(context,
-                  message: "Music is already added to Favorite");
-            }
-
-            if (favoriteState
-                is LocalMusicToFavoriteMusicListIsSuccessfullyRemovedState) {
-              MyCustomSnackbars.showSimpleSnackbar(context,
-                  message: "Music is removed from Favorite");
-            }
-
-            if (favoriteState is LocalMusicToFavoriteMusicListFailureState) {
-              MyCustomSnackbars.showErrorSnackbar(context,
-                  message: favoriteState.errorMessage);
-            }
-          },
-          builder: (context, lFState) {
             return GestureDetector(
               onTapDown: (TapDownDetails details) {
-             
-
                 final offset = details.globalPosition;
                 setState(() {
                   MenuHelper.showMenuAtPosition(
                       context: context,
                       position: offset,
                       items: [
-                          PopupMenuItem(
-                            onTap: () {
-                              context
-                                  .read<LocalMusicToFavoriteMusicListCubit>()
-                                  .addMusicToFavorite(widget.song.title);
-                            },
-                            child: const ListTile(
-                              title: Text(
-                                "Add to Favorite",
-                              ),
-                              trailing: Icon(Icons.favorite),
+                        PopupMenuItem(
+                          onTap: () {
+                            context
+                                .read<LocalMusicToFavoriteMusicListCubit>()
+                                .favoriteToggle(widget.song.title);
+                          },
+                          child: ListTile(
+                            title: const Text(
+                              "Add to Favorite",
                             ),
+                            trailing: isFavorite
+                                ? const Icon(FontAwesomeIcons.solidHeart)
+                                : const Icon(FontAwesomeIcons.heart),
                           ),
+                        ),
                         PopupMenuItem(
                           onTap: () {},
                           child: const ListTile(

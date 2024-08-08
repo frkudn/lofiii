@@ -10,7 +10,6 @@ import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
 import 'package:youtube_scrape_api/models/video.dart';
 
-import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
 import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';

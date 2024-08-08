@@ -8,11 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:lofiii/logic/cubit/addLocalMusicToFavorite/add_local_music_to_favorite_music_list_cubit.dart';
+import 'package:lofiii/logic/cubit/localMusicToFavorite/local_music_to_favorite_music_list_cubit.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/searchable_list_scroll_controller/download_scroll_controller_state.dart';
 import 'package:lofiii/logic/cubit/searchable_list_scroll_controller/searchableList_scroll_controller_cubit.dart';
-import 'package:one_context/one_context.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../../../logic/bloc/player/music_player_bloc.dart';
@@ -139,40 +138,64 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Expanded(
-                                              child: TextAnimator(
-                                                incomingEffect:
-                                                    WidgetTransitionEffects
-                                                        .incomingOffsetThenScale(),
-                                                atRestEffect:
-                                                    WidgetRestingEffects.wave(),
-                                                nowPlayingMusicState.musicTitle,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                    fontSize: 29.sp,
-                                                    color: Colors.white),
+                                        SizedBox(
+                                          height: 0.08.sh,
+                                          width: 0.8.sw,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            
+                                            children: [
+                                              Flexible(
+                                                child: TextAnimator(
+                                                
+                                                  incomingEffect:
+                                                      WidgetTransitionEffects
+                                                          .incomingOffsetThenScale(),
+                                                  atRestEffect:
+                                                      WidgetRestingEffects.wave(),
+                                                  nowPlayingMusicState.musicTitle,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      fontSize: 29.sp,
+                                                      color: Colors.white),
+                                                ),
                                               ),
-                                            ),
-
-                                            //-----------   Favorite Button -------------------//
-                                            IconButton(
-                                              onPressed: () {
-                                                context
-                                                    .read<
-                                                        LocalMusicToFavoriteMusicListCubit>()
-                                                    .addMusicToFavorite(
-                                                        nowPlayingMusicState
-                                                            .musicTitle);
-                                              },
-                                              icon: const Icon(
-                                                FontAwesomeIcons.circlePlus,
-                                                color: Colors.white70,
-                                              ),
-                                            )
-                                          ],
+                                          
+                                              //-----------   Favorite Button -------------------//
+                                              BlocBuilder<
+                                                  LocalMusicToFavoriteMusicListCubit,
+                                                  LocalMusicFavoriteState>(
+                                                builder:
+                                                    (context, favoriteState) {
+                                                  bool isFavorite = favoriteState
+                                                      .favoriteList
+                                                      .contains(
+                                                          nowPlayingMusicState
+                                                              .musicTitle);
+                                                  return IconButton(
+                                                    onPressed: () {
+                                                      context
+                                                          .read<
+                                                              LocalMusicToFavoriteMusicListCubit>()
+                                                          .favoriteToggle(
+                                                              nowPlayingMusicState
+                                                                  .musicTitle);
+                                                      setState(() {});
+                                                    },
+                                                    icon: Icon(
+                                                      isFavorite
+                                                          ? FontAwesomeIcons
+                                                              .solidHeart
+                                                          : FontAwesomeIcons
+                                                              .heart,
+                                                      color: Colors.white70,
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         Text(
                                           nowPlayingMusicState.musicArtist,

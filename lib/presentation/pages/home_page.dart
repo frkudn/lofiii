@@ -6,9 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:lofiii/presentation/pages/view_more/view_more_page.dart';
 import 'package:lofiii/presentation/widgets/common/horizontalCircularBoxListViewShimmerBoxWidget.dart';
 import 'package:lofiii/presentation/widgets/common/listViewShimmerBoxWidget.dart';
-import 'package:lottie/lottie.dart';
 import 'package:one_context/one_context.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../logic/bloc/artists_data/artists_data_bloc.dart';
 import '../../logic/bloc/artists_data/artists_data_event.dart';
 import '../../logic/bloc/artists_data/artists_data_state.dart';
@@ -22,7 +20,6 @@ import '../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_state.dart'
 import '../../logic/bloc/lofiii_vibes_music/lofiii_vibes_music_bloc.dart';
 import '../../logic/bloc/lofiii_vibes_music/lofiii_vibes_music_event.dart';
 import '../../logic/bloc/lofiii_vibes_music/lofiii_vibes_music_state.dart';
-import '../../resources/my_assets/my_assets.dart';
 import '../widgets/artists_circle_avatar_list/artists_circle_cards_list_widget.dart';
 import '../widgets/heading_with_view_more_button/heading_with_view_more_button_widget.dart';
 import '../widgets/home_page_app_bar/home_app_bar.dart';
@@ -63,17 +60,15 @@ class _HomePageState extends State<HomePage> {
                       ? HeadingWithViewMoreButton(
                           heading: "LOFIII Special",
                           viewMoreOnTap: () {
-                            if (state is LofiiiSpecialMusicSuccessState) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewMorePage(
-                                    topHeading: "LOFIII Special",
-                                    musicList: state.musicList,
-                                  ),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewMorePage(
+                                  topHeading: "LOFIII Special",
+                                  musicList: state.musicList,
                                 ),
-                              );
-                            }
+                              ),
+                            );
                           })
                       : const SliverToBoxAdapter();
                 },
@@ -134,17 +129,15 @@ class _HomePageState extends State<HomePage> {
                       ? HeadingWithViewMoreButton(
                           heading: "LOFIII Popular",
                           viewMoreOnTap: () {
-                            if (state is LofiiiPopularMusicSuccessState) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewMorePage(
-                                    topHeading: "LOFIII Popular",
-                                    musicList: state.musicList,
-                                  ),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewMorePage(
+                                  topHeading: "LOFIII Popular",
+                                  musicList: state.musicList,
                                 ),
-                              );
-                            }
+                              ),
+                            );
                           })
                       : const SliverToBoxAdapter();
                 },
@@ -337,7 +330,6 @@ class _HomePageState extends State<HomePage> {
                       ? HeadingWithViewMoreButton(
                           heading: "LOFIII Vibes",
                           viewMoreOnTap: () {
-                            if (state is LofiiiVibesMusicSuccessState) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -347,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               );
-                            }
+                            
                           })
                       : const SliverToBoxAdapter();
                 },
@@ -385,8 +377,8 @@ class _HomePageState extends State<HomePage> {
                     return SliverToBoxAdapter(
                       child: Column(
                         children: [
-                         const NoInternetLottieAnimation(),
-                         const Text("Refresh Now"),
+                          const NoInternetLottieAnimation(),
+                          const Text("Refresh Now"),
                           IconButton(
                               onPressed: _onRefreshMethod,
                               icon: const Icon(FontAwesomeIcons.arrowsRotate))

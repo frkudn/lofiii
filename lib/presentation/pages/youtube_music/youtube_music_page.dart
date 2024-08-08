@@ -5,13 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
 import 'package:lofiii/logic/cubit/youtube_music/youtube_music_cubit.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_music_player_page.dart';
 import 'package:lofiii/presentation/pages/youtube_music/youtube_search_page.dart';
 import 'package:lofiii/presentation/widgets/common/listViewShimmerBoxWidget.dart';
 import 'package:lottie/lottie.dart';
-import 'package:one_context/one_context.dart';
 import 'package:youtube_scrape_api/models/video.dart';
 
 import '../../../logic/cubit/send_current_playing_music_data_to_player_screen/send_music_data_to_player_cubit.dart';
@@ -19,7 +17,6 @@ import '../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import '../../../resources/my_assets/my_assets.dart';
-import '../../widgets/lottie_animation/no_internet_lottie_animation_widget.dart';
 import '../../widgets/youtube_favorite_playlist/youtube_favorite_playlists_widget.dart';
 
 class YoutubeMusicPage extends StatefulWidget {

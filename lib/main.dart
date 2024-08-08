@@ -1,7 +1,6 @@
 import 'package:floating/floating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/data/services/notification_service.dart';
@@ -9,7 +8,7 @@ import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/lofiii_vibes_music/lofiii_vibes_music_bloc.dart';
-import 'package:lofiii/logic/cubit/addLocalMusicToFavorite/add_local_music_to_favorite_music_list_cubit.dart';
+import 'package:lofiii/logic/cubit/localMusicToFavorite/local_music_to_favorite_music_list_cubit.dart';
 import 'package:lofiii/logic/cubit/flip_card/flip_card_cubit.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/repeat_music/repeat_music_cubit.dart';

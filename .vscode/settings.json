@@ -10,6 +10,7 @@
     "Saregama",
     "screenutil",
     "Snackbars",
-    "unfocus"
+    "unfocus",
+    "wakelock"
   ]
 }

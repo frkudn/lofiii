@@ -1,12 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:lofiii/data/models/music_model.dart';
 import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
@@ -50,209 +47,205 @@ class _DownloadsPageState extends State<DownloadsPage> {
     return BlocBuilder<ThemeModeCubit, ThemeModeState>(
         builder: (context, themeState) {
       return Scaffold(
-
-          ///!------------ App Bar ------------///
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            bottomOpacity: 0,
-            elevation: 0,
-            title: Text(
-              "L o c a l  M u s i c",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.sp),
-            ),
-            actions: [
-              ///------------- Search Button
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    isSearching = !isSearching;
-                    if (!isSearching) filteredList.clear();
-                  });
-                },
-                icon: const Icon(Icons.search),
-              ),
-
-              const Gap(10),
-            ],
+        ///!------------ App Bar ------------///
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          bottomOpacity: 0,
+          elevation: 0,
+          title: Text(
+            "L o c a l  M u s i c",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.sp),
           ),
+          actions: [
+            ///------------- Search Button
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isSearching = !isSearching;
+                  if (!isSearching) filteredList.clear();
+                });
+              },
+              icon: const Icon(Icons.search),
+            ),
 
-          ///!----------  Floating Action Button ------------------///
-          floatingActionButton: const NowPlayingPositionFloatingButtonWidget(),
+            const Gap(10),
+          ],
+        ),
 
-          ///!-------------   Body ---------//
-          body:
+        ///!----------  Floating Action Button ------------------///
+        floatingActionButton: const NowPlayingPositionFloatingButtonWidget(),
 
-              // !/------------------  Music List -----////
-              BlocConsumer<FetchMusicFromLocalStorageBloc,
-                  FetchMusicFromLocalStorageState>(listener: (context, state) {
-            // TODO: implement listener
-          }, builder: (context, state) {
-            if (state is FetchMusicFromLocalStorageSuccessState) {
-              return PageStorage(
-                bucket: pageBucket,
+        ///!-------------   Body ---------//
+        body:
 
-                ///!-------- Animation ------///
-                child: SlideInDown(
-                  duration: const Duration(milliseconds: 300),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ///--------------------- Search Field ---------------------///
-                      if (isSearching)
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 8.sp, vertical: 8.sp),
-                          decoration: BoxDecoration(
-                            color:
-                                Color(themeState.accentColor).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: TextField(
-                            autofocus: isSearching,
-                            cursorOpacityAnimates: true,
-                            maxLines: 1,
-                            onTapOutside: (event) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            onChanged: (val) {
-                              setState(() {
-                                filteredList = state.musicsList.where(
-                                  (element) {
-                                    return element.displayName
-                                            .toLowerCase()
-                                            .contains(val.toLowerCase()) ||
-                                        element.artist!
-                                            .toLowerCase()
-                                            .contains(val.toLowerCase());
-                                  },
-                                ).toList();
-                              });
-                            },
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                suffix: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isSearching = false;
-                                      filteredList.clear();
-                                    });
-                                  },
-                                  icon: const Icon(Icons.clear),
-                                ),
-                                hintText: "  Search eg. title, artist"),
-                          ),
+            // !/------------------  Music List -----////
+            BlocBuilder<FetchMusicFromLocalStorageBloc,
+                FetchMusicFromLocalStorageState>(builder: (context, state) {
+          if (state is FetchMusicFromLocalStorageSuccessState) {
+            return PageStorage(
+              bucket: pageBucket,
+
+              ///!-------- Animation ------///
+              child: SlideInDown(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ///--------------------- Search Field ---------------------///
+                    if (isSearching)
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 8.sp, vertical: 8.sp),
+                        decoration: BoxDecoration(
+                          color: Color(themeState.accentColor).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(30),
                         ),
-
-                      ///-------------------- Music List --------------///
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: isSearching
-                              ? filteredList.length
-                              : state.musicsList.length,
-                          controller: locator.get<ScrollController>(),
-                          itemBuilder: (context, index) {
-                            final music = isSearching
-                                ? filteredList[index]
-                                : state.musicsList[index];
-
-                            bool isSelected = !isSearching
-                                ? themeState.localMusicSelectedTileIndex ==
-                                    index
-                                : false;
-
-                            return ListTile(
-                              selected: isSelected ? true : false,
-                              selectedColor: Color(themeState.accentColor),
-
-                              ///!-------  On Tap
-                              onTap: () {
-                                _listTileOnTap(
-                                  index: index,
-                                  musicList: state.musicsList,
-                                  currentMusic: music.uri,
-                                  musicTitle: music.title,
-                                  artistsName: music.artist,
-                                  musicListLength: state.musicsList.length,
-                                );
-                              },
-
-                              ///!-------  Music Icon
-                              leading: SlideInLeft(
-                                child: const Icon(
-                                  EvaIcons.music,
-                                  // color: Colors.white,
-                                ),
-                              ),
-
-                              ///!------------------  Music Title
-                              title: !isSelected
-                                  ? Text(
-                                      music.title,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15.spMax),
-                                    )
-                                  : TextAnimator(
-                                      atRestEffect: WidgetRestingEffects.wave(),
-                                      music.title,
-                                      maxLines: 6,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15.spMax),
-                                    ),
-
-                              ///!--------  Artists
-                              subtitle: Text(
-                                music.artist ?? "Unknown",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 11.spMax),
-                              ),
-
-                              ///!--------  Music Visualization
-                              trailing: isSearching
-                                  ? null
-                                  : themeState.localMusicSelectedTileIndex ==
-                                          index
-                                      ?
-
-                                      ///---------- Music mini Visualization
-                                      const MiniMusicVisualizerWidget()
-                                      :
-
-                                      ///---------------- More Info Button --------
-                                      MoreMusicButtonWidget(
-                                          song: music,
-                                        ),
-                            );
+                        child: TextField(
+                          autofocus: isSearching,
+                          cursorOpacityAnimates: true,
+                          maxLines: 1,
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                           },
+                          onChanged: (val) {
+                            setState(() {
+                              filteredList = state.musicsList.where(
+                                (element) {
+                                  return element.displayName
+                                          .toLowerCase()
+                                          .contains(val.toLowerCase()) ||
+                                      element.artist!
+                                          .toLowerCase()
+                                          .contains(val.toLowerCase());
+                                },
+                              ).toList();
+                            });
+                          },
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              suffix: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isSearching = false;
+                                    filteredList.clear();
+                                  });
+                                },
+                                icon: const Icon(Icons.clear),
+                              ),
+                              hintText: "  Search eg. title, artist"),
                         ),
                       ),
-                    ],
-                  ),
+
+                    ///-------------------- Music List --------------///
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: isSearching
+                            ? filteredList.length
+                            : state.musicsList.length,
+                        controller: locator.get<ScrollController>(),
+                        itemBuilder: (context, index) {
+                          final music = isSearching
+                              ? filteredList[index]
+                              : state.musicsList[index];
+
+                          bool isSelected = !isSearching
+                              ? themeState.localMusicSelectedTileIndex == index
+                              : false;
+
+                          return ListTile(
+                            selected: isSelected ? true : false,
+                            selectedColor: Color(themeState.accentColor),
+
+                            ///!-------  On Tap
+                            onTap: () {
+                              _listTileOnTap(
+                                index: index,
+                                musicList: state.musicsList,
+                                currentMusic: music.uri,
+                                musicTitle: music.title,
+                                artistsName: music.artist,
+                                musicListLength: state.musicsList.length,
+                              );
+                            },
+
+                            ///!-------  Music Icon
+                            leading: SlideInLeft(
+                              child: const Icon(
+                                EvaIcons.music,
+                                // color: Colors.white,
+                              ),
+                            ),
+
+                            ///!------------------  Music Title
+                            title: !isSelected
+                                ? Text(
+                                    music.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15.spMax),
+                                  )
+                                : TextAnimator(
+                                    atRestEffect:
+                                        WidgetRestingEffects.wave(),
+                                    music.title,
+                                    maxLines: 6,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15.spMax),
+                                  ),
+
+                            ///!--------  Artists
+                            subtitle: Text(
+                              music.artist ?? "Unknown",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 11.spMax),
+                            ),
+
+                            ///!--------  Music Visualization
+                            trailing: isSearching
+                                ? null
+                                : themeState.localMusicSelectedTileIndex ==
+                                        index
+                                    ?
+
+                                    ///---------- Music mini Visualization
+                                    const MiniMusicVisualizerWidget()
+                                    :
+
+                                    ///---------------- More Info Button --------
+                                    MoreMusicButtonWidget(
+                                        song: music,
+                                      ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            } else if (state is FetchMusicFromLocalStorageLoadingState) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Color(themeState.accentColor),
-                ),
-              );
-            } else if (state is FetchMusicFromLocalStorageFailureState) {
-              return Center(
-                child: Text(state.failureMessage),
-              );
-            } else {
-              return Center(
-                child: TextAnimator(
-                    atRestEffect: WidgetRestingEffects.rotate(),
-                    "No Music Available"),
-              );
-            }
-          }));
+              ),
+            );
+          } else if (state is FetchMusicFromLocalStorageLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Color(themeState.accentColor),
+              ),
+            );
+          } else if (state is FetchMusicFromLocalStorageFailureState) {
+            return Center(
+              child: Text(state.failureMessage),
+            );
+          } else {
+            return Center(
+              child: TextAnimator(
+                  atRestEffect: WidgetRestingEffects.rotate(),
+                  "No Music Available"),
+            );
+          }
+        }),
+      );
     });
   }
 
