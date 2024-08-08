@@ -4,15 +4,16 @@ import 'package:animate_do/animate_do.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/logic/cubit/addLocalMusicToFavorite/add_local_music_to_favorite_music_list_cubit.dart';
 import 'package:lofiii/logic/cubit/now_playing_offline_music_data_to_player/now_playing_offline_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/searchable_list_scroll_controller/download_scroll_controller_state.dart';
 import 'package:lofiii/logic/cubit/searchable_list_scroll_controller/searchableList_scroll_controller_cubit.dart';
 import 'package:one_context/one_context.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../logic/cubit/chnage_system_volume/chnage_system_volume_cubit.dart';
@@ -40,7 +41,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
         leading: ElasticInRight(
           child: IconButton(
               onPressed: () {
-                OneContext().pop();
+                Navigator.pop(context);
               },
               icon: Icon(
                 CupertinoIcons.back,
@@ -57,9 +58,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
         toolbarHeight: 0.15.sh,
       ),
       extendBodyBehindAppBar: true,
-      body:
-          // return
-          BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
+      body: BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
         builder: (context, state) {
           if (state is MusicPlayerSuccessState) {
             return BlocBuilder<ThemeModeCubit, ThemeModeState>(
@@ -134,19 +133,46 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ///!      ---------------Music Title  & Artist----///
+                                  ///!      ---------------Music Title  & Artist & Favorite Button----///
                                   SlideInRight(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          nowPlayingMusicState.musicTitle,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 29.sp,
-                                              color: Colors.white),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Expanded(
+                                              child: TextAnimator(
+                                                incomingEffect:
+                                                    WidgetTransitionEffects
+                                                        .incomingOffsetThenScale(),
+                                                atRestEffect:
+                                                    WidgetRestingEffects.wave(),
+                                                nowPlayingMusicState.musicTitle,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                    fontSize: 29.sp,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+
+                                            //-----------   Favorite Button -------------------//
+                                            IconButton(
+                                              onPressed: () {
+                                                context
+                                                    .read<
+                                                        LocalMusicToFavoriteMusicListCubit>()
+                                                    .addMusicToFavorite(
+                                                        nowPlayingMusicState
+                                                            .musicTitle);
+                                              },
+                                              icon: const Icon(
+                                                FontAwesomeIcons.circlePlus,
+                                                color: Colors.white70,
+                                              ),
+                                            )
+                                          ],
                                         ),
                                         Text(
                                           nowPlayingMusicState.musicArtist,
@@ -198,15 +224,15 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                               .withOpacity(0.5),
                                                       secondaryTrackValue:
                                                           bufferedPositionSnapshot!
-                                                                  .inSeconds
-                                                                  .toDouble(),
+                                                              .inSeconds
+                                                              .toDouble(),
                                                       min: 0,
                                                       max: durationSnapshot!
                                                           .inSeconds
                                                           .toDouble(),
                                                       value: positionSnapshot!
-                                                              .inSeconds
-                                                              .toDouble(),
+                                                          .inSeconds
+                                                          .toDouble(),
                                                       onChanged: (value) {
                                                         context
                                                             .read<
@@ -354,15 +380,16 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                           nowPlayingMusicState,
                                                           context);
 
-                                                      if(state.scrollOffset != 0) {
+                                                      if (state.scrollOffset !=
+                                                          0) {
                                                         ///!------- Current Playing music scroll position
                                                         context
                                                             .read<
-                                                            SearchableListScrollControllerCubit>()
+                                                                SearchableListScrollControllerCubit>()
                                                             .updateScrollOffset(
-                                                            scrollOffset:
-                                                            state.scrollOffset -
-                                                                70.sp);
+                                                                scrollOffset:
+                                                                    state.scrollOffset -
+                                                                        70.sp);
                                                       }
                                                     },
                                                     icon: Icon(
@@ -445,7 +472,7 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
                                                                           .read<
                                                                               MusicPlayerBloc>()
                                                                           .add(MusicPlayerInitializeEvent(
-                                                                              url: nowPlayingMusicState.snapshotMusicList![nowPlayingMusicState.musicIndex].uri.toString()));
+                                                                              url: nowPlayingMusicState.musicList[nowPlayingMusicState.musicIndex].uri.toString()));
                                                                     },
                                                                     icon: Icon(
                                                                       EvaIcons
@@ -585,14 +612,14 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
       ///!-----Change Music------
       context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: state.snapshotMusicList![index].uri.toString()));
+          url: state.musicList[index].uri.toString()));
 
       ///---- Also Change Music Title and Artist on Next Button Clicked
       context.read<NowPlayingOfflineMusicDataToPlayerCubit>().sendDataToPlayer(
             musicIndex: index,
-            futureMusicList: state.futureMusicList,
-            musicTitle: state.snapshotMusicList![index].title,
-            musicArtist: state.snapshotMusicList![index].artist,
+            musicList: state.musicList,
+            musicTitle: state.musicList[index].title,
+            musicArtist: state.musicList[index].artist,
           );
 
       ///!-------  Change Selected Tile Index
@@ -608,14 +635,14 @@ class _OfflinePlayerPageState extends State<OfflinePlayerPage> {
 
       ///!-----Change Music------
       context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: state.snapshotMusicList![index].uri.toString()));
+          url: state.musicList[index].uri.toString()));
 
       ///---- Also Change Music Title and Artist on Back Button Clicked
       context.read<NowPlayingOfflineMusicDataToPlayerCubit>().sendDataToPlayer(
             musicIndex: index,
-            futureMusicList: state.futureMusicList,
-            musicTitle: state.snapshotMusicList![index].title,
-            musicArtist: state.snapshotMusicList![index].artist,
+            musicList: state.musicList,
+            musicTitle: state.musicList[index].title,
+            musicArtist: state.musicList[index].artist,
           );
 
       ///!-------  Change Selected Tile Index

@@ -16,7 +16,7 @@ class MenuHelper {
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 1,
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       position: RelativeRect.fromRect(
         Rect.fromPoints(
           position,

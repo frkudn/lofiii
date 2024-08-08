@@ -8,3 +8,10 @@ class FetchMusicFromLocalStorageInitializationEvent extends FetchMusicFromLocalS
   List<Object?> get props => [];
 
 }
+
+class FetchFavoriteMusicFromLocalStorageInitializationEvent extends FetchMusicFromLocalStorageEvent{
+  @override
+  List<Object?> get props => [];
+
+}
+

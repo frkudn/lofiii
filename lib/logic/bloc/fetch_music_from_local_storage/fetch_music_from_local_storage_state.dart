@@ -14,9 +14,20 @@ class FetchMusicFromLocalStorageLoadingState extends FetchMusicFromLocalStorageS
 }
 class FetchMusicFromLocalStorageSuccessState extends FetchMusicFromLocalStorageState {
 
-  final Future<List<SongModel>> musicsList;
+  final List<SongModel> musicsList;
 
   FetchMusicFromLocalStorageSuccessState({required this.musicsList});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [musicsList];
+}
+
+
+class FetchFavoriteMusicFromLocalStorageSuccessState extends FetchMusicFromLocalStorageState {
+
+  final List<SongModel> musicsList;
+
+  FetchFavoriteMusicFromLocalStorageSuccessState({required this.musicsList});
   @override
   // TODO: implement props
   List<Object?> get props => [musicsList];

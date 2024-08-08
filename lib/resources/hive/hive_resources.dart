@@ -17,13 +17,17 @@ class MyHive {
 
   static Future<List<String>> getHiveFavoriteList() async {
     await initializeHive(); // Ensure Hive is initialized
-    return MyHiveBoxes.libraryBox.get(MyHiveKeys.favoriteHiveKey) ?? [];
+    return MyHiveBoxes.libraryBox
+            .get(MyHiveKeys.onlineFavoriteMusicListHiveKey) ??
+        [];
   }
 
   static List<String> favoriteMusicList =
-      MyHiveBoxes.libraryBox.get(MyHiveKeys.favoriteHiveKey) ?? [];
+      MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey) ??
+          [];
 
-  static Color get themeAccentColor => MyHiveBoxes.settingBox.get(MyHiveKeys.themeAccentColorHiveKey);
+  static Color get themeAccentColor =>
+      MyHiveBoxes.settingBox.get(MyHiveKeys.themeAccentColorHiveKey);
 }
 
 ///!----------------    MyHive Boxes
@@ -34,12 +38,15 @@ class MyHiveBoxes {
 
 ///!---------------      MyHive Keys
 class MyHiveKeys {
-  static const String favoriteHiveKey = "hive_favorite_list";
+  static const String onlineFavoriteMusicListHiveKey = "hive_online_favorite_list";
+  static const String localFavoriteMusicListHiveKey = "hive_local_favorite_list";
+
   static const String profilePicHiveKey = "hive_profile_pic";
   static const String profileUsernameHiveKey = "hive_username";
   static const String darkModeHiveKey = "hive_dark_mode";
   static const String blackModeHiveKey = "hive_black_mode";
   static const String themeAccentColorHiveKey = "hive_theme_accent_color";
   static const String showOnBoardingScreenHiveKey = "hive_show_on_boarding";
-  static const String showMoreMusicMessageHiveKey = "hive_more_music_message_key";
+  static const String showMoreMusicMessageHiveKey =
+      "hive_more_music_message_key";
 }

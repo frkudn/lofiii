@@ -13,15 +13,15 @@ part 'favorite_button_state.dart';
 
 class FavoriteButtonBloc
     extends Bloc<FavoriteButtonEvent, FavoriteButtonState> {
-
   // Initialize the bloc with the initial state
-  FavoriteButtonBloc() : super( FavoriteButtonState(favoriteList: MyHive.favoriteMusicList)) {
+  FavoriteButtonBloc()
+      : super(FavoriteButtonState(favoriteList: MyHive.favoriteMusicList)) {
     // Listen for FavoriteButtonToggleEvent and call _favoriteToggle method
     on<FavoriteButtonToggleEvent>(_favoriteToggle);
   }
   //! Method to handle toggling favorite state
-  FutureOr<void> _favoriteToggle(FavoriteButtonToggleEvent event,
-      Emitter<FavoriteButtonState> emit) {
+  FutureOr<void> _favoriteToggle(
+      FavoriteButtonToggleEvent event, Emitter<FavoriteButtonState> emit) {
     //! Get the current favorite list from Hive
     List<String> favoriteList = MyHive.favoriteMusicList;
 
@@ -33,18 +33,18 @@ class FavoriteButtonBloc
       //! If already favorite, remove it from the list
       favoriteList.remove(event.title);
       //! Update the favorite list in Hive
-      MyHiveBoxes.libraryBox.put(MyHiveKeys.favoriteHiveKey, favoriteList);
+      MyHiveBoxes.libraryBox
+          .put(MyHiveKeys.onlineFavoriteMusicListHiveKey, favoriteList);
       //! Emit the new state with the updated favorite list
       emit(state.copyWith(favoriteList: favoriteList));
-
     } else {
       //! If not favorite, add it to the list
       favoriteList.add(event.title);
       //! Update the favorite list in Hive
-      MyHiveBoxes.libraryBox.put(MyHiveKeys.favoriteHiveKey, favoriteList);
+      MyHiveBoxes.libraryBox
+          .put(MyHiveKeys.onlineFavoriteMusicListHiveKey, favoriteList);
       //! Emit the new state with the updated favorite list
       emit(state.copyWith(favoriteList: favoriteList));
-
     }
 
     //! Emit the new state with the updated favorite list
@@ -53,8 +53,4 @@ class FavoriteButtonBloc
     //! Print the updated favorite list (for debugging purposes)
     log(favoriteList.toString());
   }
-
-
-
-
 }

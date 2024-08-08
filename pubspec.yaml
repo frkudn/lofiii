@@ -84,6 +84,8 @@ dependencies:
   shimmer: ^3.0.0
   flutter_background: ^1.2.0
   insta_image_viewer: ^1.0.4
+  intl: ^0.19.0
+  widget_and_text_animator: ^1.1.5
 
 
 
