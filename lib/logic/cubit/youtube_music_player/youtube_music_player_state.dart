@@ -5,13 +5,11 @@ sealed class YoutubeMusicPlayerState extends Equatable {}
 
 final class YoutubeMusicPlayerInitialState extends YoutubeMusicPlayerState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 final class YoutubeMusicPlayerLoadingState extends YoutubeMusicPlayerState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -26,9 +24,9 @@ final class YoutubeMusicPlayerSuccessState extends YoutubeMusicPlayerState {
   });
   final PodPlayerController controller;
 
-  bool showVideoPositionOnHDragging;
-  bool showPlayerButtons;
-  bool screenLock;
+ final bool showVideoPositionOnHDragging;
+  final bool showPlayerButtons;
+  final bool screenLock;
 
 
 
@@ -45,17 +43,15 @@ final class YoutubeMusicPlayerSuccessState extends YoutubeMusicPlayerState {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         controller,
         showVideoPositionOnHDragging, showPlayerButtons,
         screenLock,
-
+        showPlayerButtons
       ];
 }
 
 final class YoutubeMusicPlayerFailureState extends YoutubeMusicPlayerState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }

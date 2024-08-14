@@ -14,7 +14,6 @@ part of 'show_mini_player_cubit.dart';
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [showMiniPlayer, isOnlineMusic,isYouTubeMusic];
 }
 

@@ -6,7 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../resources/hive/hive_resources.dart';
+import '../../../base/services/hive/hive_services.dart';
 
 part 'favorite_button_event.dart';
 part 'favorite_button_state.dart';

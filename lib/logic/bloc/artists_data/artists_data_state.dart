@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 import '../../../data/models/artist_model.dart';
@@ -10,32 +9,24 @@ class ArtistsDataInitialState extends ArtistsDataState {
   List<Object?> get props => [];
 }
 
-
-class ArtistsDataLoadingState extends ArtistsDataState{
+class ArtistsDataLoadingState extends ArtistsDataState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
-class ArtistsDataSuccessState extends ArtistsDataState{
 
-
+class ArtistsDataSuccessState extends ArtistsDataState {
   final List<ArtistModel> artistList;
 
   ArtistsDataSuccessState({required this.artistList});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [artistList];
 }
 
-
-class ArtistsDataFailureState extends ArtistsDataState{
-
-
+class ArtistsDataFailureState extends ArtistsDataState {
   final String errorMessage;
 
   ArtistsDataFailureState({required this.errorMessage});
   @override
-  // TODO: implement props
   List<Object?> get props => [errorMessage];
 }

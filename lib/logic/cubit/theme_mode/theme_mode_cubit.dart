@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../resources/hive/hive_resources.dart';
+import '../../../base/services/hive/hive_services.dart';
 
 part 'theme_mode_state.dart';
 

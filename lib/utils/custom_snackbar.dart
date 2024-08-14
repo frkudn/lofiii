@@ -10,7 +10,7 @@ class MyCustomSnackbars {
       animationDuration: const Duration(seconds: 1),
       Overlay.of(context),
       CustomSnackBar.error(
-        boxShadow: [],
+        boxShadow: const [],
         message: message,
       ),
     );
@@ -21,7 +21,7 @@ class MyCustomSnackbars {
       animationDuration: const Duration(seconds: 1),
       Overlay.of(context),
       CustomSnackBar.info(
-        boxShadow: [],
+        boxShadow: const [],
         backgroundColor: Colors.green,
         message: message,
       ),
@@ -33,7 +33,7 @@ class MyCustomSnackbars {
       animationDuration: const Duration(seconds: 2),
       Overlay.of(context),
       CustomSnackBar.info(
-        boxShadow: [],
+        boxShadow: const [],
         message: message,
         backgroundColor: Colors.pink,
         icon: icon ?? const Icon(CupertinoIcons.info),

@@ -1,5 +1,3 @@
-
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:floating/floating.dart';
@@ -11,13 +9,12 @@ import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:youtube_scrape_api/youtube_scrape_api.dart';
-import '../data/datasources/musicData/music_data_api.dart';
+import '../data/providers/musicData/music_data_provider.dart';
 import '../data/repositories/youtube_repository.dart';
 
 final GetIt locator = GetIt.instance;
 
-
-void initializeLocator(){
+void initializeLocator() {
   locator.registerSingleton<Connectivity>(Connectivity());
   locator.registerSingleton<AudioPlayer>(AudioPlayer());
   locator.registerSingleton<VolumeController>(VolumeController());
@@ -25,10 +22,9 @@ void initializeLocator(){
   locator.registerSingleton<ImagePicker>(ImagePicker());
   locator.registerSingleton<FlipCardController>(FlipCardController());
   locator.registerSingleton<OnAudioQuery>(OnAudioQuery());
-  locator.registerSingleton<MusicData>(MusicData());
+  locator.registerSingleton<MusicDataProvider>(MusicDataProvider());
   locator.registerSingleton<ScrollController>(ScrollController());
   locator.registerSingleton<YoutubeDataApi>(YoutubeDataApi());
   locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
   locator.registerSingleton<Floating>(Floating());
-
 }

@@ -1,12 +1,10 @@
-
-
 import '../../di/dependency_injection.dart';
-import '../datasources/musicData/music_data_api.dart';
+import '../providers/musicData/music_data_provider.dart';
 import '../models/artist_model.dart';
 import '../models/music_model.dart';
 
 class MusicRepository {
-  final MusicData musicData = locator.get<MusicData>();
+  final MusicDataProvider musicData = locator.get<MusicDataProvider>();
 
   ///? ------------------             LOFIII Special Music    ---------------///
   Future<List<MusicModel>> fetchLOFIIISpecialMusic() async {
@@ -28,7 +26,6 @@ class MusicRepository {
     }
   }
 
-
   ///? ------------------             LOFIII TopPicks Music    ---------------///
   Future<List<MusicModel>> fetchLOFIIITopPicksMusic() async {
     final List<dynamic> musicList = await musicData.getLOFIIITopPicksMusic();
@@ -39,7 +36,6 @@ class MusicRepository {
     }
   }
 
-
   ///? ------------------             LOFIII Artists Images    ---------------///
   Future<List<ArtistModel>> fetchArtists() async {
     final List<dynamic> artistList = await musicData.getArtistsData();
@@ -49,8 +45,6 @@ class MusicRepository {
       throw Exception("Failed to fetch  Artists");
     }
   }
-
-
 
   ///? ------------------             LOFIII Vibes Music    ---------------///
   Future<List<MusicModel>> fetchLOFIIIVibesMusic() async {

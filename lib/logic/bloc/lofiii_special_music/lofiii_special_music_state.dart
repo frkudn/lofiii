@@ -8,32 +8,24 @@ class LofiiiSpecialMusicInitial extends LofiiiSpecialMusicState {
   List<Object?> get props => [];
 }
 
-
-class LofiiiSpecialMusicLoadingState extends LofiiiSpecialMusicState{
+class LofiiiSpecialMusicLoadingState extends LofiiiSpecialMusicState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
-class LofiiiSpecialMusicSuccessState extends LofiiiSpecialMusicState{
 
-
+class LofiiiSpecialMusicSuccessState extends LofiiiSpecialMusicState {
   final List<MusicModel> musicList;
 
   LofiiiSpecialMusicSuccessState({required this.musicList});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [musicList];
 }
 
-
-class LofiiiSpecialMusicFailureState extends LofiiiSpecialMusicState{
-
-
+class LofiiiSpecialMusicFailureState extends LofiiiSpecialMusicState {
   final String errorMessage;
 
   LofiiiSpecialMusicFailureState({required this.errorMessage});
   @override
-  // TODO: implement props
   List<Object?> get props => [errorMessage];
 }

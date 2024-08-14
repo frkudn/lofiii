@@ -1,16 +1,13 @@
-
-
 import 'package:flutter/material.dart';
 
-
-class MenuHelper {
-  
+class MyMenu {
   static Future<T?> showMenuAtPosition<T>({
     required BuildContext context,
     required Offset position,
     required List<PopupMenuEntry<T>> items,
   }) {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
 
     return showMenu<T>(
       context: context,

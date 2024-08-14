@@ -7,7 +7,6 @@ part of 'flip_card_cubit.dart';
   final  flipCardController = locator.get<FlipCardController>();
 
   @override
-  // TODO: implement props
   List<Object?> get props => [flipCardController];
   
 }

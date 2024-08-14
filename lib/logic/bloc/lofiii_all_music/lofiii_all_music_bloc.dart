@@ -1,4 +1,6 @@
 
+// ignore_for_file: prefer_collection_literals
+
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';

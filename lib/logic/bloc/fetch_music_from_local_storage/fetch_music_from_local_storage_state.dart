@@ -1,44 +1,34 @@
 part of 'fetch_music_from_local_storage_bloc.dart';
 
 @immutable
-abstract class FetchMusicFromLocalStorageState extends Equatable{}
+abstract class FetchMusicFromLocalStorageState extends Equatable {}
 
-class FetchMusicFromLocalStorageInitial extends FetchMusicFromLocalStorageState {
+class FetchMusicFromLocalStorageInitial
+    extends FetchMusicFromLocalStorageState {
   @override
   List<Object?> get props => [];
 }
-class FetchMusicFromLocalStorageLoadingState extends FetchMusicFromLocalStorageState {
+
+class FetchMusicFromLocalStorageLoadingState
+    extends FetchMusicFromLocalStorageState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
-class FetchMusicFromLocalStorageSuccessState extends FetchMusicFromLocalStorageState {
 
-  final List<SongModel> musicsList;
+class FetchMusicFromLocalStorageSuccessState
+    extends FetchMusicFromLocalStorageState {
+  final List<SongWithArtwork> musicsList;
 
   FetchMusicFromLocalStorageSuccessState({required this.musicsList});
   @override
-  // TODO: implement props
   List<Object?> get props => [musicsList];
 }
 
-
-class FetchFavoriteMusicFromLocalStorageSuccessState extends FetchMusicFromLocalStorageState {
-
-  final List<SongModel> musicsList;
-
-  FetchFavoriteMusicFromLocalStorageSuccessState({required this.musicsList});
-  @override
-  // TODO: implement props
-  List<Object?> get props => [musicsList];
-}
-
-class FetchMusicFromLocalStorageFailureState extends FetchMusicFromLocalStorageState{
-
- final String failureMessage;
+class FetchMusicFromLocalStorageFailureState
+    extends FetchMusicFromLocalStorageState {
+  final String failureMessage;
 
   FetchMusicFromLocalStorageFailureState({required this.failureMessage});
   @override
-  // TODO: implement props
   List<Object?> get props => [failureMessage];
 }

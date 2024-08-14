@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lofiii/data/data.dart';
+import 'package:lofiii/data/exports.dart';
 
 void main() {
   const validArtists = ['Chill', 'Hip-Hop', 'Fruits', 'Minnie'];

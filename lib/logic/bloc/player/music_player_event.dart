@@ -4,47 +4,56 @@ part of 'music_player_bloc.dart';
 abstract class MusicPlayerEvent extends Equatable {}
 
 class MusicPlayerInitializeEvent extends MusicPlayerEvent {
-  MusicPlayerInitializeEvent({required this.url});
+  MusicPlayerInitializeEvent(
+      {required this.url,
+      required this.isOnlineMusic,
+      required this.musicAlbum,
+      required this.musicTitle,
+      required this.onlineMusicThumbnail,
+      required this.musicId,
+      required this.offlineMusicThumbnail,
+      this.artist
+      });
   final String url;
+  final String musicTitle;
+  final String musicAlbum;
+  final bool isOnlineMusic;
+  final int musicId;
+  final String? onlineMusicThumbnail;
+  final Uint8List? offlineMusicThumbnail;
+  final String? artist;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [url];
 }
 
 class MusicPlayerTogglePlayPauseEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class MusicPlayerStopEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class MusicPlayerForwardEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class MusicPlayerBackwardEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class MusicPlayerRepeatEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class MusicPlayerShuffleEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -53,7 +62,6 @@ class MusicPlayerSeekEvent extends MusicPlayerEvent {
 
   final position;
   @override
-  // TODO: implement props
   List<Object?> get props => [position];
 }
 
@@ -62,12 +70,10 @@ class MusicPlayerVolumeSetEvent extends MusicPlayerEvent {
 
   final volumeLevel;
   @override
-  // TODO: implement props
   List<Object?> get props => [volumeLevel];
 }
 
 class MusicPlayerDisposeEvent extends MusicPlayerEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }

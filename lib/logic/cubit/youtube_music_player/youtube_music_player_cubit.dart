@@ -83,4 +83,10 @@ class YoutubeMusicPlayerCubit extends Cubit<YoutubeMusicPlayerState> {
       emit(state.copyWith(screenLock: !state.screenLock));
     }
   }
+
+  disposePlayer({required YoutubeMusicPlayerState state}) async {
+    if (state is YoutubeMusicPlayerSuccessState) {
+      state.controller.dispose();
+    }
+  }
 }

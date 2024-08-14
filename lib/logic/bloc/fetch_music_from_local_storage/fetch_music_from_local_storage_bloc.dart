@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:lofiii/data/services/app_permissions_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:lofiii/data/models/song_with_artwork_model.dart';
+import 'package:lofiii/base/services/app_permissions_service.dart';
 import 'package:lofiii/di/dependency_injection.dart';
-import 'package:lofiii/resources/hive/hive_resources.dart';
 import 'package:meta/meta.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -20,68 +21,59 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
       : super(FetchMusicFromLocalStorageInitial()) {
     on<FetchMusicFromLocalStorageInitializationEvent>(
         _fetchMusicFromLocalStorageInitializationEvent);
-
-        on<FetchFavoriteMusicFromLocalStorageInitializationEvent>(_fetchFavoriteMusicFromLocalStorageInitializationEvent);
   }
 
   FutureOr<void> _fetchMusicFromLocalStorageInitializationEvent(
       FetchMusicFromLocalStorageInitializationEvent event,
       Emitter<FetchMusicFromLocalStorageState> emit) async {
     try {
-      //! Check if storage permission is granted
       if (await AppPermissionService.storagePermission()) {
         emit(FetchMusicFromLocalStorageLoadingState());
 
         List<SongModel> musicList = await audioQuery.querySongs();
 
-        //! Emit success state with updated music list
-        emit(FetchMusicFromLocalStorageSuccessState(musicsList: musicList));
+        List<SongModel> onlyMusic = musicList
+            .where(
+              (music) =>
+                  music.isMusic == true &&
+                  music.isAudioBook == false &&
+                  music.isNotification == false &&
+                  music.isPodcast == false &&
+                  music.isAlarm == false &&
+                  music.isRingtone == false &&
+                  !music.displayName.contains("PTT-"),
+            )
+            .toList();
+
+        List<SongWithArtwork> musicWithArtwork = await Future.wait(
+          onlyMusic.map((song) async {
+            Uint8List? artwork = await _getAudioArtwork(song.id);
+            return SongWithArtwork(song: song, artwork: artwork);
+          }).toList(),
+        );
+
+        emit(FetchMusicFromLocalStorageSuccessState(
+            musicsList: musicWithArtwork));
       } else {
         await AppPermissionService.storagePermission();
       }
     } catch (e) {
-      //! Handle any errors that occur during the process
       emit(
           FetchMusicFromLocalStorageFailureState(failureMessage: e.toString()));
     }
   }
 
-  FutureOr<void> _fetchFavoriteMusicFromLocalStorageInitializationEvent(
-    FetchFavoriteMusicFromLocalStorageInitializationEvent event,
-    Emitter emit,
-  ) async {
+  Future<Uint8List?> _getAudioArtwork(int id) async {
     try {
-      // Check if storage permission is granted
-      if (await AppPermissionService.storagePermission()) {
-        emit(FetchMusicFromLocalStorageLoadingState());
-
-        // Get local favorite music titles from Hive
-        List<String> localFavoriteMusicTitles = MyHiveBoxes.libraryBox.get(
-              MyHiveKeys.localFavoriteMusicListHiveKey,
-            ) ??
-            [];
-
-        // Query songs from device storage
-        List<SongModel> musicList = await audioQuery.querySongs();
-
-        // Filter music list where title contains any of the local favorite music titles
-        List<SongModel> filteredMusicList = musicList.where((song) {
-          return localFavoriteMusicTitles
-              .any((title) => song.title.contains(title));
-        }).toList();
-
-        // Emit success state with updated music list
-        emit(FetchFavoriteMusicFromLocalStorageSuccessState(
-            musicsList: filteredMusicList));
-      } else {
-        // Request storage permission if not granted
-        await AppPermissionService.storagePermission();
-      }
+      return await audioQuery.queryArtwork(id, ArtworkType.AUDIO,
+          format: ArtworkFormat.PNG, quality: 100, size: 200);
     } catch (e) {
-      // Handle any errors that occur during the process
-      emit(
-        FetchMusicFromLocalStorageFailureState(failureMessage: e.toString()),
-      );
+      if (kDebugMode) {
+        print("Error fetching artwork: $e");
+      }
+      return null;
     }
   }
+
+  // ... other methods remain the same
 }

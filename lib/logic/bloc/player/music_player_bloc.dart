@@ -1,10 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -36,11 +38,46 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
       MusicPlayerInitializeEvent event, Emitter<MusicPlayerState> emit) async {
     try {
       emit(MusicPlayerLoadingState());
-      audioPlayer.setUrl(
-        event.url.toString(),
-        preload: true,
-      );
+
+      ///------------ If Music Is Online ------------------////
+      if (event.isOnlineMusic) {
+        final audioSource = ProgressiveAudioSource(
+          Uri.parse(event.url.toString()),
+          tag: MediaItem(
+            artist: event.artist,
+            playable: true,
+            id: event.musicId.toString(),
+            album: event.musicAlbum,
+            title: event.musicTitle,
+            artUri: event.isOnlineMusic
+                ? Uri.parse(event.onlineMusicThumbnail.toString())
+                : Uri.dataFromBytes(event.offlineMusicThumbnail!),
+          ),
+        );
+        audioPlayer.setAudioSource(audioSource);
+        
+      }
+
+      ///------------ If Music is Offline ------------------///
+      else {
+        final audioSource = ProgressiveAudioSource(
+          Uri.parse(event.url.toString()),
+          tag: MediaItem(
+            artist: event.artist,
+            playable: true,
+            id: event.musicId.toString(),
+            album: event.musicAlbum,
+            title: event.musicTitle,
+            artUri: event.isOnlineMusic
+                ? Uri.parse(event.onlineMusicThumbnail.toString())
+                : Uri.dataFromBytes(event.offlineMusicThumbnail!),
+          ),
+        );
+        audioPlayer.setAudioSource(audioSource);
+      }
+
       audioPlayer.play();
+      audioPlayer.setAllowsExternalPlayback(true);
 
       //! Combine the position and duration and Buffered streams
       final combinedStream = Rx.combineLatest3(
@@ -123,12 +160,21 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
 
   FutureOr<void> _musicPlayerForwardEvent(
       MusicPlayerForwardEvent event, Emitter<MusicPlayerState> emit) {
-    audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds + 5));
+    if (audioPlayer.duration != null) {
+      if (audioPlayer.position.inSeconds <
+          audioPlayer.duration!.inSeconds - 5) {
+        audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds + 5));
+      }
+    } else {
+      audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds + 5));
+    }
   }
 
   FutureOr<void> _musicPlayerBackwardEvent(
       MusicPlayerBackwardEvent event, Emitter<MusicPlayerState> emit) {
-    audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds - 5));
+    if (audioPlayer.position.inSeconds > 5) {
+      audioPlayer.seek(Duration(seconds: audioPlayer.position.inSeconds - 5));
+    }
   }
 
   FutureOr<void> _musicPlayerDisposeEvent(
