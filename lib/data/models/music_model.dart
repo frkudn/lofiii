@@ -1,10 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:hive/hive.dart';
 
 part 'music_model.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@HiveType(typeId: 2)
 class MusicModel {
-  const MusicModel({
+  MusicModel({
     required this.id,
     required this.title,
     required this.artists,
@@ -12,25 +12,40 @@ class MusicModel {
     required this.image,
   });
 
-  /// The unique identifier of the music.
+  @HiveField(0)
   final int id;
 
-  /// The title of the music.
+  @HiveField(1)
   final String title;
 
-  /// The artist/s associated with the music.
+  @HiveField(2)
   final List<String> artists;
 
-  /// The public url of the music.
+  @HiveField(3)
   final String url;
 
-  /// The photo or cover of the music.
+  @HiveField(4)
   final String image;
 
-  /// Converts a `Map<String, dynamic>` into a [MusicModel] instance.
-  static MusicModel fromJson(Map<String, dynamic> json) =>
-      _$MusicModelFromJson(json);
+  // Add fromJson constructor
+  factory MusicModel.fromJson(Map<String, dynamic> json) {
+    return MusicModel(
+      id: json['id'] as int,
+      title: json['title'] as String,
+      artists: List<String>.from(json['artists']),
+      url: json['url'] as String,
+      image: json['image'] as String,
+    );
+  }
 
-  /// Converts the current instance to a `Map<String, dynamic>`.
-  Map<String, dynamic> toJson() => _$MusicModelToJson(this);
+  // Add toJson method
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'artists': artists,
+      'url': url,
+      'image': image,
+    };
+  }
 }

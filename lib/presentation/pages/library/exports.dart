@@ -1,7 +1,7 @@
 export 'package:flutter/material.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
-export 'package:lofiii/data/models/song_with_artwork_model.dart';
+export 'package:lofiii/data/models/local_music_model.dart';
 export 'package:lofiii/logic/bloc/fetch_favorite_music_from_local_storage/fetch_favorite_music_from_local_storage_bloc.dart';
 export 'package:lofiii/logic/bloc/player/music_player_bloc.dart';
 export 'package:lofiii/logic/cubit/localMusicToFavorite/local_music_to_favorite_music_list_cubit.dart';
@@ -14,8 +14,6 @@ export 'package:lofiii/utils/menu_helper.dart';
 export 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 export '../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
-export '../../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
-export '../../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
 export '../../common/heading_with_view_more_button_widget.dart';
 export '../home/widgets/music_cards_list_widget.dart';
 export '../../common/no_internet_lottie_animation_widget.dart';

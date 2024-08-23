@@ -168,7 +168,7 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                                 )
                                               : CircleAvatar(
                                                   backgroundImage: MemoryImage(
-                                                      musicThumbnail!),
+                                                      musicThumbnail),
                                                 ),
                                         );
                                       },

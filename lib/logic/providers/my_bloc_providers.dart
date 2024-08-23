@@ -1,4 +1,5 @@
 import 'package:lofiii/exports.dart';
+import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
 
 ///?----------------   B L O C   P R O V I D E R S   -------------///
 ///////////////////////////////////////////////////////////////////
@@ -14,22 +15,7 @@ List<SingleChildWidget> myBlocProviders() {
       create: (context) => MusicPlayerBloc(),
     ),
     BlocProvider(
-      create: (context) => LofiiiSpecialMusicBloc(),
-    ),
-    BlocProvider(
-      create: (context) => LofiiiPopularMusicBloc(),
-    ),
-    BlocProvider(
-      create: (context) => LofiiiTopPicksMusicBloc(),
-    ),
-    BlocProvider(
-      create: (context) => LofiiiAllMusicBloc(),
-    ),
-    BlocProvider(
-      create: (context) => LofiiiVibesMusicBloc(),
-    ),
-    BlocProvider(
-      create: (context) => ArtistsDataBloc(),
+      create: (context) => LofiiiMusicBloc(),
     ),
     BlocProvider(
       create: (context) => ShowMiniPlayerCubit(),
@@ -41,7 +27,7 @@ List<SingleChildWidget> myBlocProviders() {
       create: (context) => CheckInternetConnectionBloc(),
     ),
     BlocProvider(
-      create: (context) => SearchSystemCubit(),
+      create: (context) => LofiiiMusicSearchSystemCubit(),
     ),
     BlocProvider(
       create: (context) => GridViewMaxCountCubit(),
@@ -72,9 +58,6 @@ List<SingleChildWidget> myBlocProviders() {
     ),
     BlocProvider(
       create: (context) => SearchableListScrollControllerCubit(),
-    ),
-    BlocProvider(
-      create: (context) => YoutubeMusicCubit(),
     ),
     BlocProvider(
       create: (context) => YoutubeMusicPlayerCubit(),

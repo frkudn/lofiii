@@ -1,17 +1,8 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lofiii/logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import 'package:lofiii/presentation/pages/downloads/exports.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../../../data/models/music_model.dart';
-import '../../../../logic/bloc/player/music_player_bloc.dart';
-import '../../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
-import '../../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../../base/assets/app_assets.dart';
 import '../../player/online/ui/online_player_page.dart';
 

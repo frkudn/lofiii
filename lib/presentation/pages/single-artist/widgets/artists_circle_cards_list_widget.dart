@@ -5,12 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/base/router/app_routes.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../data/models/artist_model.dart';
+import '../../../../data/models/lofiii_artist_model.dart';
 
 class ArtistsCardsListWidget extends StatelessWidget {
   const ArtistsCardsListWidget({super.key, required this.artistList});
 
-  final List<ArtistModel> artistList;
+  final List<LofiiiArtistModel> artistList;
 
   @override
   Widget build(BuildContext context) {

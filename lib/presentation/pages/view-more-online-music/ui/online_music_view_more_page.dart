@@ -1,22 +1,13 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 import 'package:lofiii/data/models/music_model.dart';
-import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import 'package:lofiii/presentation/pages/downloads/exports.dart';
 import 'package:lofiii/presentation/pages/view-more-online-music/widgets/view_more_page_mini_player_widget.dart';
 import 'package:one_context/one_context.dart';
-import '../../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../../logic/cubit/gridview_max_count/gridview_max_count_cubit.dart';
-import '../../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 
 class ViewMoreOnlineMusicPage extends StatefulWidget {
   const ViewMoreOnlineMusicPage({
@@ -192,7 +183,7 @@ class _ViewMoreOnlineMusicPageState extends State<ViewMoreOnlineMusicPage> {
 
               ///? Mini Player ---------////
               ///!--------Show Mini Player First whenever music card is clicked
-              ViewMorePageMiniPlayerWidget(),
+              const ViewMorePageMiniPlayerWidget(),
             ],
           ),
         );

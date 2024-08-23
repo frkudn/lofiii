@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lofiii/presentation/pages/player/exports.dart';
 import 'package:lofiii/presentation/pages/player/offline/widgets/local_music_player_buttons_widget.dart';
-import 'package:lofiii/presentation/pages/player/offline/widgets/local_music_player_position_and_duration_row_text_w_idget.dart';
+import 'package:lofiii/presentation/pages/player/offline/widgets/local_music_player_position_and_duration_row_text_widget.dart';
 import 'package:lofiii/presentation/pages/player/offline/widgets/local_music_player_slider_widget.dart';
 import 'package:lofiii/presentation/pages/player/offline/widgets/local_music_title_text_artist_text_favorite_button_widget.dart';
 

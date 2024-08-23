@@ -17,7 +17,7 @@ class FetchMusicFromLocalStorageLoadingState
 
 class FetchMusicFromLocalStorageSuccessState
     extends FetchMusicFromLocalStorageState {
-  final List<SongWithArtwork> musicsList;
+  final List<LocalMusicModel> musicsList;
 
   FetchMusicFromLocalStorageSuccessState({required this.musicsList});
   @override

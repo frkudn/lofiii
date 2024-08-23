@@ -1,58 +1,48 @@
 import '../../di/dependency_injection.dart';
+import '../models/lofiii_artist_model.dart';
 import '../providers/musicData/music_data_provider.dart';
-import '../models/artist_model.dart';
 import '../models/music_model.dart';
 
 class MusicRepository {
   final MusicDataProvider musicData = locator.get<MusicDataProvider>();
 
-  ///? ------------------             LOFIII Special Music    ---------------///
-  Future<List<MusicModel>> fetchLOFIIISpecialMusic() async {
-    final List<dynamic> musicList = await musicData.getLOFIIISpecialMusic();
-    if (musicList.isNotEmpty) {
-      return musicList.map((e) => MusicModel.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to fetch LOFIII Special Music.");
+  Future<List<MusicModel>> _fetchMusicData(String key) async {
+    try {
+      final Map<String, dynamic> fetchedData = await musicData.fetchMusicData();
+      if (fetchedData.containsKey(key)) {
+        return fetchedData[key].map((e) => MusicModel.fromJson(e)).toList();
+      } else {
+        throw Exception('Key not found in fetched data');
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
-  ///? ------------------             LOFIII Popular Music    ---------------///
-  Future<List<MusicModel>> fetchLOFIIIPopularMusic() async {
-    final List<dynamic> musicList = await musicData.getLOFIIIPopularMusic();
-    if (musicList.isNotEmpty) {
-      return musicList.map((e) => MusicModel.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to fetch LOFIII Popular Music.");
+  Future<List<LofiiiArtistModel>> fetchArtists() async {
+    try {
+      final Map<String, dynamic> fetchedData = await musicData.fetchMusicData();
+      if (fetchedData.containsKey("artists")) {
+        return fetchedData["artists"]
+            .map((e) => LofiiiArtistModel.fromJson(e))
+            .toList();
+      } else {
+        throw Exception('Key not found in fetched data');
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
-  ///? ------------------             LOFIII TopPicks Music    ---------------///
-  Future<List<MusicModel>> fetchLOFIIITopPicksMusic() async {
-    final List<dynamic> musicList = await musicData.getLOFIIITopPicksMusic();
-    if (musicList.isNotEmpty) {
-      return musicList.map((e) => MusicModel.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to fetch LOFIII TopPicks Music.");
-    }
-  }
+  Future<List<MusicModel>> fetchLOFIIISpecialMusic() async =>
+      _fetchMusicData("lofiiispecialmusic");
 
-  ///? ------------------             LOFIII Artists Images    ---------------///
-  Future<List<ArtistModel>> fetchArtists() async {
-    final List<dynamic> artistList = await musicData.getArtistsData();
-    if (artistList.isNotEmpty) {
-      return artistList.map((e) => ArtistModel.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to fetch  Artists");
-    }
-  }
+  Future<List<MusicModel>> fetchLOFIIIPopularMusic() async =>
+      _fetchMusicData("lofiiipopularmusic");
 
-  ///? ------------------             LOFIII Vibes Music    ---------------///
-  Future<List<MusicModel>> fetchLOFIIIVibesMusic() async {
-    final List<dynamic> musicList = await musicData.getLOFIIIVibesMusic();
-    if (musicList.isNotEmpty) {
-      return musicList.map((e) => MusicModel.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to fetch LOFIII Vibes Music.");
-    }
-  }
+  Future<List<MusicModel>> fetchLOFIIITopPicksMusic() async =>
+      _fetchMusicData("lofiiitoppicksmusic");
+
+  Future<List<MusicModel>> fetchLOFIIIVibesMusic() async =>
+      _fetchMusicData("lofiiivibesmusic");
 }

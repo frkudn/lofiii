@@ -1,39 +1,39 @@
-import 'package:lofiii/base/router/app_routes.dart';
-import 'package:lofiii/logic/providers/my_bloc_providers.dart';
-
 import 'exports.dart';
 
 void main() async {
+  // Ensure that widget binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  ///--- Initialize Get It
+  // Initialize dependency injection
   initializeLocator();
 
-  ///--- Initialize Notification
+  // Set up notification services
   NotificationService().initNotification();
-
-  //----- Initialize Just Audio Background
   NotificationService().initJustAUdioBackgroundNotification();
 
-  // The following line will enable the Android and iOS wakelock.
+  // Enable wakelock to keep the screen on
   WakelockPlus.enable();
 
-  //!  Initialize Hive Database
-  await MyHive.initializeHive();
+  // Load environment variables
+  await dotenv.load();
 
-  //! Setting preferred orientations
+  // Initialize Hive database and register custom adapters
+  await MyHive.initializeHive();
+  Hive.registerAdapter(MusicModelAdapter());
+  Hive.registerAdapter(LofiiiArtistModelAdapter());
+
+  // Set preferred screen orientations
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
+  // Launch the application
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({
-    super.key,
-  });
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -42,6 +42,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
+    // Clean up resources when the app is disposed
     locator.get<ScrollController>().dispose();
     locator.get<Floating>().dispose();
     super.dispose();
@@ -49,23 +50,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // MultiBlocProvider for managing multiple BLoCs
     return MultiBlocProvider(
       providers: myBlocProviders(),
-
-      //!     Initializing ScreenUtil for screen adaptation
+      // Initialize ScreenUtil for responsive design
       child: ScreenUtilInit(
         splitScreenMode: true,
-        
-        //!    Building the application with proper theme
         builder: (context, child) =>
+            // Use BlocBuilder to react to theme changes
             BlocBuilder<ThemeModeCubit, ThemeModeState>(
           builder: (context, state) {
             return MaterialApp(
-              ///!--- State is DarkMode
+              // Configure app theme based on current state
               theme: state.isDarkMode
                   ? AppThemes.darkTheme.copyWith(
-                      ///!---  State is BlackMode
+                      // Adjust theme for black mode if active
                       scaffoldBackgroundColor:
                           state.isBlackMode ? Colors.black : null,
                       primaryColor: state.isBlackMode ? Colors.black : null,
@@ -78,14 +76,12 @@ class _MyAppState extends State<MyApp> {
                               ? Brightness.dark
                               : Brightness.light),
                     )
-                  :
-
-                  ///!---  State is not DarkMode
-                  AppThemes.lightTheme,
+                  : AppThemes.lightTheme,
               title: 'LOFIII',
               initialRoute: AppRoutes.splashRoute,
               onGenerateRoute: AppRouter.generateRoute,
               debugShowCheckedModeBanner: false,
+              // Use OneContext for global access to BuildContext
               builder: OneContext().builder,
               navigatorKey: OneContext().key,
             );

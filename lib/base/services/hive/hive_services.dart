@@ -13,18 +13,13 @@ class MyHive {
 
     //! Open the setting box
     MyHiveBoxes.settingBox = await Hive.openBox('setting');
+
+
+     // Open the Cached box
+    MyHiveBoxes.cachedLocalMusicBox = await Hive.openBox('CachedLocalMusicBox');
+      MyHiveBoxes.cachedOnlineMusicBox = await Hive.openBox('CachedOnlineMusicBox');
   }
 
-  static Future<List<String>> getHiveFavoriteList() async {
-    await initializeHive(); // Ensure Hive is initialized
-    return MyHiveBoxes.libraryBox
-            .get(MyHiveKeys.onlineFavoriteMusicListHiveKey) ??
-        [];
-  }
-
-  static List<String> favoriteMusicList =
-      MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey) ??
-          [];
 
   static Color get themeAccentColor =>
       MyHiveBoxes.settingBox.get(MyHiveKeys.themeAccentColorHiveKey);
@@ -34,12 +29,21 @@ class MyHive {
 class MyHiveBoxes {
   static late Box libraryBox;
   static late Box settingBox;
+  static late Box cachedLocalMusicBox ;
+  static late Box cachedOnlineMusicBox ;
+
 }
 
 ///!---------------      MyHive Keys
 class MyHiveKeys {
-  static const String onlineFavoriteMusicListHiveKey = "hive_online_favorite_list";
-  static const String localFavoriteMusicListHiveKey = "hive_local_favorite_list";
+  static const String onlineFavoriteMusicListHiveKey =
+      "hive_online_favorite_list";
+  static const String localFavoriteMusicListHiveKey =
+      "hive_local_favorite_list";
+ 
+  static const String cachedLocalMusicListHiveKey = "cached_hive_local_music_list";
+  static const String cachedOnlineMusicListHiveKey = "cached_hive_local_music_list";
+
 
   static const String profilePicHiveKey = "hive_profile_pic";
   static const String profileUsernameHiveKey = "hive_username";

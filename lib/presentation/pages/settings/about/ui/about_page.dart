@@ -107,7 +107,7 @@ class AboutPage extends StatelessWidget {
           ),
 
           ElasticInUp(
-            child: const ButtonBar(
+            child: const OverflowBar(
               alignment: MainAxisAlignment.center,
               children: [
                 //! LinkedIn Button

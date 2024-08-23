@@ -13,4 +13,4 @@ export '../downloads/ui/downloads_page.dart';
 export '../home/ui/home_page.dart';
 export '../library/library_page.dart';
 export '../settings/main/ui/settings.dart';
-export '../youtube/home/ui/youtube_music_page.dart';
+export '../youtube/home/ui/youtube_home_page.dart';

@@ -1,6 +1,5 @@
 part of 'flip_card_cubit.dart';
 
-@immutable
  class FlipCardCubitState extends Equatable{
    FlipCardCubitState();
 

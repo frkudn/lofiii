@@ -30,7 +30,7 @@ class _InitialPageState extends State<InitialPage> {
   Widget build(BuildContext context) {
     final pages = [
       const HomePage(),
-      const YoutubeMusicPage(),
+      const YouTubeHomePage(),
       const LibraryPage(),
       const DownloadsPage(),
       const SettingsPage()

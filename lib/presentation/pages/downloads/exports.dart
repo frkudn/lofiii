@@ -6,7 +6,7 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:gap/gap.dart';
-export 'package:lofiii/data/models/song_with_artwork_model.dart';
+export 'package:lofiii/data/models/local_music_model.dart';
 export 'package:lofiii/di/dependency_injection.dart';
 export 'package:lofiii/logic/bloc/fetch_music_from_local_storage/fetch_music_from_local_storage_bloc.dart';
 export 'package:lofiii/logic/bloc/player/music_player_bloc.dart';

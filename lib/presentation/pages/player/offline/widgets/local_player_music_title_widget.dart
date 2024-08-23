@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lofiii/presentation/pages/player/exports.dart';
 
@@ -13,11 +12,12 @@ class LocalPlayerMusicTitleWidget extends StatelessWidget {
         NowPlayingMusicDataToPlayerState>(
       builder: (context, state) {
         return TextAnimator(
+
           incomingEffect: WidgetTransitionEffects.incomingOffsetThenScale(),
           atRestEffect: WidgetRestingEffects.wave(),
           state.musicTitle,
           maxLines: 1,
-          style: TextStyle(fontSize: 29.sp, color: Colors.white),
+          style: TextStyle(fontSize: 25.sp, color: Colors.white),
         );
       },
     );

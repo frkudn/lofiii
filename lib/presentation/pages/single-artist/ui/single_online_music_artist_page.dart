@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
 import 'package:lofiii/logic/cubit/now_playing_music_data_to_player/now_playing_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:lofiii/logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
@@ -12,8 +13,6 @@ import 'package:one_context/one_context.dart';
 
 import '../../../../data/models/music_model.dart';
 import '../../../../logic/bloc/favorite_button/favorite_button_bloc.dart';
-import '../../../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
-import '../../../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
 import '../../../../logic/bloc/player/music_player_bloc.dart';
 import '../../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../common/mini_player_widget.dart';
@@ -73,17 +72,17 @@ class _SingleOnlineMusicArtistPageState
               ),
 
               SliverToBoxAdapter(
-                child: BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
+                child: BlocBuilder<LofiiiMusicBloc, LofiiiMusicState>(
                   builder: (context, state) {
                     //?//////////////////////////////////////
                     ///! ----------   If state is Success
                     ////?///////////////////////////////////
-                    if (state is LofiiiAllMusicSuccessState) {
+                    if (state is LofiiiMusicSuccessState) {
                       ///////////////////////////////////////////////////!
                       ///! -------------  Filtered List    ----------////
                       //////////////////////////////////////////////////!
 
-                      final List<MusicModel> filteredList = state.musicList
+                      final List<MusicModel> filteredList = state.combinedMusicList
                           .where((element) =>
                               element.artists.first.toLowerCase().contains(
                                   widget.artistName.toString().toLowerCase()) ||
@@ -170,7 +169,7 @@ class _SingleOnlineMusicArtistPageState
                     //?//////////////////////////////////////
                     ///! ----------   If state is Loading
                     ////?///////////////////////////////////
-                    else if (state is LofiiiAllMusicLoadingState) {
+                    else if (state is LofiiiMusicLoadingState) {
                       return SliverToBoxAdapter(
                         child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
                           builder: (context, themeState) {

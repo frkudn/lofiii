@@ -7,58 +7,14 @@ import 'package:lofiii/di/dependency_injection.dart';
 class MusicDataProvider extends MusicDataKeys {
   final Dio _dio = locator.get<Dio>();
 
-  ///?----        LOFIII Special Music     ------------///
-  Future<List> getLOFIIISpecialMusic() async {
+  ///?----        LOFIII  Music Data     ------------///
+  Future<Map<String, dynamic>> fetchMusicData() async {
     try {
-      final response = await _dio.get(lofiiiSpecialUrl);
+      final response = await _dio.get(lofiiiUrl);
       return response.data;
     } catch (e) {
       log("Error fetching LOFIII Special Music: $e");
-      return [];
-    }
-  }
-
-  ///?----        LOFIII Popular Music     ------------///
-  Future<List> getLOFIIIPopularMusic() async {
-    try {
-      final response = await _dio.get(lofiiiPopularUrl);
-      return response.data;
-    } catch (e) {
-      log("Error fetching LOFIII Popular Music: $e");
-      return [];
-    }
-  }
-
-  ///?----        LOFIII TopPicks Music     ------------///
-  Future<List> getLOFIIITopPicksMusic() async {
-    try {
-      final response = await _dio.get(lofiiiTopPicksUrl);
-      return response.data;
-    } catch (e) {
-      log("Error fetching LOFIII TopPicks Music: $e");
-      return [];
-    }
-  }
-
-  ///?----        LOFIII Artists Data     ------------///
-  Future<List> getArtistsData() async {
-    try {
-      final response = await _dio.get(artistsUrl);
-      return response.data;
-    } catch (e) {
-      log("Error fetching Artists Data: $e");
-      return [];
-    }
-  }
-
-  ///?----        LOFIII Vibes Music     ------------///
-  Future<List> getLOFIIIVibesMusic() async {
-    try {
-      final response = await _dio.get(lofiiiVibesUrl);
-      return response.data;
-    } catch (e) {
-      log("Error fetching LOFIII Vibes Music: $e");
-      return [];
+      throw Exception(e);
     }
   }
 }

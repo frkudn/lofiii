@@ -21,7 +21,6 @@ class CustomBottomNavigationWidget extends StatelessWidget {
     EvaIcons.settings
   ];
 
-
   @override
   Widget build(BuildContext context) {
     final bottomNavigationIndexState = state;
@@ -53,6 +52,7 @@ class CustomBottomNavigationWidget extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: _icons.length,
+
                 ///Check Here
                 itemBuilder: (context, index) => Container(
                   width: 0.17.sw,

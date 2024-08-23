@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:lofiii/data/models/song_with_artwork_model.dart';
+import 'package:lofiii/data/models/local_music_model.dart';
 import 'package:lofiii/logic/bloc/fetch_favorite_music_from_local_storage/fetch_favorite_music_from_local_storage_bloc.dart';
 import 'package:lofiii/logic/cubit/localMusicToFavorite/local_music_to_favorite_music_list_cubit.dart';
 import 'package:lofiii/utils/format_duration.dart';
@@ -20,7 +20,7 @@ class MoreMusicButtonWidget extends StatefulWidget {
     required this.song,
   });
 
-  final SongWithArtwork song;
+  final LocalMusicModel song;
   @override
   State<MoreMusicButtonWidget> createState() => _MoreMusicButtonWidgetState();
 }

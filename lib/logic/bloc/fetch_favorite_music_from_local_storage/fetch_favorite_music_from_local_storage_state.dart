@@ -15,19 +15,18 @@ final class FetchFavoriteMusicFromLocalStorageLoadingState
 
 final class FetchFavoriteMusicFromLocalStorageSuccessState
     extends FetchFavoriteMusicFromLocalStorageState {
-       const FetchFavoriteMusicFromLocalStorageSuccessState(
+  const FetchFavoriteMusicFromLocalStorageSuccessState(
       {required this.favoriteMusicList});
-  final List<SongWithArtwork> favoriteMusicList;
+  final List<LocalMusicModel> favoriteMusicList;
 
   @override
   List<Object> get props => [favoriteMusicList];
- 
 }
 
 final class FetchFavoriteMusicFromLocalStorageFailureState
     extends FetchFavoriteMusicFromLocalStorageState {
+  final String errorMessage;
 
-      final String errorMessage;
-
- const  FetchFavoriteMusicFromLocalStorageFailureState({required this.errorMessage});
-    }
+  const FetchFavoriteMusicFromLocalStorageFailureState(
+      {required this.errorMessage});
+}

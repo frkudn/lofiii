@@ -1,6 +1,5 @@
 part of 'repeat_music_cubit.dart';
 
-@immutable
  class RepeatMusicState extends Equatable{
 
   const RepeatMusicState({required this.repeatAll});

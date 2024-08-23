@@ -15,7 +15,7 @@ class FavoriteButtonBloc
     extends Bloc<FavoriteButtonEvent, FavoriteButtonState> {
   // Initialize the bloc with the initial state
   FavoriteButtonBloc()
-      : super(FavoriteButtonState(favoriteList: MyHive.favoriteMusicList)) {
+      : super(FavoriteButtonState(favoriteList: MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey))) {
     // Listen for FavoriteButtonToggleEvent and call _favoriteToggle method
     on<FavoriteButtonToggleEvent>(_favoriteToggle);
   }
@@ -23,7 +23,7 @@ class FavoriteButtonBloc
   FutureOr<void> _favoriteToggle(
       FavoriteButtonToggleEvent event, Emitter<FavoriteButtonState> emit) {
     //! Get the current favorite list from Hive
-    List<String> favoriteList = MyHive.favoriteMusicList;
+    List<String> favoriteList = MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey);
 
     //! Check if the title is already in the favorite list
     bool isFavorite = favoriteList.contains(event.title);

@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'dart:typed_data';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lofiii/data/models/song_with_artwork_model.dart';
+import 'package:lofiii/data/models/local_music_model.dart';
 import 'package:lofiii/base/services/app_permissions_service.dart';
-import 'package:lofiii/di/dependency_injection.dart';
-import 'package:meta/meta.dart';
+import 'package:lofiii/exports.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-
 part 'fetch_music_from_local_storage_event.dart';
 part 'fetch_music_from_local_storage_state.dart';
 
@@ -24,12 +19,18 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
   }
 
   FutureOr<void> _fetchMusicFromLocalStorageInitializationEvent(
-      FetchMusicFromLocalStorageInitializationEvent event,
-      Emitter<FetchMusicFromLocalStorageState> emit) async {
+    FetchMusicFromLocalStorageInitializationEvent event,
+    Emitter<FetchMusicFromLocalStorageState> emit,
+  ) async {
     try {
       if (await AppPermissionService.storagePermission()) {
         emit(FetchMusicFromLocalStorageLoadingState());
 
+        // List<LocalMusicModel>? cachedLocalMusicList =
+        //     await LocalMusicCacheManager.getLocalMusic();
+
+        // if (cachedLocalMusicList == null || cachedLocalMusicList.isEmpty) {
+        // If cache is empty, fetch from local storage
         List<SongModel> musicList = await audioQuery.querySongs();
 
         List<SongModel> onlyMusic = musicList
@@ -45,29 +46,53 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
             )
             .toList();
 
-        List<SongWithArtwork> musicWithArtwork = await Future.wait(
-          onlyMusic.map((song) async {
-            Uint8List? artwork = await _getAudioArtwork(song.id);
-            return SongWithArtwork(song: song, artwork: artwork);
-          }).toList(),
+        // List<LocalMusicModel>
+        List<LocalMusicModel> localMusicList = await Future.wait(
+          onlyMusic.map(
+            (song) async {
+              Uint8List? artwork = await _getAudioArtwork(song.id);
+              return LocalMusicModel(song: song, artwork: artwork);
+            },
+          ).toList(),
         );
 
         emit(FetchMusicFromLocalStorageSuccessState(
-            musicsList: musicWithArtwork));
-      } else {
+          musicsList: localMusicList,
+        ));
+
+        // await LocalMusicCacheManager.updateLocalMusic(data: localMusicList);
+      }
+      //  else {
+      //   List<LocalMusicModel> localMusicList =
+      //       await LocalMusicCacheManager.getLocalMusic() ?? [];
+      //   emit(FetchMusicFromLocalStorageSuccessState(
+      //     musicsList: localMusicList,
+      //   ));
+      // }
+      // }
+      else {
         await AppPermissionService.storagePermission();
       }
     } catch (e) {
-      emit(
-          FetchMusicFromLocalStorageFailureState(failureMessage: e.toString()));
+      emit(FetchMusicFromLocalStorageFailureState(
+        failureMessage: e.toString(),
+      ));
     }
   }
 
+// Helper method to fetch audio artwork
   Future<Uint8List?> _getAudioArtwork(int id) async {
     try {
-      return await audioQuery.queryArtwork(id, ArtworkType.AUDIO,
-          format: ArtworkFormat.PNG, quality: 100, size: 200);
+      // Query artwork from device storage
+      return await audioQuery.queryArtwork(
+        id,
+        ArtworkType.AUDIO,
+        format: ArtworkFormat.PNG,
+        quality: 100,
+        size: 500,
+      );
     } catch (e) {
+      // Print error message in debug mode
       if (kDebugMode) {
         print("Error fetching artwork: $e");
       }

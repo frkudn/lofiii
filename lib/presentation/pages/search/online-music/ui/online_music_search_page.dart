@@ -4,18 +4,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lofiii/data/models/music_model.dart';
+import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
 import 'package:lofiii/logic/cubit/now_playing_music_data_to_player/now_playing_music_data_to_player_cubit.dart';
 import 'package:lofiii/logic/cubit/youtube_music_player/youtube_music_player_cubit.dart';
 import 'package:one_context/one_context.dart';
-import '../../../../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
-import '../../../../../logic/bloc/lofiii_all_music/lofiii_all_music_state.dart';
 import '../../../../../logic/bloc/player/music_player_bloc.dart';
-import '../../../../../logic/cubit/search_system/search_system_cubit.dart';
+import '../../../../../logic/cubit/lofiii_music_search_system/lofiii_music_search_system_cubit.dart';
 import '../../../../../logic/cubit/show_mini_player/show_mini_player_cubit.dart';
 import '../../../../common/mini_player_widget.dart';
 
 class OnlineMusicSearchPage extends StatefulWidget {
-  const OnlineMusicSearchPage({super.key});
+  const OnlineMusicSearchPage({super.key, required this.combinedMusicList});
+
+ final  List<MusicModel> combinedMusicList;
 
   @override
   State<OnlineMusicSearchPage> createState() => _OnlineMusicSearchPageState();
@@ -53,19 +55,14 @@ class _OnlineMusicSearchPageState extends State<OnlineMusicSearchPage> {
               icon: const Icon(CupertinoIcons.back)),
 
           ///!----------------- Text Field----------------------///
-          BlocBuilder<LofiiiAllMusicBloc, LofiiiAllMusicState>(
+          BlocBuilder<LofiiiMusicBloc, LofiiiMusicState>(
             builder: (context, state) => Expanded(
               child: TextField(
                 autofocus: true,
                 onChanged: (value) {
-                  if (state is LofiiiAllMusicSuccessState) {
-                    context
-                        .read<SearchSystemCubit>()
-                        .addSearchList(allMusicList: state.musicList);
-                  }
-
                   ///! Add
-                  context.read<SearchSystemCubit>().searchNow(val: value);
+                  context.read<LofiiiMusicSearchSystemCubit>().searchNow(
+                      val: value, combinedMusicList: widget.combinedMusicList);
                   _scrollController.jumpTo(0);
                 },
                 controller: searchController,
@@ -92,7 +89,8 @@ class _OnlineMusicSearchPageState extends State<OnlineMusicSearchPage> {
           ///     ------!              Filtered List
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<SearchSystemCubit, SearchSystemState>(
+            child: BlocBuilder<LofiiiMusicSearchSystemCubit,
+                LofiiiMusicSearchSystemState>(
               builder: (context, state) {
                 return ListView.builder(
                   itemCount: state.filteredlist.length,
@@ -159,7 +157,8 @@ class _OnlineMusicSearchPageState extends State<OnlineMusicSearchPage> {
   }
 
   ///? ----------------- M E T H O D S----------------///
-  void _playMusicMethod({required index, required SearchSystemState state}) {
+  void _playMusicMethod(
+      {required index, required LofiiiMusicSearchSystemState state}) {
     final music = state.filteredlist[index];
 
     ///!----Initialize & Play Music ------///

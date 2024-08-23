@@ -3,20 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ListViewShimmerBoxWidget extends StatelessWidget {
-  ListViewShimmerBoxWidget(
+ const ListViewShimmerBoxWidget(
       {super.key,
       this.itemHeight,
       this.itemWidth,
       this.boxHeight,
       this.boxWidth, this.scrollDirection, this.showHeader});
 
-  double? itemHeight;
-  double? itemWidth;
+ final double? itemHeight;
+ final double? itemWidth;
 
-  double? boxHeight;
-  double? boxWidth;
-  Axis? scrollDirection;
-  bool? showHeader ;
+ final double? boxHeight;
+ final double? boxWidth;
+ final Axis? scrollDirection;
+ final bool? showHeader ;
 
   @override
   Widget build(BuildContext context) {

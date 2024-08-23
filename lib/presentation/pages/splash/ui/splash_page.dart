@@ -3,16 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lofiii/base/router/app_routes.dart';
+import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
 import '../../../../base/services/app_services.dart';
-import '../../../../logic/bloc/lofiii_all_music/lofiii_all_music_bloc.dart';
-import '../../../../logic/bloc/lofiii_all_music/lofiii_all_music_event.dart';
-import '../../../../logic/bloc/lofiii_popular_music/lofiii_popular_music_bloc.dart';
-import '../../../../logic/bloc/lofiii_special_music/lofiii_special_music_bloc.dart';
-import '../../../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_bloc.dart';
-import '../../../../logic/bloc/lofiii_top_picks_music/lofi_top_picks_music_event.dart';
+
 import '../../../../logic/cubit/greeting/greeting_cubit.dart';
 import '../../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
-import '../../../../logic/cubit/youtube_music/youtube_music_cubit.dart';
 import '../../../../base/services/hive/hive_services.dart';
 import '../../../../base/assets/app_assets.dart';
 
@@ -26,11 +21,8 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     _fetchMusic();
-
     ///?---------Navigate To OnBoarding/Initial Page After Three Seconds-----////
     goToNextPage();
   }
@@ -72,7 +64,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   ///!------------------------- M E T H O D S ------------------////
-  Future goToNextPage() async {
+  goToNextPage() async {
     ///----!  Fetch Bool value from Hive database , to show OnBoarding Screen or not
     final bool onBoarding = await MyHiveBoxes.settingBox
             .get(MyHiveKeys.showOnBoardingScreenHiveKey) ??
@@ -89,24 +81,10 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _fetchMusic() {
-    ///?-----------Fetch LOFIII Special Music ------___--------///
-    context.read<LofiiiSpecialMusicBloc>().add(LOFIIISpecialMusicFetchEvent());
-
-    ///?-----------Fetch LOFIII Popular Music ------___--------///
-    context.read<LofiiiPopularMusicBloc>().add(LOFIIIPopularMusicFetchEvent());
-
-    ///?-----------Fetch LOFIII TopPicks Music ------___--------///
-    context
-        .read<LofiiiTopPicksMusicBloc>()
-        .add(LOFIIITopPicksMusicFetchEvent());
-
-    ///?-----------Fetch LOFIII All Music ------___--------///
-    context.read<LofiiiAllMusicBloc>().add(LOFIIIAllMusicFetchEvent());
+    ///?-----------Fetch LOFIII  Music ------___--------///
+    context.read<LofiiiMusicBloc>().add(LOFIIIMusicFetchEvent());
 
     ///?-------------Update Home Page Greeting Message -------/////
     context.read<GreetingCubit>().updateGreeting();
-
-    ///?--------------- Fetch Youtube Music ------------------///
-    context.read<YoutubeMusicCubit>().fetchMusic();
   }
 }

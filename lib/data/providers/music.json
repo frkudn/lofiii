@@ -1,0 +1,582 @@
+{
+  "lofiispecialmusic": [
+    {
+      "id": 0,
+      "title": "Saware X Hasi",
+      "artists": ["Gravero", "Happy Pills", "Ami Mishra", "Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1KOpuHiaxMGpoxnBMOyeGKz7GssJY99Sv",
+      "image": "https://drive.google.com/uc?id=1LF7ARc4LjCW8TWyhZvEVWZqBJoNRCSsd"
+    },
+    {
+      "id": 1,
+      "title": "Pehle Bhi Main",
+      "artists": ["Gravero", "Vishal Mishra"],
+      "url": "https://drive.google.com/uc?id=1Ke-nyufqd_q41q6gku8ZCKhQQ35f-ows",
+      "image": "https://drive.google.com/uc?id=1LHJn-EoERTap5D6-NgCjuJ6uXyicrPSn"
+    },
+    {
+      "id": 2,
+      "title": "Khamoshiyan",
+      "artists": ["Silent Ocean", "Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1LTgOLYemm_dDcqKmNUSLgXpMYiTSSDl5",
+      "image": "https://drive.google.com/uc?id=1Ldd1Al3YoGAcHQWQcLBdwlSm-eS5C4FW"
+    },
+    {
+      "id": 26,
+      "title": "Janana Zama",
+      "artists": ["Shan Khan", "Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1YoxkkvnVlm2z-N0zPkZCEgCmNDZUyzse",
+      "image": "https://drive.google.com/uc?id=1YniGpsu3jv1yjqxln7mVsT7m7kWxG74i"
+    },
+    {
+      "id": 27,
+      "title": "Kabhi Jo Badal",
+      "artists": ["Gravero", "Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1YI8cWh6-azR4eVV8XjtqJBZHKBhafs1l",
+      "image": "https://drive.google.com/uc?id=1YTrtdcwRuxqCVGqPGlf5K0Kxmcc-qYTH"
+    },
+    {
+      "id": 28,
+      "title": "Chale Jana Phir",
+      "artists": ["Denny", "Rahul Mishra", "Jay Guldekar", "Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1XPO80BOnRnNU_KcWDGhBMJ-Exec1zcwa",
+      "image": "https://drive.google.com/uc?id=1_Pyk_043ZVU3b95ZDI5x8AB6ZxhKeiGj"
+    },
+    {
+      "id": 3,
+      "title": "Let Me Down Slowly X Main Dhoondne Ko Zamaane Mein",
+      "artists": ["Gravero", "Alec Benjamin", "Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1Kdhr7IH6gKD-pYp9GQQ5w444xBLie2Ye",
+      "image": "https://drive.google.com/uc?id=1LBNpem1-ib20MANGqOlZibTTbMtocSh3"
+    },
+    {
+      "id": 4,
+      "title": "Jo Tu Na Mila",
+      "artists": ["Asim Azhar", "Wormono"],
+      "url": "https://drive.google.com/uc?id=1LPs8DMC5LBnKPy86c7KZXIcdK_SuMwav",
+      "image": "https://drive.google.com/uc?id=1LIb-xjdPfHQ3API7HsDGqL_l8kayKuLi"
+    },
+    {
+      "id": 5,
+      "title": "Aaj Bhi",
+      "artists": ["Vishal Mishra", "Wormono"],
+      "url": "https://drive.google.com/uc?id=1Ke9vTxtW5X9UUltzU1cHjvtB93B3Xm7f",
+      "image": "https://drive.google.com/uc?id=1KjmxtDGfG0i6-WTv7AZXNCBWUN0OT5JJ"
+    },
+    {
+      "id": 6,
+      "title": "Milne Hai Mujhse Aayi",
+      "artists": ["Lofi-2307", "Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1KCKVl8cNTOjFY_G8DyES9PS0TRWef2pf",
+      "image": "https://drive.google.com/uc?id=1KlHwMnCBBomNLnsvE92vZITUTdpZtGYV"
+    },
+    {
+      "id": 7,
+      "title": "Hasi Ban Gaye",
+      "artists": ["Ami Mishra"],
+      "url": "https://drive.google.com/uc?id=1-YfU3v5Icu8jYOM2Kf6kj_isr-lV3Q0N",
+      "image": "https://drive.google.com/uc?id=1DXY6HsOEifKNiGPerGzFWtrUOEzbRD_y"
+    },
+    {
+      "id": 8,
+      "title": "Tum Tak",
+      "artists": ["Swattrex"],
+      "url": "https://drive.google.com/uc?id=1LqawEkR5uZTTT7hgowj1w85R7VuReDi4",
+      "image": "https://drive.google.com/uc?id=1Lkq7gNpSqzgFtPYdlGV1RPmI7D8_Vh9W"
+    },
+    {
+      "id": 9,
+      "title": "Jeene De Na",
+      "artists": ["Raj Barman"],
+      "url": "https://drive.google.com/uc?id=1UF8wUndQCfoAlpBxBoYRiOq6fToBBt8h",
+      "image": "https://drive.google.com/uc?id=1pCcCYr5FZmljloVJzFFMizsqj4N5ZAP5"
+    },
+    {
+      "id": 10,
+      "title": "Mere Haath Mein",
+      "artists": ["Sonu Nigam", "Sunidhi Chauhan"],
+      "url": "https://drive.google.com/uc?id=1pkqNgTXJS1kz-szgOtDw2I5VwASNQu7M",
+      "image": "https://drive.google.com/uc?id=1va4RV4b9keV2NIy5qWM3A-vOAd0pDPkN"
+    },
+    {
+      "id": 11,
+      "title": "Besharam Rang",
+      "artists": ["Shilpa Rao"],
+      "url": "https://drive.google.com/uc?id=18FGoR9_yPIW9cGaMW1tVg34yf8V3KDzl",
+      "image": "https://drive.google.com/uc?id=1IoEuBKzJ7XvHxe0CDh-D-zJlcwpky7Pl"
+    },
+    {
+      "id": 12,
+      "title": "Muskurane",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1xUc_Go3HlSG95PJO21dNs8VtxpkiAJ69",
+      "image": "https://drive.google.com/uc?id=1e2vVy8rbClzMstOB2X75fPpB2ouV-ZZB"
+    },
+    {
+      "id": 13,
+      "title": "Kabhii Tumhhe",
+      "artists": ["Darshan Raval"],
+      "url": "https://drive.google.com/uc?id=1136O21UGkW9YX9rvPAMI3GRb_Xn4NB3O",
+      "image": "https://drive.google.com/uc?id=1BXHurz5ZQlK2ANCPTkMFgykqVe67j1vH"
+    },
+    {
+      "id": 14,
+      "title": "Isq Risk",
+      "artists": ["Rahat Fateh Ali Khan"],
+      "url": "https://drive.google.com/uc?id=1hI4AgxwmR3JZ_jCTiMML8WEh9K4Q-oaf",
+      "image": "https://drive.google.com/uc?id=1L_hc6rDLSklhwa1QNEmiBvG5R3-luj6Y"
+    },
+    {
+      "id": 15,
+      "title": "Hawayein",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1NcWxYrlWbSe9pohW69kpycmfhQaQgKVI",
+      "image": "https://drive.google.com/uc?id=1jDszzf-L4BisXP84csN-AViUibJ33ueZ"
+    },
+    {
+      "id": 16,
+      "title": "Sanam Re",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1VcPjjC2Wayqk9QQEHTnxO2f8bgwYqI5l",
+      "image": "https://drive.google.com/uc?id=1J7TcYsiAaijKCNHNMr-xQHM-jJczzerW"
+    },
+    {
+      "id": 17,
+      "title": "Ik Vaari Aa",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=14NF4A9bjzqmpYwxJW8pjreH8VnK4UMM6",
+      "image": "https://drive.google.com/uc?id=12Q08YdOW8wyDEZ2dKEndQhyzgpz9dfvO"
+    },
+    {
+      "id": 18,
+      "title": "Meri Zindagi Hai Tu",
+      "artists": ["Jubin Nautiyal", "Neeti Mohan"],
+      "url": "https://drive.google.com/uc?id=1HvY9t22iRbdaHwOlDP5mMAe2xD1wtEyI",
+      "image": "https://drive.google.com/uc?id=19nExqTB6rq-eb_T3CQVSLGZiiK_OWAsJ"
+    },
+    {
+      "id": 19,
+      "title": "Pal",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1ncAkibk5EUBoS2yRGhaw8ZsJBJ9_0gxP",
+      "image": "https://drive.google.com/uc?id=1csWHf2Rbkeqqpk3kaWGTPw4uivv3jG56"
+    },
+    {
+      "id": 20,
+      "title": "Aapke Pyaar Mein",
+      "artists": ["Alka Yagnik"],
+      "url": "https://drive.google.com/uc?id=1DSm7v5WXycm1BK2gieZG0FD2ZEIzlSU7",
+      "image": "https://drive.google.com/uc?id=1620VO5-Xk-bYW-MFj86DGdxDpJFlnc4X"
+    },
+    {
+      "id": 21,
+      "title": "Bedardeya",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1ohXdX838L2heWHMVRAF6E-EfTjqBZfX4",
+      "image": "https://drive.google.com/uc?id=18eQiBBzbZIQJV5hfd-hBdXCsq0jpCa-j"
+    },
+    {
+      "id": 22,
+      "title": "Paniyon Sa",
+      "artists": ["Atif Aslam"],
+      "url": "https://drive.google.com/uc?id=1FSudmdBbG6GZzjSXmnbwciSZSugpj7W5",
+      "image": "https://drive.google.com/uc?id=1AX-9ndANFd0w-znVqnDP7UGidR4uYPuw"
+    },
+    {
+      "id": 23,
+      "title": "Maine Royaan",
+      "artists": ["Tanveer Evan"],
+      "url": "https://drive.google.com/uc?id=1kRtrLBG55VqAUdt8sgjJFF3QtXA8pZ8J",
+      "image": "https://drive.google.com/uc?id=1Muj94hpfcuijoom1QjKayMzDupWJKr0U"
+    },
+    {
+      "id": 24,
+      "title": "Shayad X Samjhawan",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1cBZC1Xy8gGbbVQE3ZECmnrZhp0oUpFU9",
+      "image": "https://drive.google.com/uc?id=1B2vFHgf_wHfsvl688RuK7kDwnkQzZZA8"
+    },
+    {
+      "id": 25,
+      "title": "Falak Tak",
+      "artists": ["Wormono"],
+      "url": "https://drive.google.com/uc?id=1KDIwil-yMZGxIDZHq-Ib8gXmSxexPSBn",
+      "image": "https://drive.google.com/uc?id=1L2bwD7jaOmRgrUMOK32scN15aHi17UbS"
+    },
+    {
+      "id": 29,
+      "title": "Chana Mereya",
+      "artists": ["Arijit Singh", "Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1TeNnTYDjdiwvep6DRcds3FwcblHfMdY0",
+      "image": "https://drive.google.com/uc?id=/1TaLFoZkQM2Vh8UoHaWrnv3LjumByQruF"
+    },
+    {
+      "id": 30,
+      "title": "Te Amo",
+      "artists": ["Ash King", "Sunidhi Chauhan"],
+      "url": "https://drive.google.com/uc?id=1_j42hvYaIuDBYINvL4OkmJXbQ6UqJ24t",
+      "image": "https://drive.google.com/uc?id=1__2-feeVtc3LnfWYYJyCNp052_xdrdox"
+    },
+    {
+      "id": 31,
+      "title": "Tere Vaaste",
+      "artists": ["Sachin Jigar", "Shashk Tiwari", "Varun Jain"],
+      "url": "https://drive.google.com/uc?id=1aGJnzCSwQlwPRDFiKShjVLiA6WMSB3nd",
+      "image": "https://drive.google.com/uc?id=1aE2GO0R2khmHlNILr9MAPkbszchvZ6nT"
+    }
+  ],
+  "lofiiipopularmusic": [
+    {
+      "id": 0,
+      "title": "Chahun Main Ya Naa",
+      "artists": ["Arijit Singh", "Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1O54Vo7L9eSabBcaQv0DprdYwVCvPfOlA",
+      "image": "https://drive.google.com/uc?id=1NAtcAtkqupYbWyoTDuCISVzP7IJAsku1"
+    },
+    {
+      "id": 1,
+      "title": "Fitoor",
+      "artists": ["Arijit Singh", "Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1O4S2z9QUrcQbOM02g2E56uteR2vxy8bW",
+      "image": "https://drive.google.com/uc?id=1MyjBRxKP7kn1BvUADleI8M-Ct7NO-6LF"
+    },
+    {
+      "id": 2,
+      "title": "Dil Meri Na Sune",
+      "artists": ["Atif Aslam"],
+      "url": "https://drive.google.com/uc?id=1NRH5eqYIToy-MOiDPvnvM0W7siD4RSg8",
+      "image": "https://drive.google.com/uc?id=1MjAiSoPkBUQ7ainCu2DHAnLREy_bF9Dv"
+    },
+    {
+      "id": 3,
+      "title": "Jaan Nisaar",
+      "artists": ["L3AD"],
+      "url": "https://drive.google.com/uc?id=1NOaJUX9o5iBTlyvYYi8MaMi6n--pGXg0",
+      "image": "https://drive.google.com/uc?id=1MiNxIKTWFUy54VVNYMK9_CkIzn8zMtLm"
+    },
+    {
+      "id": 4,
+      "title": "Mere Mehboob Qayamat Hogi",
+      "artists": ["Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1OEDxY0vSakZnBepS12GLc8GGbor3n2Ue",
+      "image": "https://drive.google.com/uc?id=1NK5VGbjy_V0szxojY0qgPiBnm31yZQii"
+    },
+    {
+      "id": 5,
+      "title": "Main Rang Sharbaton Ka",
+      "artists": ["Atif Aslam", "Furqan Uddin"],
+      "url": "https://drive.google.com/uc?id=1OANymIgmRipX6uIjSGYdZoJ9bLycXqA0",
+      "image": "https://drive.google.com/uc?id=1NDWsGM67dm42GN8-k0ZuEXR1lIdMEzff"
+    },
+    {
+      "id": 6,
+      "title": "Saiyaara",
+      "artists": ["Mohit Chauhun", "Taraannum Malik"],
+      "url": "https://drive.google.com/uc?id=1NXvLq2TDVgonjSEIkybGa9PjiGyp85Ng",
+      "image": "https://drive.google.com/uc?id=1Mm8gGiPm8QgbVJGZKUE-v_adhJkNSVrQ"
+    },
+    {
+      "id": 7,
+      "title": "Tera Hone Laga Hoon",
+      "artists": ["Atif Aslam", "Alisha Chinai"],
+      "url": "https://drive.google.com/uc?id=1NmYVhhWKlcNqmsTSs4McprdeLuX65k4L",
+      "image": "https://drive.google.com/uc?id=1MnKJOGzftxgov_04FADwxIZ6rTs6INry"
+    },
+    {
+      "id": 8,
+      "title": "Agar Tum Mil Jao",
+      "artists": ["GEN-Z Grooves"],
+      "url": "https://drive.google.com/uc?id=1NOQxcnB1ArrcYs5c75H5Zknkeu6Dg2Tj",
+      "image": "https://drive.google.com/uc?id=1M_eHJlObthNGTN6PP76tZva4CsssuE9e"
+    },
+    {
+      "id": 9,
+      "title": "Darkhaast",
+      "artists": ["Arijit Singh", "DJ YOGI"],
+      "url": "https://drive.google.com/uc?id=1Nw-UaXO8o1CziQlfuGRczoiJFzOgMgqx",
+      "image": "https://drive.google.com/uc?id=1Mt9QuaFu16-nWDv8TGGyQw3We5PV6EXK"
+    },
+    {
+      "id": 10,
+      "title": "Haule Haule",
+      "artists": ["Salim Sulaiman", "Sukhwinder Singh"],
+      "url": "https://drive.google.com/uc?id=1NaVVCCPOCNuZrLPn82XHhi1N_DBGb_lq",
+      "image": "https://drive.google.com/uc?id=1MmEabo96ebX1UD-nERvx4-MhWzONu3vh"
+    },
+    {
+      "id": 11,
+      "title": "Raataan Lambiyan",
+      "artists": ["VIBIE"],
+      "url": "https://drive.google.com/uc?id=1O1WQQz0OmzrIC81fZBUitfZTM9K82lcu",
+      "image": "https://drive.google.com/uc?id=1MxSiwHmT9baRExhH2S_QXEVdd39R46tZ"
+    },
+    {
+      "id": 12,
+      "title": "Saibo",
+      "artists": ["VIBIE"],
+      "url": "https://drive.google.com/uc?id=1Ns9gZEIZRfkaW4qcfQF8_abZPtEUudOn",
+      "image": "https://drive.google.com/uc?id=1MsKRriiiliZzg3YUEGIEZRJFHN4pIC0G"
+    },
+    {
+      "id": 13,
+      "title": "Saiyaan",
+      "artists": ["Kailash Kher", "Silent Ocean"],
+      "url": "https://drive.google.com/uc?id=1MTGDPB1HXA5K4skdkseORflYcC8zsjRO",
+      "image": "https://drive.google.com/uc?id=1MWzsRj3u_SANGReDj0uFHqnnaXNfw8jN"
+    },
+    {
+      "id": 14,
+      "title": "Tu Jaane Na",
+      "artists": ["Atif Aslam", "DJ RINK"],
+      "url": "https://drive.google.com/uc?id=1NR40YKdxeaOKNPWNEiEQam1aLjoWJCfQ",
+      "image": "https://drive.google.com/uc?id=1MihSWZh7GBDHHYRBCCdOPaMpamvoglLY"
+    },
+    {
+      "id": 15,
+      "title": "Tujhe Bhula Diya",
+      "artists": ["Mohit Chauhun"],
+      "url": "https://drive.google.com/uc?id=1OEpyDnSDSfP_N3kDwh5iUbaYskJiTzBB",
+      "image": "https://drive.google.com/uc?id=1NLFo9tpI_Yd45aHPWDdOcfmrHFJKyCJk"
+    }
+  ],
+  "lofiiitoppicksmusic": [
+    {
+      "id": 1,
+      "title": "Pasoori",
+      "artists": ["Lofi Man", "Ali Sethi", "Shae Gill"],
+      "url": "https://drive.google.com/uc?id=1QAVskYUrY6Pkv_qiPBz9MGtHkXaPpReX",
+      "image": "https://drive.google.com/uc?id=1P_SbyFs-BDXS0uyAr4e-MKx5-MfXF7uY"
+    },
+    {
+      "id": 2,
+      "title": "Koi Si",
+      "artists": ["Afsana Khan", "Nirmaan"],
+      "url": "https://drive.google.com/uc?id=1QK_8s07m7MdLxgSztIwTN7AoReb9HezL",
+      "image": "https://drive.google.com/uc?id=1P_v4OxUs5NKdxPQBCr_UOGOZfWFTWlJL"
+    },
+    {
+      "id": 3,
+      "title": "O Maahi",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1QODzhPzWhMXb8F_fDQjGB1yWkWXNBrRU",
+      "image": "https://drive.google.com/uc?id=1PcpMy_TO6BldYZ8omrZ8zvAFIzLgnPAm"
+    },
+    {
+      "id": 4,
+      "title": "Chaleya",
+      "artists": ["Arijit Singh", "Shilpa Rao"],
+      "url": "https://drive.google.com/uc?id=1QMbq5d6vDU2ZhXwgpGciVLB5e_axIZpr",
+      "image": "https://drive.google.com/uc?id=1PfIXX_XtvLWNn6z8Dqdh-xHsaGOKwODJ"
+    },
+    {
+      "id": 5,
+      "title": "Kahani Suno",
+      "artists": ["Kaifi Khalil", "eternal"],
+      "url": "https://drive.google.com/uc?id=1QNQ0CDw2BCE9uqRozvlxjZTeb1IGmi-J",
+      "image": "https://drive.google.com/uc?id=1Pn5ph4WZC21jnjiQ5Gg4FRn5ux3lcH7f"
+    },
+    {
+      "id": 6,
+      "title": "Salamat Rahe",
+      "artists": ["Arijit Singh", "Tulsi Kumar", "Magikwood"],
+      "url": "https://drive.google.com/uc?id=1QuHHeem9-tnLGxf_hLVmSSGeph2i3OT-",
+      "image": "https://drive.google.com/uc?id=1RNB5MvkkfYNpoOH4bMRbgxziFIA0MX62"
+    },
+    {
+      "id": 7,
+      "title": "Tere Hawale",
+      "artists": ["Arijit Singh", "Shilpa Rao"],
+      "url": "https://drive.google.com/uc?id=1QSiL3EpDYc74Uwbz7mSGt2pD8xMRi9gO",
+      "image": "https://drive.google.com/uc?id=1PpDP4x-oj08Ag_4VGGXbYivXB1riL8Fp"
+    },
+    {
+      "id": 8,
+      "title": "Enna Sona",
+      "artists": ["Lofi Man", "Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1QQ59DJod0raHGggCxkV_8YeULWa0gnGI",
+      "image": "https://drive.google.com/uc?id=1PuM-9jBf_V0DkwoTiR863ZJwVCtHi7Hd"
+    },
+    {
+      "id": 9,
+      "title": "Awara Shaam Hai",
+      "artists": ["Piyush Mehroliyaa"],
+      "url": "https://drive.google.com/uc?id=1Ru1oB7ejm7zsbOy_WOwigZcAjgC-eRak",
+      "image": "https://drive.google.com/uc?id=1PyEkk-dKlhG8qx-XCAztfdXArpUFHiHB"
+    },
+    {
+      "id": 10,
+      "title": "Waalian",
+      "artists": ["Gifty", "Harnoor", "Gravero"],
+      "url": "https://drive.google.com/uc?id=1Q_50486gAsD2B3LxCoVbLNqD5Gt1Y25A",
+      "image": "https://drive.google.com/uc?id=1PywersibaOr693lj52ieE28_5qEMFBYw"
+    },
+    {
+      "id": 11,
+      "title": "Husn",
+      "artists": ["Anuv Jain", "Aftermorning"],
+      "url": "https://drive.google.com/uc?id=1RuElL0PMM4P5RhW8EMY1yt_kcNwsIKdx",
+      "image": "https://drive.google.com/uc?id=1RucFItGEq0VkiLi-Zu_F0K4-mOIwF20g"
+    },
+    {
+      "id": 12,
+      "title": "Vaaste",
+      "artists": ["Dhivani Bhanushali", "Melomaniac"],
+      "url": "https://drive.google.com/uc?id=1Qbj4sLCZoF0D_N0wMsoFYNKPvlyX1LlP",
+      "image": "https://drive.google.com/uc?id=1RGwe41946HRSTNnMY1v94WFMaccHO5NC"
+    },
+    {
+      "id": 13,
+      "title": "Tum Ho",
+      "artists": ["eternal"],
+      "url": "https://drive.google.com/uc?id=1QNrPcp-tVSAISFGXpmI55hW35luf6X3f",
+      "image": "https://drive.google.com/uc?id=1RCnjMWas9dkfRPWliB5aCEco0JMDwDrc"
+    },
+    {
+      "id": 14,
+      "title": "Soch Na Sake",
+      "artists": ["Arijit Singh"],
+      "url": "https://drive.google.com/uc?id=1QaLGD8EFM49O0dCXI2zwipITiRhAhq47",
+      "image": "https://drive.google.com/uc?id=1RZWE4s_cj-RQ2o8FLnL6dqR0wJ_rWRrI"
+    },
+    {
+      "id": 15,
+      "title": "Kesariya",
+      "artists": ["Arijit Singh", "Happy Pills"],
+      "url": "https://drive.google.com/uc?id=1QGVOLwH2bzBpJiffCuY88yOUlCn50cPB",
+      "image": "https://drive.google.com/uc?id=1RPSbLTKABJIRcey9ta6Fdxts_afcXJoS"
+    },
+    {
+      "id": 16,
+      "title": "Humnava Mere",
+      "artists": ["Jubin Nautiyal"],
+      "url": "https://drive.google.com/uc?id=1QmJi0fxsiiCl0fNBB2Fp-Y8C3JwSrbgB",
+      "image": "https://drive.google.com/uc?id=1RQmWGfQfXbytf2anGhUEc2Ub1Gg4zdB2"
+    },
+    {
+      "id": 17,
+      "title": "Maan Meri Jaan",
+      "artists": ["King", "Happy Pills"],
+      "url": "https://drive.google.com/uc?id=1QvtEg7kN46Gl7xcngK19qFPrnnvtEB7l",
+      "image": "https://drive.google.com/uc?id=1RUeeloPxabiqCdSd0Hx0n4VzoD3c7uOP"
+    }
+  ],
+  "lofiiivibesmusic": [
+    {
+      "id": 1,
+      "title": "Lovely",
+      "artists": ["Fasetya", "Shalom Margaret", "Billie Eilish"],
+      "url": "https://drive.google.com/uc?id=1qUejGxZ8SR8kiLbGU4XYV6_3Z5h_B5HA",
+      "image": "https://drive.google.com/uc?id=1qZv5pE69kuzIfCLpzGWesn5VaIqAZ2vp"
+    },
+    {
+      "id": 2,
+      "title": "Dandelions",
+      "artists": ["Fasetya", "Ruth B."],
+      "url": "https://drive.google.com/uc?id=1qZCY-tur2-tV3880kbQIjkWS4kQqFiZU",
+      "image": "https://drive.google.com/uc?id=1q_lwAbhXuRcw74FGvCMLqwLX-Zi4iOTn"
+    },
+    {
+      "id": 3,
+      "title": "Someone You Loved",
+      "artists": ["Fasetya", "Shalom Margaret"],
+      "url": "https://drive.google.com/uc?id=1qd0RKvPgIBfHNfrs2j53zqnQdaDYt079",
+      "image": "https://drive.google.com/uc?id=1qdfaWlk4i7qbrlGX9Ual7uGLSxWsS5CC"
+    },
+    {
+      "id": 4,
+      "title": "Ocean Eyes",
+      "artists": ["Billie Eilish"],
+      "url": "https://drive.google.com/uc?id=1rSPKmk_RKEl4fu3LmTQyuL_Jl4LsvxI7",
+      "image": "https://drive.google.com/uc?id=1rOOZTokZS-BMEVBuSvf0o2QYyTpjeTM5"
+    },
+
+    {
+      "id": 5,
+      "title": "Ya Leil Ya Leili",
+      "artists": ["Sherine"],
+      "url": "https://drive.google.com/uc?id=1rCfxX4Bm5vlWmQ_ILvyq9ypCdwKBq0Oh",
+      "image": "https://drive.google.com/uc?id=1r9zotjZw2-a3x2yL1IG5aKLGRlU5MytH"
+    },
+    {
+      "id": 6,
+      "title": "Dusk Till Dawn",
+      "artists": ["Zayn", "Sia"],
+      "url": "https://drive.google.com/uc?id=1r3glyV_rjXpnxFw2nDZn-G8O94JtHoXD",
+      "image": "https://drive.google.com/uc?id=1qvZecoZWUYpcKBEveZxU7QIO9IJKtWil"
+    },
+    {
+      "id": 7,
+      "title": "Get You The Moon",
+      "artists": ["Fasetya", "Vict Molina"],
+      "url": "https://drive.google.com/uc?id=1qmCrvNelR9TMFcDab5J6s28ndf6lbfZc",
+      "image": "https://drive.google.com/uc?id=1quWSOpumt9Y32OdCSyqkpEyryX2rVh5l"
+    },
+    {
+      "id": 8,
+      "title": "Oceans",
+      "artists": ["Fasetya", "Shalom Margaret"],
+      "url": "https://drive.google.com/uc?id=1qvJmRyBvSijnWDJ-WI8Zzd6UhdxcJZko",
+      "image": "https://drive.google.com/uc?id=1qssp28bm-w_6Qxjdd-BQpCFKbt3zc-O9"
+    }
+  ],
+
+  "artists": [
+    {
+      "name": "Arijit Singh",
+      "img": "https://drive.google.com/uc?id=1TLtwnEbBeJsL1aMCfxlKDLtG4FX8DlSO"
+    },
+    {
+      "name": "Atif Aslam",
+      "img": "https://drive.google.com/uc?id=1TKK6Iqbsnhv0DKvtB3EE9MTEegcUyRHZ"
+    },
+    {
+      "name": "Gravero",
+      "img": "https://drive.google.com/uc?id=1TRBLbYXMEWB8-fy8CZaItttlqIG9gOUS"
+    },
+    {
+      "name": "Wormono",
+      "img": "https://drive.google.com/uc?id=1T4Lr-4_ylxVH8EDqagBD1jHdpbo1LkBP"
+    },
+    {
+      "name": "Fasetya",
+      "img": "https://drive.google.com/uc?id=19k6cdBa_U99ZWfvJCVNKj11j5zDXolj2"
+    },
+    {
+      "name": "Lofi-2307",
+      "img": "https://drive.google.com/uc?id=1T0iGv4On1pPEysBCyCl3pRVNe6vW5uwF"
+    },
+    {
+      "name": "Shalom Margaret",
+      "img": "https://drive.google.com/uc?id=1GrC5LhjfHF4a9nkqrxOeRJlPmDPHANcZ"
+    },
+    {
+      "name": "Raj Barman",
+      "img": "https://drive.google.com/uc?id=1TBvFtw88xIsF7LT5VIXQ2D4kgl9X4tvH"
+    },
+    {
+      "name": "Shilpa Rao",
+      "img": "https://drive.google.com/uc?id=1SmoI0HsgOgdYb8o8mYKL2An-4_Rm2c-5"
+    },
+
+    {
+      "name": "Sunidhi Chauhan",
+      "img": "https://drive.google.com/uc?id=1dOhWn0ZDXsjWBAxlfIxxKjGUe8QFMWC_"
+    },
+    {
+      "name": "Asim Azhar",
+      "img": "https://drive.google.com/uc?id=1Sh7tu6k1DZ_XRdZ65PA9gpQ7vEwp0YeH"
+    },
+    {
+      "name": "Jubin Nautiyal",
+      "img": "https://drive.google.com/uc?id=1TFkb11me-K3gBd8fKwlK40GhFsfFYqzt"
+    },
+    {
+      "name": "Darshan Raval",
+      "img": "https://drive.google.com/uc?id=1TCUa3IK8q3aIJccTM7z2aBhv7WVH6wEt"
+    },
+    {
+      "name": "Furqan Uddin",
+      "img": "https://drive.google.com/uc?id=1TS4-czM8ay9DUPKSyd4zRyj7k2JpeWFF"
+    }
+  ]
+}
