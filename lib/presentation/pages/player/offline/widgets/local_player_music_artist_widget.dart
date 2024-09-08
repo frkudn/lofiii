@@ -12,7 +12,7 @@ class LocalPlayerMusicArtistWidget extends StatelessWidget {
         NowPlayingMusicDataToPlayerState>(
       builder: (context, state) {
         return Text(
-          state.musicArtist,
+          state.musicArtist ?? "Unknown",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 12.sp, color: Colors.white70),

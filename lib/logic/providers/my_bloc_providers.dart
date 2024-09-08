@@ -1,5 +1,5 @@
 import 'package:lofiii/exports.dart';
-import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
+
 
 ///?----------------   B L O C   P R O V I D E R S   -------------///
 ///////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ List<SingleChildWidget> myBlocProviders() {
       create: (context) => ChangeSystemVolumeCubit(),
     ),
     BlocProvider(
-      create: (context) => FavoriteButtonBloc(),
+      create: (context) => OnlineMusicFavoriteButtonBloc(),
     ),
     BlocProvider(
       create: (context) => RepeatMusicCubit(),
@@ -67,6 +67,9 @@ List<SingleChildWidget> myBlocProviders() {
     ),
     BlocProvider(
       create: (context) => FetchFavoriteMusicFromLocalStorageBloc(),
+    ),
+    BlocProvider(
+      create: (context) => YoutubeCarouselIndicatorsIndexCubit(),
     ),
   ];
 }

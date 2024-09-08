@@ -37,3 +37,5 @@ export 'package:lofiii/base/router/app_routes.dart';
 export 'package:lofiii/data/models/lofiii_artist_model.dart';
 export 'package:lofiii/data/models/music_model.dart';
 export 'package:lofiii/logic/providers/my_bloc_providers.dart';
+export 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
+export 'package:lofiii/logic/cubit/youtube_carousel_indicators_index/youtube_carousel_indicators_index_cubit.dart';

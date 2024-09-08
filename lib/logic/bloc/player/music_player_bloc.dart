@@ -2,17 +2,13 @@
 
 import 'dart:async';
 import 'dart:typed_data';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../../../di/dependency_injection.dart';
-
-// Importing event and state classes.
 part 'music_player_event.dart';
 part 'music_player_state.dart';
 
@@ -44,18 +40,14 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
         final audioSource = ProgressiveAudioSource(
           Uri.parse(event.url.toString()),
           tag: MediaItem(
-            artist: event.artist,
-            playable: true,
-            id: event.musicId.toString(),
-            album: event.musicAlbum,
-            title: event.musicTitle,
-            artUri: event.isOnlineMusic
-                ? Uri.parse(event.onlineMusicThumbnail.toString())
-                : Uri.dataFromBytes(event.offlineMusicThumbnail!),
-          ),
+              artist: event.artist,
+              playable: true,
+              id: event.musicId.toString(),
+              album: event.musicAlbum,
+              title: event.musicTitle,
+              artUri: Uri.parse(event.onlineMusicThumbnail.toString())),
         );
         audioPlayer.setAudioSource(audioSource);
-        
       }
 
       ///------------ If Music is Offline ------------------///
@@ -68,16 +60,15 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
             id: event.musicId.toString(),
             album: event.musicAlbum,
             title: event.musicTitle,
-            artUri: event.isOnlineMusic
-                ? Uri.parse(event.onlineMusicThumbnail.toString())
-                : Uri.dataFromBytes(event.offlineMusicThumbnail!),
+            artUri: Uri.dataFromBytes(event.offlineMusicThumbnail!),
           ),
         );
         audioPlayer.setAudioSource(audioSource);
       }
 
+      
+
       audioPlayer.play();
-      audioPlayer.setAllowsExternalPlayback(true);
 
       //! Combine the position and duration and Buffered streams
       final combinedStream = Rx.combineLatest3(

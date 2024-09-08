@@ -1,12 +1,13 @@
 part of 'favorite_button_bloc.dart';
 
 @immutable
-class FavoriteButtonState extends Equatable {
-  const FavoriteButtonState({required this.favoriteList});
-  final List<String> favoriteList;
+class OnlineMusicFavoriteButtonState extends Equatable {
+  const OnlineMusicFavoriteButtonState({required this.favoriteList});
+  final List favoriteList;
 
-  FavoriteButtonState copyWith({favoriteList}) {
-    return FavoriteButtonState(favoriteList: favoriteList ?? this.favoriteList);
+  OnlineMusicFavoriteButtonState copyWith({favoriteList}) {
+    return OnlineMusicFavoriteButtonState(
+        favoriteList: favoriteList ?? this.favoriteList);
   }
 
   @override

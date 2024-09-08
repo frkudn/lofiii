@@ -23,7 +23,7 @@ class LocalPlayerFavoriteButtonWidgetState
         return BlocBuilder<LocalMusicToFavoriteMusicListCubit,
             LocalMusicFavoriteState>(
           builder: (context, favoriteState) {
-            bool isFavorite = favoriteState.favoriteList
+            bool isFavorite =  favoriteState.favoriteList
                 .contains(nowPlayingMusicState.musicId.toString());
 
             return AnimatedReactButton(

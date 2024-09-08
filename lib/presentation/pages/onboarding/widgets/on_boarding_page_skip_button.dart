@@ -20,7 +20,7 @@ class OnBoardingSkipButton extends StatelessWidget {
         alignment: Alignment.topRight,
         child: TextButton(
           onPressed: () async {
-            await AppPermissionService.storagePermission();
+            await AppPermissionService.allPermission();
 
             ///---! Don't Show this screen after restarting app
             MyHiveBoxes.settingBox

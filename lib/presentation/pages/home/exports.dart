@@ -6,7 +6,9 @@ export 'package:gap/gap.dart';
 export 'package:lofiii/base/router/app_routes.dart';
 export 'package:lofiii/presentation/common/horizontal_circular_box_listview_shimmer_box_widget.dart';
 export 'package:lofiii/presentation/common/listViewShimmerBoxWidget.dart';
-
+export  'package:animate_do/animate_do.dart';
+export  'package:lofiii/data/models/music_model.dart';
+export 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
 
 
 export '../single-artist/widgets/artists_circle_cards_list_widget.dart';

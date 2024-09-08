@@ -180,7 +180,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   ///-------- Get Started Button On Tap
   Future<void> _getStartedButtonOnTap(BuildContext context) async {
-    AppPermissionService.storagePermission();
+    AppPermissionService.allPermission();
 
     ///-----!   Change User
     context

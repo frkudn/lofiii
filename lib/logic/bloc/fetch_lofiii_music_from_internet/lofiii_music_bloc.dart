@@ -20,6 +20,7 @@ class LofiiiMusicBloc extends Bloc<LofiiiMusicEvent, LofiiiMusicState> {
       emit(LofiiiMusicLoadingState());
       final List<MusicModel> specialMusic =
           await _musicRepository.fetchLOFIIISpecialMusic();
+
       final List<MusicModel> popularMusic =
           await _musicRepository.fetchLOFIIIPopularMusic();
       final List<MusicModel> topPicksMusic =
@@ -28,6 +29,15 @@ class LofiiiMusicBloc extends Bloc<LofiiiMusicEvent, LofiiiMusicState> {
           await _musicRepository.fetchLOFIIIVibesMusic();
       final List<LofiiiArtistModel> artistsMusic =
           await _musicRepository.fetchArtists();
+
+      /// Check if any of the fetched data is null or empty
+      if (specialMusic.isEmpty ||
+          popularMusic.isEmpty ||
+          topPicksMusic.isEmpty ||
+          vibesMusic.isEmpty ||
+          artistsMusic.isEmpty) {
+        throw Exception('Failed to fetch music data');
+      }
 
       ///------------- Combined Music List ----------------///
       List<MusicModel> combinedMusicList = <MusicModel>{

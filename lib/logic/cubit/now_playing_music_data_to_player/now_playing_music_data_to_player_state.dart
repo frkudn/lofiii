@@ -18,7 +18,7 @@ class NowPlayingMusicDataToPlayerState extends Equatable {
   final musicList;
   final String musicTitle;
   final musicThumbnail;
-  final musicArtist;
+  final  musicArtist;
   final musicListLength;
   final uri;
   final int musicId;

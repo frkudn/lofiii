@@ -82,7 +82,8 @@ class _SingleOnlineMusicArtistPageState
                       ///! -------------  Filtered List    ----------////
                       //////////////////////////////////////////////////!
 
-                      final List<MusicModel> filteredList = state.combinedMusicList
+                      final List<MusicModel> filteredList = state
+                          .combinedMusicList
                           .where((element) =>
                               element.artists.first.toLowerCase().contains(
                                   widget.artistName.toString().toLowerCase()) ||
@@ -134,8 +135,8 @@ class _SingleOnlineMusicArtistPageState
                           ),
 
                           ///!----------------------       Favorite Button Toggle  --------------///
-                          trailing: BlocBuilder<FavoriteButtonBloc,
-                              FavoriteButtonState>(
+                          trailing: BlocBuilder<OnlineMusicFavoriteButtonBloc,
+                              OnlineMusicFavoriteButtonState>(
                             builder: (context, state) {
                               bool isFavorite = state.favoriteList
                                   .contains(filteredList[index].title);
@@ -144,8 +145,9 @@ class _SingleOnlineMusicArtistPageState
                                     const EdgeInsets.symmetric(horizontal: 5),
                                 child: IconButton(
                                   onPressed: () {
-                                    context.read<FavoriteButtonBloc>().add(
-                                        FavoriteButtonToggleEvent(
+                                    context
+                                        .read<OnlineMusicFavoriteButtonBloc>()
+                                        .add(FavoriteButtonToggleEvent(
                                             title: filteredList[index].title));
                                     setState(() {});
                                   },
@@ -258,8 +260,7 @@ class _SingleOnlineMusicArtistPageState
         uri: filteredList[index].url,
         musicId: 1,
         musicArtist: filteredList[index].artists,
-        musicListLength: filteredList.length
-        );
+        musicListLength: filteredList.length);
 
     ///!-----Show Player Screen ----///
     showModalBottomSheet(

@@ -23,14 +23,9 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
     Emitter<FetchMusicFromLocalStorageState> emit,
   ) async {
     try {
-      if (await AppPermissionService.storagePermission()) {
+      if (await AppPermissionService.allPermission()) {
         emit(FetchMusicFromLocalStorageLoadingState());
 
-        // List<LocalMusicModel>? cachedLocalMusicList =
-        //     await LocalMusicCacheManager.getLocalMusic();
-
-        // if (cachedLocalMusicList == null || cachedLocalMusicList.isEmpty) {
-        // If cache is empty, fetch from local storage
         List<SongModel> musicList = await audioQuery.querySongs();
 
         List<SongModel> onlyMusic = musicList
@@ -59,19 +54,8 @@ class FetchMusicFromLocalStorageBloc extends Bloc<
         emit(FetchMusicFromLocalStorageSuccessState(
           musicsList: localMusicList,
         ));
-
-        // await LocalMusicCacheManager.updateLocalMusic(data: localMusicList);
-      }
-      //  else {
-      //   List<LocalMusicModel> localMusicList =
-      //       await LocalMusicCacheManager.getLocalMusic() ?? [];
-      //   emit(FetchMusicFromLocalStorageSuccessState(
-      //     musicsList: localMusicList,
-      //   ));
-      // }
-      // }
-      else {
-        await AppPermissionService.storagePermission();
+      } else {
+        await AppPermissionService.allPermission();
       }
     } catch (e) {
       emit(FetchMusicFromLocalStorageFailureState(

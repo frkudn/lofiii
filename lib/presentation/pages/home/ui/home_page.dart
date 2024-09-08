@@ -1,5 +1,5 @@
-import 'package:lofiii/data/models/music_model.dart';
-import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
+import 'package:lofiii/presentation/pages/downloads/exports.dart';
+
 import '../exports.dart';
 
 class HomePage extends StatefulWidget {
@@ -128,14 +128,22 @@ class _HomePageState extends State<HomePage> {
 
                 ///--------------------- STATE IS Loading  -----------------------///
               } else if (state is LofiiiMusicLoadingState) {
-                return Column(
-                  children: [
-                    ListViewShimmerBoxWidget(),
-                    ListViewShimmerBoxWidget(),
-                    const HorizontalCircularBoxListViewShimmerBoxWidget(),
-                    ListViewShimmerBoxWidget(),
-                    ListViewShimmerBoxWidget(),
-                  ],
+                return const SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Gap(120),
+                      ListViewShimmerBoxWidget(),
+                      Gap(20),
+                      ListViewShimmerBoxWidget(),
+                      Gap(20),
+                      HorizontalCircularBoxListViewShimmerBoxWidget(),
+                      Gap(20),
+                      ListViewShimmerBoxWidget(),
+                      Gap(20),
+                      ListViewShimmerBoxWidget(),
+                      Gap(100),
+                    ],
+                  ),
                 );
               }
 
@@ -144,12 +152,30 @@ class _HomePageState extends State<HomePage> {
               else if (state is LofiiiMusicFailureState) {
                 return Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const NoInternetLottieAnimation(),
-                      const Text("Refresh Now"),
-                      IconButton(
-                        onPressed: _onRefreshMethod,
-                        icon: const Icon(FontAwesomeIcons.arrowsRotate),
+                      if (state.errorMessage.contains("SocketException")) ...[
+                        const NoInternetLottieAnimation(),
+                        Center(
+                          child: TextAnimator(
+                            atRestEffect: WidgetRestingEffects.wave(),
+                            "Please check your internet connection",
+                          ),
+                        ),
+                      ],
+                      if (!state.errorMessage.contains("SocketException"))
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(state.errorMessage),
+                          ),
+                        ),
+                      Spin(
+                        child: IconButton(
+                          tooltip: "Refresh",
+                          onPressed: _onRefreshMethod,
+                          icon: const Icon(FontAwesomeIcons.arrowsRotate),
+                        ),
                       )
                     ],
                   ),

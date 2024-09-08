@@ -11,19 +11,24 @@ import '../../../base/services/hive/hive_services.dart';
 part 'favorite_button_event.dart';
 part 'favorite_button_state.dart';
 
-class FavoriteButtonBloc
-    extends Bloc<FavoriteButtonEvent, FavoriteButtonState> {
+class OnlineMusicFavoriteButtonBloc extends Bloc<OnlineMusicFavoriteButtonEvent,
+    OnlineMusicFavoriteButtonState> {
   // Initialize the bloc with the initial state
-  FavoriteButtonBloc()
-      : super(FavoriteButtonState(favoriteList: MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey))) {
+  OnlineMusicFavoriteButtonBloc()
+      : super(OnlineMusicFavoriteButtonState(
+            favoriteList: MyHiveBoxes.libraryBox.get(
+                MyHiveKeys.onlineFavoriteMusicListHiveKey,
+                defaultValue: []))) {
     // Listen for FavoriteButtonToggleEvent and call _favoriteToggle method
     on<FavoriteButtonToggleEvent>(_favoriteToggle);
   }
   //! Method to handle toggling favorite state
-  FutureOr<void> _favoriteToggle(
-      FavoriteButtonToggleEvent event, Emitter<FavoriteButtonState> emit) {
+  FutureOr<void> _favoriteToggle(FavoriteButtonToggleEvent event,
+      Emitter<OnlineMusicFavoriteButtonState> emit) {
     //! Get the current favorite list from Hive
-    List<String> favoriteList = MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey);
+    List<String> favoriteList =
+        MyHiveBoxes.libraryBox.get(MyHiveKeys.onlineFavoriteMusicListHiveKey) ??
+            [];
 
     //! Check if the title is already in the favorite list
     bool isFavorite = favoriteList.contains(event.title);

@@ -25,7 +25,7 @@ class FetchFavoriteMusicFromLocalStorageBloc extends Bloc<
     Emitter<FetchFavoriteMusicFromLocalStorageState> emit,
   ) async {
     try {
-      if (await AppPermissionService.storagePermission()) {
+      if (await AppPermissionService.allPermission()) {
         emit(FetchFavoriteMusicFromLocalStorageLoadingState());
 
         List<String> localFavoriteMusicIds = MyHiveBoxes.libraryBox.get(
@@ -50,7 +50,7 @@ class FetchFavoriteMusicFromLocalStorageBloc extends Bloc<
         emit(FetchFavoriteMusicFromLocalStorageSuccessState(
             favoriteMusicList: favoriteMusicsWithArtwork));
       } else {
-        await AppPermissionService.storagePermission();
+        await AppPermissionService.allPermission();
       }
     } catch (e) {
       emit(FetchFavoriteMusicFromLocalStorageFailureState(

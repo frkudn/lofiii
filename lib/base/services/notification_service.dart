@@ -1,26 +1,41 @@
+import 'dart:developer';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('app_logo');
+    try {
+      log('Starting initNotification');
+      const AndroidInitializationSettings initializationSettingsAndroid =
+          AndroidInitializationSettings('app_logo');
 
-    const InitializationSettings initializationSettings =
-    InitializationSettings(android: initializationSettingsAndroid);
+      const InitializationSettings initializationSettings =
+          InitializationSettings(android: initializationSettingsAndroid);
 
-    await notificationsPlugin.initialize(initializationSettings);
+      await notificationsPlugin.initialize(initializationSettings);
+      log('initNotification completed');
+    } catch (e, stackTrace) {
+      log('initNotification error: $e', stackTrace: stackTrace);
+    }
   }
 
-  Future<void> initJustAUdioBackgroundNotification()async{
-     await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.lofiii.lyrilab',
-    androidNotificationChannelName: 'Audio playback',
-    androidNotificationOngoing: true,
-  );
+  Future<void> initJustAUdioBackgroundNotification() async {
+    try {
+      log('Starting initJustAUdioBackgroundNotification');
+      await JustAudioBackground.init(
+        androidNotificationChannelId: 'com.lofiii.lyrilab',
+        androidNotificationChannelName: 'Audio playback',
+        androidNotificationOngoing: true,
+      );
+      log('initJustAUdioBackgroundNotification completed');
+    } catch (e, stackTrace) {
+      log('initJustAUdioBackgroundNotification error: $e',
+          stackTrace: stackTrace);
+    }
   }
 
   NotificationDetails notificationDetails() {
@@ -37,8 +52,7 @@ class NotificationService {
 
   Future showNotification(
       {int id = 0, String? title, String? body, String? payload}) async {
-    await notificationsPlugin.show(
-        id, title, body, notificationDetails(), payload: payload);
+    await notificationsPlugin.show(id, title, body, notificationDetails(),
+        payload: payload);
   }
-
 }

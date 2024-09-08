@@ -234,7 +234,10 @@ class _DownloadsPageState extends State<DownloadsPage> {
             );
           } else if (state is FetchMusicFromLocalStorageFailureState) {
             return Center(
-              child: Text(state.failureMessage),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(state.failureMessage),
+              ),
             );
           } else {
             return Center(

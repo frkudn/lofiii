@@ -138,8 +138,8 @@ class _OnlinePlayerPageState extends State<OnlinePlayerPage> {
                                             ThemeModeState>(
                                           builder: (context, themeState) {
                                             return BlocBuilder<
-                                                FavoriteButtonBloc,
-                                                FavoriteButtonState>(
+                                                OnlineMusicFavoriteButtonBloc,
+                                                OnlineMusicFavoriteButtonState>(
                                               builder: (context, state) {
                                                 bool isFavorite =
                                                     state.favoriteList.contains(
@@ -164,7 +164,7 @@ class _OnlinePlayerPageState extends State<OnlinePlayerPage> {
                                                     onPressed: () async {
                                                       context
                                                           .read<
-                                                              FavoriteButtonBloc>()
+                                                              OnlineMusicFavoriteButtonBloc>()
                                                           .add(FavoriteButtonToggleEvent(
                                                               title: nowPlayingMusicState
                                                                   .musicTitle));
@@ -801,8 +801,7 @@ class _OnlinePlayerPageState extends State<OnlinePlayerPage> {
           uri: music.url,
           musicId: music.id,
           musicArtist: music.artists,
-          musicListLength: state.musicList.length
-          );
+          musicListLength: state.musicList.length);
     }
   }
 
@@ -832,8 +831,7 @@ class _OnlinePlayerPageState extends State<OnlinePlayerPage> {
           uri: music.url,
           musicId: music.id,
           musicArtist: music.artists,
-          musicListLength: state.musicList.length
-          );
+          musicListLength: state.musicList.length);
     }
   }
 }

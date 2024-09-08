@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:floating/floating.dart';
@@ -8,21 +10,44 @@ import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:volume_controller/volume_controller.dart';
-import '../data/providers/musicData/music_data_provider.dart';
 import '../data/repositories/youtube_repository.dart';
 
-final GetIt locator = GetIt.instance;
+GetIt locator = GetIt.instance;
 
-void initializeLocator() {
-  locator.registerSingleton<Connectivity>(Connectivity());
-  locator.registerSingleton<AudioPlayer>(AudioPlayer());
-  locator.registerSingleton<VolumeController>(VolumeController());
-  locator.registerSingleton<Dio>(Dio());
-  locator.registerSingleton<ImagePicker>(ImagePicker());
-  locator.registerSingleton<FlipCardController>(FlipCardController());
-  locator.registerSingleton<OnAudioQuery>(OnAudioQuery());
-  locator.registerSingleton<MusicDataProvider>(MusicDataProvider());
-  locator.registerSingleton<ScrollController>(ScrollController());
-  locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
-  locator.registerSingleton<Floating>(Floating());
+initializeLocator() {
+  try {
+    locator.registerSingleton<Connectivity>(Connectivity());
+    log('Connectivity registered');
+
+    locator.registerSingleton<AudioPlayer>(AudioPlayer());
+    log('AudioPlayer registered');
+
+    locator.registerSingleton<VolumeController>(VolumeController());
+    log('VolumeController registered');
+
+    locator.registerSingleton<Dio>(Dio());
+    log('Dio registered');
+
+    locator.registerSingleton<ImagePicker>(ImagePicker());
+    log('ImagePicker registered');
+
+    locator.registerSingleton<FlipCardController>(FlipCardController());
+    log('FlipCardController registered');
+
+    locator.registerSingleton<OnAudioQuery>(OnAudioQuery());
+    log('OnAudioQuery registered');
+
+    locator.registerSingleton<ScrollController>(ScrollController());
+    log('ScrollController registered');
+
+    locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
+    log('YouTubeDataRepository registered');
+
+    locator.registerSingleton<Floating>(Floating());
+    log('Floating registered');
+
+    log('Locator initialized');
+  } catch (e, stackTrace) {
+    log('Initialization error: $e', stackTrace: stackTrace);
+  }
 }

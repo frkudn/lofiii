@@ -33,15 +33,13 @@ class _LibraryPageState extends State<LibraryPage> {
               ),
 
               ///!-   --------------       My Favorite
-              BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
+              BlocBuilder<OnlineMusicFavoriteButtonBloc,
+                  OnlineMusicFavoriteButtonState>(
                 builder: (context, favoriteState) {
                   return BlocBuilder<LofiiiMusicBloc, LofiiiMusicState>(
                     builder: (context, state) {
                       ///?------------        If  Success State
                       if (state is LofiiiMusicSuccessState) {
-                   
-
-
                         //! Filter the favorite list
                         final favoriteList = state.combinedMusicList
                             .where((element) => favoriteState.favoriteList
@@ -76,15 +74,13 @@ class _LibraryPageState extends State<LibraryPage> {
               ),
 
               ///!       -------------Online Favorite List
-              BlocBuilder<FavoriteButtonBloc, FavoriteButtonState>(
+              BlocBuilder<OnlineMusicFavoriteButtonBloc,
+                  OnlineMusicFavoriteButtonState>(
                 builder: (context, favoriteState) {
                   return BlocBuilder<LofiiiMusicBloc, LofiiiMusicState>(
                     builder: (context, state) {
                       ///?------------        If  Success State
                       if (state is LofiiiMusicSuccessState) {
-
-                
-
                         //!  Filter the favorite list
                         final favoriteList = state.combinedMusicList
                             .where((element) => favoriteState.favoriteList

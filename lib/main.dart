@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'exports.dart';
 
 void main() async {
@@ -5,28 +6,34 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize dependency injection
-  initializeLocator();
-
-  // Set up notification services
-  NotificationService().initNotification();
-  NotificationService().initJustAUdioBackgroundNotification();
-
-  // Enable wakelock to keep the screen on
-  WakelockPlus.enable();
-
-  // Load environment variables
-  await dotenv.load();
+  await initializeLocator(); // This should initialize all dependencies
 
   // Initialize Hive database and register custom adapters
   await MyHive.initializeHive();
-  Hive.registerAdapter(MusicModelAdapter());
-  Hive.registerAdapter(LofiiiArtistModelAdapter());
+
+  // Set up notification services
+  await NotificationService().initNotification();
+
+  // Set up JustAudioBackground services
+  await NotificationService().initJustAUdioBackgroundNotification();
+
+  // Load environment variables
+  log('Loading environment variables');
+  await dotenv.load();
+  log('Environment variables loaded');
+
+  // Enable wakelock to keep the screen on
+  log('Enabling wakelock');
+  WakelockPlus.enable();
+  log('Wakelock enabled');
 
   // Set preferred screen orientations
-  SystemChrome.setPreferredOrientations([
+  log('Setting preferred orientations');
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  log('Preferred orientations set');
 
   // Launch the application
   runApp(const MyApp());

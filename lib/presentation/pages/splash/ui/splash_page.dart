@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lofiii/base/router/app_routes.dart';
 import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
 import '../../../../base/services/app_services.dart';
-
 import '../../../../logic/cubit/greeting/greeting_cubit.dart';
 import '../../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../../base/services/hive/hive_services.dart';
@@ -23,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     _fetchMusic();
-    ///?---------Navigate To OnBoarding/Initial Page After Three Seconds-----////
+    //?---------Navigate To OnBoarding/Initial Page After Three Seconds-----////
     goToNextPage();
   }
 
@@ -81,10 +80,10 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _fetchMusic() {
-    ///?-----------Fetch LOFIII  Music ------___--------///
+    //?-----------Fetch LOFIII  Music ------___--------///
     context.read<LofiiiMusicBloc>().add(LOFIIIMusicFetchEvent());
 
-    ///?-------------Update Home Page Greeting Message -------/////
+    //?-------------Update Home Page Greeting Message -------/////
     context.read<GreetingCubit>().updateGreeting();
   }
 }

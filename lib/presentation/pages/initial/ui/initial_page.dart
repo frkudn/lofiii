@@ -38,7 +38,7 @@ class _InitialPageState extends State<InitialPage> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if (backButtonPressCount == 0) {
           //! Change the page index to 0
           context.read<BottomNavigationIndexCubit>().changePageIndex(index: 0);
