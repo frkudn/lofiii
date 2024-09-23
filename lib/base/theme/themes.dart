@@ -16,6 +16,7 @@ class AppThemes {
       showUnselectedLabels: false,
       type: BottomNavigationBarType.fixed,
     ),
+
     scrollbarTheme: ScrollbarThemeData(
 
         interactive: true,

@@ -1,12 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-
-import '../../../base/services/hive/hive_services.dart';
-
+import 'package:lofiii/exports.dart';
 part 'theme_mode_state.dart';
 
 class ThemeModeCubit extends Cubit<ThemeModeState> {
@@ -20,11 +15,10 @@ class ThemeModeCubit extends Cubit<ThemeModeState> {
               isBlackMode:
                   MyHiveBoxes.settingBox.get(MyHiveKeys.blackModeHiveKey) ??
                       false,
+              sliderTrackHeight: 0.01.sh,
               accentColor: MyHiveBoxes.settingBox
-                      .get(MyHiveKeys.themeAccentColorHiveKey)
-                  ??
-                  0XFFFF0090
-          ),
+                      .get(MyHiveKeys.themeAccentColorHiveKey) ??
+                  0XFFFF0090),
         );
 
   //? Method to change the theme mode.
@@ -44,17 +38,18 @@ class ThemeModeCubit extends Cubit<ThemeModeState> {
     MyHiveBoxes.settingBox.put(MyHiveKeys.blackModeHiveKey, isBlackMode);
   }
 
-
-  changeAccentColor({required int? colorCode}){
+  changeAccentColor({required int? colorCode}) {
     int? color = colorCode;
-    if(color != null) {
+    if (color != null) {
       emit(state.copyWith(accentColor: color));
       MyHiveBoxes.settingBox.put(MyHiveKeys.themeAccentColorHiveKey, color);
     }
   }
 
-  changeSelectedTileIndex({required index}){
+  changeSelectedTileIndex({required int index}) {
     emit(state.copyWith(localMusicSelectedTileIndex: index));
   }
-  
+  changeSliderTrackHeight({required double  sliderTrackHeight}){
+    emit(state.copyWith(sliderTrackHeight: sliderTrackHeight)); 
+  }
 }

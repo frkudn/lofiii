@@ -206,70 +206,15 @@ class LocalMusicPlayerButtonsWidget extends StatelessWidget {
   ///!--------------------------------------------------------------------------------///
   void _nextMusicButtonOnTap(
       NowPlayingMusicDataToPlayerState state, BuildContext context) {
-    int index = state.musicIndex;
-    if (index < state.musicListLength) {
-      index++;
-      final music = state.musicList[index];
+    context.read<MusicPlayerBloc>().add(
+        MusicPlayerOfflineNextMusicEvent(nowPlayingState: state,context: context));
 
-      ///!-----Change Music------
-      context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: music.uri.toString(),
-          isOnlineMusic: false,
-          musicAlbum: music.album ?? "Unknown",
-          musicId: music.id,
-          musicTitle: music.title,
-          onlineMusicThumbnail: null,
-          offlineMusicThumbnail: music.artwork));
-
-      ///---- Also Change Music Title and Artist on Next Button Clicked
-      context.read<NowPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-            musicIndex: index,
-            musicList: state.musicList,
-            musicThumbnail: state.musicList[index].artwork,
-            musicTitle: state.musicList[index].title,
-            musicArtist: state.musicList[index].artist,
-            uri: state.musicList[index].uri,
-            musicId: state.musicList[index].id,
-            musicListLength: state.musicList.length,
-          );
-
-      ///!-------  Change Selected Tile Index
-      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
-    }
   }
 
   void _backwardMusicButtonOnTap(
       NowPlayingMusicDataToPlayerState state, BuildContext context) {
-    int index = state.musicIndex;
-    if (index > 0) {
-      index--;
-      final music = state.musicList[index];
-
-      ///!-----Change Music------
-      context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: music.uri.toString(),
-          isOnlineMusic: false,
-          musicAlbum: music.album ?? "Unknown",
-          musicId: music.id,
-          musicTitle: music.title,
-          onlineMusicThumbnail: null,
-          offlineMusicThumbnail: music.artwork));
-
-      ///---- Also Change Music Title and Artist on Back Button Clicked
-      context.read<NowPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-            musicIndex: index,
-            musicList: state.musicList,
-            musicThumbnail: state.musicList[index].artwork,
-            musicTitle: state.musicList[index].title,
-            musicArtist: state.musicList[index].artist,
-            uri: state.musicList[index].uri,
-            musicListLength: state.musicList.length,
-            musicId: state.musicList[index].id,
-          );
-
-      ///!-------  Change Selected Tile Index
-      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
-    }
+    context.read<MusicPlayerBloc>().add(MusicPlayerOfflinePreviousMusicEvent(
+        nowPlayingState: state, context: context));
   }
 
   _playNextMusicIfAvailable(BuildContext context,

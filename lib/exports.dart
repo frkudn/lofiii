@@ -4,7 +4,7 @@ export 'package:flutter/services.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:lofiii/base/router/app_router.dart';
-export 'package:lofiii/base/services/notification_service.dart';
+export 'package:lofiii/base/services/notification/notification_service.dart';
 export 'package:lofiii/di/dependency_injection.dart';
 export 'package:lofiii/logic/bloc/download/download_music_bloc.dart';
 export 'package:lofiii/logic/bloc/fetch_favorite_music_from_local_storage/fetch_favorite_music_from_local_storage_bloc.dart';

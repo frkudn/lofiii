@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:floating/floating.dart';
@@ -8,8 +7,11 @@ import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lofiii/data/providers/youtube/my_youtube_data_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:volume_controller/volume_controller.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:youtube_scrape_api/youtube_scrape_api.dart';
 import '../data/repositories/youtube_repository.dart';
 
 GetIt locator = GetIt.instance;
@@ -40,11 +42,20 @@ initializeLocator() {
     locator.registerSingleton<ScrollController>(ScrollController());
     log('ScrollController registered');
 
-    locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
-    log('YouTubeDataRepository registered');
-
     locator.registerSingleton<Floating>(Floating());
     log('Floating registered');
+
+    locator.registerSingleton<YoutubeExplode>(YoutubeExplode());
+    log('YoutubeExplode registered');
+
+    locator.registerSingleton<YoutubeDataApi>(YoutubeDataApi());
+    log('YoutubeDataApi registered');
+
+    locator.registerSingleton<MyYouTubeDataProvider>(MyYouTubeDataProvider());
+    log('MyYouTubeDataProvider registered');
+
+    locator.registerSingleton<YouTubeDataRepository>(YouTubeDataRepository());
+    log('YouTubeDataRepository registered');
 
     log('Locator initialized');
   } catch (e, stackTrace) {

@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:lofiii/base/services/app_services.dart';
+import 'package:lofiii/base/services/app/app_services.dart';
 import 'package:one_context/one_context.dart';
 import 'package:url_launcher/link.dart';
 

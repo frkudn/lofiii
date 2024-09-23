@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart'; // Import this for BuildContext
 import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
+import 'package:lofiii/logic/bloc/youtube_videos_bloc/youtube_videos_bloc.dart';
 import 'package:one_context/one_context.dart';
 
 part 'check_internet_connection_event.dart';
@@ -38,6 +39,12 @@ class CheckInternetConnectionBloc
             .context!
             .read<LofiiiMusicBloc>()
             .add(LOFIIIMusicFetchEvent());
+     
+       ///!-----------Refresh Youtube Music --------------///
+        OneContext()
+            .context!
+            .read<YoutubeVideosBloc>()
+            .add(FetchYoutubeVideosEvent());
       },
     );
   }

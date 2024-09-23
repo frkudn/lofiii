@@ -52,7 +52,6 @@ dependencies:
   get_it: ^7.6.7
   animated_react_button: ^0.0.4
   json_annotation: ^4.8.1
-  # youtube_scrape_api: ^0.0.6
   pod_player: ^0.2.1
   signals: ^4.5.1
   floating: ^2.0.2
@@ -64,6 +63,10 @@ dependencies:
   just_audio_background: ^0.0.1-beta.13
   flutter_dotenv: ^5.1.0
   carousel_slider: ^5.0.0
+  youtube_explode_dart: ^2.2.1
+  youtube_scrape_api: ^0.0.6
+  date_format: ^2.0.9
+  timeago: ^3.7.0
 
 
 dev_dependencies:

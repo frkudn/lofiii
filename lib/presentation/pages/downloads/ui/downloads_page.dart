@@ -112,6 +112,8 @@ class _DownloadsPageState extends State<DownloadsPage> {
                           return ListTile(
                             selected: isSelected ? true : false,
                             selectedColor: Color(themeState.accentColor),
+                            selectedTileColor:
+                                Color(themeState.accentColor).withOpacity(0.1),
 
                             ///!-------  On Tap
                             onTap: () {
@@ -221,6 +223,11 @@ class _DownloadsPageState extends State<DownloadsPage> {
                       );
                     },
                   ),
+
+                  //----- Bottom Space --------///
+                  SliverToBoxAdapter(
+                    child: Gap(0.16.sh),
+                  )
                 ],
               ),
             );

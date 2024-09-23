@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lofiii/data/models/local_music_model.dart';
-import 'package:lofiii/base/services/app_permissions_service.dart';
+import 'package:lofiii/base/services/permissions/app_permissions_service.dart';
 import 'package:lofiii/exports.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 part 'fetch_music_from_local_storage_event.dart';

@@ -100,418 +100,514 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
                                 widget.borderRadiusTopRight ?? 50),
                           ),
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              bottom: widget.paddingBottom ?? 0.03.sh,
-                              left: widget.paddingLeft ?? 0.05.sw,
-                              right: widget.paddingRight ?? 0,
-                              top: widget.paddingTop ?? 0),
+                        child: Stack(
+                          children: [
+                            ///----- Contents  ------///
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: widget.paddingBottom ?? 0.03.sh,
+                                  left: widget.paddingLeft ?? 0.05.sw,
+                                  right: widget.paddingRight ?? 0,
+                                  top: widget.paddingTop ?? 0),
 
-                          ///------------------?  M A I N  R O W
-                          child: Builder(builder: (context) {
-                            if (showMiniPlayerState.isYouTubeMusic == false) {
-                              return Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ///!--------------------  MUSIC IMAGE
-                                  if (showMiniPlayerState.isOnlineMusic)
-                                    CachedNetworkImage(
-                                      imageUrl: musicDataState.musicThumbnail
-                                          .toString(),
-                                      imageBuilder: (context, imageProvider) =>
+                              ///------------------?  M A I N  R O W
+                              child: Builder(builder: (context) {
+                                if (showMiniPlayerState.isYouTubeMusic ==
+                                    false) {
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      ///!--------------------  MUSIC IMAGE
+                                      if (showMiniPlayerState.isOnlineMusic)
+                                        CachedNetworkImage(
+                                          imageUrl: musicDataState
+                                              .musicThumbnail
+                                              .toString(),
+                                          imageBuilder:
+                                              (context, imageProvider) =>
 
-                                          ///---- Animation
-                                          Spin(
-                                        infinite: true,
-                                        duration: const Duration(seconds: 15),
-                                        child: CircleAvatar(
-                                          backgroundImage: imageProvider,
-                                          radius: 19.spMax,
+                                                  ///---- Animation
+                                                  SpinPerfect(
+                                            infinite: true,
+                                            duration:
+                                                const Duration(seconds: 15),
+                                            child: CircleAvatar(
+                                              backgroundImage: imageProvider,
+                                              radius: 19.spMax,
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              CircleAvatar(
+                                            radius: 19.spMax,
+                                            child: Icon(
+                                              FontAwesomeIcons.music,
+                                              size: 12.spMax,
+                                              color:
+                                                  Color(themeState.accentColor),
+                                            ),
+                                          ),
+                                        ),
+
+                                      ///!--------------------  Offline Music Image
+                                      if (showMiniPlayerState.isOnlineMusic ==
+                                          false)
+                                        BlocBuilder<
+                                            NowPlayingMusicDataToPlayerCubit,
+                                            NowPlayingMusicDataToPlayerState>(
+                                          builder: (context, nowPlayingState) {
+                                            Uint8List? musicThumbnail =
+                                                nowPlayingState.musicThumbnail;
+                                            return SpinPerfect(
+                                              infinite: true,
+                                              duration:
+                                                  const Duration(seconds: 5),
+                                              child: musicThumbnail == null
+                                                  ? CircleAvatar(
+                                                      backgroundColor: Color(
+                                                          themeState
+                                                              .accentColor),
+                                                      radius: 19.spMax,
+                                                      child: Icon(
+                                                        FontAwesomeIcons.music,
+                                                        size: 12.spMax,
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  : Padding(
+                                                    padding: EdgeInsets.only(top: 8.sp, left: 8.sp),
+                                                    child: CircleAvatar(
+                                                        backgroundImage:
+                                                            MemoryImage(
+                                                                musicThumbnail),
+                                                      ),
+                                                  ),
+                                            );
+                                          },
+                                        ),
+
+                                      SizedBox(
+                                        width: 0.01.sw,
+                                      ),
+
+                                      ///!---------------  Music Title & Artists
+                                      Expanded(
+                                        flex: 2,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ///---------! Online Music Title
+                                            if (showMiniPlayerState
+                                                .isOnlineMusic)
+                                              Text(
+                                                musicDataState.musicTitle
+                                                    .toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+
+                                            if (showMiniPlayerState
+                                                    .isOnlineMusic ==
+                                                false)
+                                              BlocBuilder<
+                                                  NowPlayingMusicDataToPlayerCubit,
+                                                  NowPlayingMusicDataToPlayerState>(
+                                                builder:
+                                                    (context, nowPlayState) {
+                                                  return Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      ///---------! Offline Music Title
+                                                      Text(
+                                                        nowPlayState.musicTitle
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+
+                                                      ///-----! Offline Music Artists
+                                                      Text(
+                                                        nowPlayState.musicArtist
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                            fontSize: 9),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+
+                                            ///-----! Online Music Artists
+                                            if (showMiniPlayerState
+                                                .isOnlineMusic)
+                                              Text(
+                                                musicDataState.musicArtist
+                                                    .join(', ')
+                                                    .toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    fontSize: 9),
+                                              ),
+                                          ],
                                         ),
                                       ),
-                                      errorWidget: (context, url, error) =>
-                                          CircleAvatar(
-                                        radius: 19.spMax,
-                                        child: Icon(
-                                          FontAwesomeIcons.music,
-                                          size: 12.spMax,
-                                          color: Color(themeState.accentColor),
-                                        ),
-                                      ),
-                                    ),
 
-                                  ///!--------------------  Offline Music Image
-                                  if (showMiniPlayerState.isOnlineMusic ==
-                                      false)
-                                    BlocBuilder<
-                                        NowPlayingMusicDataToPlayerCubit,
-                                        NowPlayingMusicDataToPlayerState>(
-                                      builder: (context, nowPlayingState) {
-                                       Uint8List? musicThumbnail = nowPlayingState
-                                                      .musicThumbnail;
-                                        return Spin(
-                                          infinite: true,
-                                          duration: const Duration(seconds: 4),
-                                          child: musicThumbnail ==
-                                                  null
-                                              ? CircleAvatar(
-                                                  backgroundColor: Color(
-                                                      themeState.accentColor),
-                                                  radius: 19.spMax,
-                                                  child: Icon(
-                                                    FontAwesomeIcons.music,
-                                                    size: 12.spMax,
-                                                    color: Colors.white,
-                                                  ),
-                                                )
-                                              : CircleAvatar(
-                                                  backgroundImage: MemoryImage(
-                                                      musicThumbnail),
-                                                ),
-                                        );
-                                      },
-                                    ),
-
-                                  SizedBox(
-                                    width: 0.02.sw,
-                                  ),
-
-                                  ///!---------------  Music Title & Artists
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ///---------! Online Music Title
-                                        if (showMiniPlayerState.isOnlineMusic)
-                                          Text(
-                                            musicDataState.musicTitle
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-
-                                        if (showMiniPlayerState.isOnlineMusic ==
-                                            false)
-                                          BlocBuilder<
-                                              NowPlayingMusicDataToPlayerCubit,
-                                              NowPlayingMusicDataToPlayerState>(
-                                            builder: (context, nowPlayState) {
-                                              return Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ///---------! Offline Music Title
-                                                  Text(
-                                                    nowPlayState.musicTitle.toString(),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-
-                                                  ///-----! Offline Music Artists
-                                                  Text(
-                                                    nowPlayState.musicArtist
-                                                        .toString(),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                        fontSize: 9),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          ),
-
-                                        ///-----! Online Music Artists
-                                        if (showMiniPlayerState.isOnlineMusic)
-                                          Text(
-                                            musicDataState.musicArtist
-                                                .join(', ')
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontSize: 9),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  //!/////////////////////////////////////
-                                  ///---------------?   Buttons //////////
-                                  BlocBuilder<NowPlayingMusicDataToPlayerCubit,
-                                      NowPlayingMusicDataToPlayerState>(
-                                    builder: (context, nowPlayingMusicState) {
-                                      return Flexible(
-                                        child: BlocBuilder<ThemeModeCubit,
-                                            ThemeModeState>(
-                                          builder: (context, themeState) {
-                                            return BlocBuilder<MusicPlayerBloc,
-                                                MusicPlayerState>(
-                                              builder: (context, state) {
-                                                if (state
-                                                    is MusicPlayerSuccessState) {
-                                                  return BlocBuilder<
-                                                      NowPlayingMusicDataToPlayerCubit,
-                                                      NowPlayingMusicDataToPlayerState>(
-                                                    builder: (context,
-                                                        fetchCurrentMusicState) {
-                                                      return StreamBuilder(
-                                                          stream: state
-                                                              .audioPlayer
-                                                              .playerStateStream,
-                                                          builder: (context,
-                                                              playerStateSnapshot) {
-                                                            if (playerStateSnapshot
-                                                                .hasData) {
-                                                              ///!---  if Music Playing is Completed shows then show stop button
+                                      //!/////////////////////////////////////
+                                      ///---------------?   Buttons //////////
+                                      BlocBuilder<
+                                          NowPlayingMusicDataToPlayerCubit,
+                                          NowPlayingMusicDataToPlayerState>(
+                                        builder:
+                                            (context, nowPlayingMusicState) {
+                                          return Flexible(
+                                            child: BlocBuilder<ThemeModeCubit,
+                                                ThemeModeState>(
+                                              builder: (context, themeState) {
+                                                return BlocBuilder<
+                                                    MusicPlayerBloc,
+                                                    MusicPlayerState>(
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is MusicPlayerSuccessState) {
+                                                      return BlocBuilder<
+                                                          NowPlayingMusicDataToPlayerCubit,
+                                                          NowPlayingMusicDataToPlayerState>(
+                                                        builder: (context,
+                                                            fetchCurrentMusicState) {
+                                                          return StreamBuilder(
+                                                            stream: state
+                                                                .audioPlayer
+                                                                .playerStateStream,
+                                                            builder: (context,
+                                                                playerStateSnapshot) {
                                                               if (playerStateSnapshot
-                                                                      .data!
-                                                                      .processingState ==
-                                                                  ProcessingState
-                                                                      .completed) {
-                                                                //-------- Play next music automatically if available
-                                                                _playNextMusicIfAvailable(
-                                                                    context,
-                                                                    nowPlayingMusicState);
-
-                                                                return SizedBox(
-                                                                  width: 0.1.sw,
-                                                                );
-                                                              }
-
-                                                              ///!-----  If Music is not Completed
-                                                              else {
-                                                                ///!------------- If Music is Loading
+                                                                  .hasData) {
+                                                                ///!---  if Music Playing is Completed shows then show stop button
                                                                 if (playerStateSnapshot
-                                                                            .data!
-                                                                            .processingState ==
-                                                                        ProcessingState
-                                                                            .loading ||
-                                                                    playerStateSnapshot
-                                                                            .data!
-                                                                            .processingState ==
-                                                                        ProcessingState
-                                                                            .buffering) {
-                                                                  return CircleAvatar(
-                                                                    radius:
-                                                                        12.sp,
-                                                                    backgroundColor:
-                                                                        Color(themeState
-                                                                            .accentColor),
-                                                                    child:
-                                                                        const CircularProgressIndicator(
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
+                                                                        .data!
+                                                                        .processingState ==
+                                                                    ProcessingState
+                                                                        .completed) {
+                                                                  //-------- Play next music automatically if available
+                                                                  _playNextMusicIfAvailable(
+                                                                      context,
+                                                                      nowPlayingMusicState);
+
+                                                                  return SizedBox(
+                                                                    width:
+                                                                        0.1.sw,
                                                                   );
                                                                 }
 
-                                                                ///! ---------- If music isn't loading
+                                                                ///!-----  If Music is not Completed
                                                                 else {
-                                                                  return StreamBuilder(
-                                                                    stream: state
-                                                                        .playingStream,
-                                                                    builder:
-                                                                        (context,
-                                                                            snapshot) {
-                                                                      if (snapshot
-                                                                          .hasData) {
-                                                                        return IconButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            context.read<MusicPlayerBloc>().add(MusicPlayerTogglePlayPauseEvent());
-                                                                          },
-                                                                          icon:
-                                                                              Icon(
-                                                                            snapshot.data == true
-                                                                                ? FontAwesomeIcons.circlePause
-                                                                                : FontAwesomeIcons.circlePlay,
+                                                                  ///!------------- If Music is Loading
+                                                                  if (playerStateSnapshot
+                                                                              .data!
+                                                                              .processingState ==
+                                                                          ProcessingState
+                                                                              .loading ||
+                                                                      playerStateSnapshot
+                                                                              .data!
+                                                                              .processingState ==
+                                                                          ProcessingState
+                                                                              .buffering) {
+                                                                    return CircleAvatar(
+                                                                      radius:
+                                                                          12.sp,
+                                                                      backgroundColor:
+                                                                          Color(
+                                                                              themeState.accentColor),
+                                                                      child:
+                                                                          const CircularProgressIndicator(
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    );
+                                                                  }
+
+                                                                  ///! ---------- If music isn't loading
+                                                                  else {
+                                                                    return StreamBuilder(
+                                                                      stream: state
+                                                                          .playingStream,
+                                                                      builder:
+                                                                          (context,
+                                                                              snapshot) {
+                                                                        if (snapshot
+                                                                            .hasData) {
+                                                                          return IconButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              context.read<MusicPlayerBloc>().add(MusicPlayerTogglePlayPauseEvent());
+                                                                            },
+                                                                            icon:
+                                                                                Icon(
+                                                                              snapshot.data == true ? FontAwesomeIcons.circlePause : FontAwesomeIcons.circlePlay,
+                                                                              size: 30.spMax,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          );
+                                                                        } else {
+                                                                          return Icon(
+                                                                            EvaIcons.pauseCircle,
                                                                             size:
                                                                                 30.spMax,
                                                                             color:
                                                                                 Colors.white,
-                                                                          ),
-                                                                        );
-                                                                      } else {
-                                                                        return Icon(
-                                                                          EvaIcons
-                                                                              .pauseCircle,
-                                                                          size:
-                                                                              30.spMax,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        );
-                                                                      }
-                                                                    },
-                                                                  );
+                                                                          );
+                                                                        }
+                                                                      },
+                                                                    );
+                                                                  }
                                                                 }
                                                               }
-                                                            }
 
-                                                            ///!----- If PlayerState snapshot hasn't any Data
-                                                            else {
-                                                              return CircularProgressIndicator(
-                                                                color: Colors
-                                                                    .white,
-                                                                backgroundColor:
-                                                                    Color(themeState
-                                                                        .accentColor),
-                                                              );
-                                                            }
-                                                          });
-                                                    },
-                                                  );
-                                                }
+                                                              ///!----- If PlayerState snapshot hasn't any Data
+                                                              else {
+                                                                return CircularProgressIndicator(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  backgroundColor:
+                                                                      Color(themeState
+                                                                          .accentColor),
+                                                                );
+                                                              }
+                                                            },
+                                                          );
+                                                        },
+                                                      );
+                                                    }
 
-                                                ///! ------ if MusicPlayer state isn't success state
-                                                else {
-                                                  return CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Colors.white,
-                                                        backgroundColor: Color(
-                                                            themeState
-                                                                .accentColor),
-                                                      ));
-                                                }
+                                                    ///! ------ if MusicPlayer state isn't success state
+                                                    else {
+                                                      return CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                          backgroundColor:
+                                                              Color(themeState
+                                                                  .accentColor),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                );
                                               },
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(
-                                    width: 0.05.sw,
-                                  )
-                                ],
-                              );
-                            }
-
-                            ///?-----------------------------------------------------------------------//
-                            ///!---------------------- If Youtube Music ----------------------------///
-                            ///----------------------------------------------------------------------///
-                            else {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 6),
-                                child: Row(
-                                  children: [
-                                    ///!-------- Video Player
-                                    // BlocBuilder<YoutubeMusicPlayerCubit,
-                                    //     YoutubeMusicPlayerState>(
-                                    //   builder: (context, ytState) {
-                                    //     if(ytState is YoutubeMusicPlayerSuccessState){
-                                    //       return Padding(
-                                    //         padding: const EdgeInsets.symmetric(vertical: 8),
-                                    //         child: ClipRRect(
-                                    //           borderRadius: BorderRadius.circular(20),
-                                    //           child: const MyYouTubeVideoPlayerWidget(),
-                                    //         ),
-                                    //       );
-                                    //     }
-
-                                    ///!-------- Thumbnail
-                                    // else {
-                                    //   return
-                                    CachedNetworkImage(
-                                      imageUrl: musicDataState.musicThumbnail,
-                                      imageBuilder: (context, imageProvider) =>
-
-                                          ///!---- Animation
-                                          SpinPerfect(
-                                        infinite: true,
-                                        duration: const Duration(seconds: 15),
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          onBackgroundImageError:
-                                              (exception, stackTrace) =>
-                                                  const Icon(Icons.music_note),
-                                          backgroundImage: imageProvider,
-                                          radius: 19.spMax,
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      placeholder: (context, url) =>
-                                          CircleAvatar(
-                                        radius: 19.spMax,
-                                        child: Icon(
-                                          FontAwesomeIcons.video,
-                                          size: 12.spMax,
-                                          color: Color(themeState.accentColor),
-                                        ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          CircleAvatar(
-                                        radius: 19.spMax,
-                                        child: Icon(
-                                          FontAwesomeIcons.music,
-                                          size: 12.spMax,
-                                          color: Color(themeState.accentColor),
-                                        ),
-                                      ),
-                                    ),
-                                    //     }
-                                    //   },
-                                    // ),
-                                    const Gap(5),
 
-                                    ///!------ Title & Artist
-                                    Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ///---------!  Music Title
-                                          Text(
-                                            musicDataState.musicTitle
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12.sp,
+                                      SizedBox(
+                                        width: 0.05.sw,
+                                      )
+                                    ],
+                                  );
+                                }
+
+                                ///?-----------------------------------------------------------------------//
+                                ///!---------------------- If Youtube Music ----------------------------///
+                                ///----------------------------------------------------------------------///
+                                else {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: Row(
+                                      children: [
+                                        ///!-------- Video Player
+                                        // BlocBuilder<YoutubeMusicPlayerCubit,
+                                        //     YoutubeMusicPlayerState>(
+                                        //   builder: (context, ytState) {
+                                        //     if(ytState is YoutubeMusicPlayerSuccessState){
+                                        //       return Padding(
+                                        //         padding: const EdgeInsets.symmetric(vertical: 8),
+                                        //         child: ClipRRect(
+                                        //           borderRadius: BorderRadius.circular(20),
+                                        //           child: const MyYouTubeVideoPlayerWidget(),
+                                        //         ),
+                                        //       );
+                                        //     }
+
+                                        ///!-------- Thumbnail
+                                        // else {
+                                        //   return
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              musicDataState.musicThumbnail,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+
+                                                  ///!---- Animation
+                                                  SpinPerfect(
+                                            infinite: true,
+                                            duration:
+                                                const Duration(seconds: 15),
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              onBackgroundImageError:
+                                                  (exception, stackTrace) =>
+                                                      const Icon(
+                                                          Icons.music_note),
+                                              backgroundImage: imageProvider,
+                                              radius: 19.spMax,
                                             ),
                                           ),
-
-                                          ///-----!  Music Artists
-                                          Text(
-                                            musicDataState.musicArtist
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 9.sp,
-                                                fontFamily: "Poppins"),
+                                          placeholder: (context, url) =>
+                                              CircleAvatar(
+                                            radius: 19.spMax,
+                                            child: Icon(
+                                              FontAwesomeIcons.video,
+                                              size: 12.spMax,
+                                              color:
+                                                  Color(themeState.accentColor),
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
+                                          errorWidget: (context, url, error) =>
+                                              CircleAvatar(
+                                            radius: 19.spMax,
+                                            child: Icon(
+                                              FontAwesomeIcons.music,
+                                              size: 12.spMax,
+                                              color:
+                                                  Color(themeState.accentColor),
+                                            ),
+                                          ),
+                                        ),
+                                        //     }
+                                        //   },
+                                        // ),
+                                        const Gap(5),
 
-                                    const Gap(5),
-                                  ],
-                                ),
-                              );
-                            }
-                          }),
+                                        ///!------ Title & Artist
+                                        Expanded(
+                                          flex: 2,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ///---------!  Music Title
+                                              Text(
+                                                musicDataState.musicTitle
+                                                    .toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12.sp,
+                                                ),
+                                              ),
+
+                                              ///-----!  Music Artists
+                                              Text(
+                                                musicDataState.musicArtist
+                                                    .toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 9.sp,
+                                                    fontFamily: "Poppins"),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        const Gap(5),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }),
+                            ),
+
+                            ///------------- Music Position Progress Slider Overlay ----------///
+                            BlocBuilder<MusicPlayerBloc, MusicPlayerState>(
+                              builder: (context, musicPlayerState) {
+                                if (musicPlayerState
+                                    is MusicPlayerSuccessState) {
+                                  return Positioned(
+                                    top: 31,
+                                    height: 0.1.sw,
+                                    left: 76.sp,
+                                    width: 0.45.sw,
+                                    child: StreamBuilder(
+                                        stream: musicPlayerState
+                                            .combinedStreamPositionAndDurationAndBufferedList,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return SliderTheme(
+                                              data: SliderThemeData(
+                                                  overlayColor: Color(
+                                                      themeState.accentColor),
+                                                  overlayShape:
+                                                      const RoundSliderOverlayShape(
+                                                          overlayRadius: 5),
+                                                  thumbShape:
+                                                      const RoundSliderThumbShape(
+                                                          enabledThumbRadius:
+                                                              5),
+                                                  activeTrackColor: Color(
+                                                      themeState.accentColor),
+                                                  trackHeight: 0.002.sh,
+                                                  thumbColor: Color(
+                                                      themeState.accentColor),
+                                                  inactiveTrackColor:
+                                                      Colors.black26),
+                                              child: Slider(
+                                                  value: snapshot
+                                                          .data?[0]?.inSeconds
+                                                          .toDouble() ??
+                                                      1,
+                                                  min: 0,
+                                                  max: snapshot
+                                                          .data?[1]?.inSeconds
+                                                          .toDouble() ??
+                                                      1,
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<MusicPlayerBloc>()
+                                                        .add(
+                                                            MusicPlayerSeekEvent(
+                                                                position: value
+                                                                    .toInt()));
+                                                  }),
+                                            );
+                                          } else {
+                                            return const SizedBox.shrink();
+                                          }
+                                        }),
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -561,70 +657,14 @@ class _MiniPlayerPageWidgetState extends State<MiniPlayerPageWidget> {
   ///!--------------------------------------------------------------------------------///
   void _nextMusicButtonOnTap(
       NowPlayingMusicDataToPlayerState state, BuildContext context) {
-    int index = state.musicIndex;
-    if (index < state.musicListLength) {
-      index++;
-      final music = state.musicList[index];
-
-      ///!-----Change Music------
-      context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: music.uri,
-          isOnlineMusic: false,
-          musicAlbum: music.album ?? "Unknown",
-          musicId: music.id,
-          musicTitle: music.title,
-          onlineMusicThumbnail: null,
-          offlineMusicThumbnail: music.artwork));
-
-      ///---- Also Change Music Title and Artist on Next Button Clicked
-      context.read<NowPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-            musicIndex: index,
-            musicList: state.musicList,
-            musicThumbnail: state.musicList[index].artwork,
-            musicTitle: state.musicList[index].title,
-            musicArtist: state.musicList[index].artist,
-            uri: state.musicList[index].uri,
-            musicId: state.musicList[index].id,
-            musicListLength: state.musicList.length,
-          );
-
-      ///!-------  Change Selected Tile Index
-      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
-    }
+    context.read<MusicPlayerBloc>().add(MusicPlayerOfflineNextMusicEvent(
+        nowPlayingState: state, context: context));
   }
 
   void _backwardMusicButtonOnTap(
       NowPlayingMusicDataToPlayerState state, BuildContext context) {
-    int index = state.musicIndex;
-    if (index > 0) {
-      index--;
-      final music = state.musicList[index];
-
-      ///!-----Change Music------
-      context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: music.uri.toString(),
-          isOnlineMusic: false,
-          musicAlbum: music.album ?? "Unknown",
-          musicId: music.id,
-          musicTitle: music.title,
-          onlineMusicThumbnail: null,
-          offlineMusicThumbnail: music.artwork));
-
-      ///---- Also Change Music Title and Artist on Back Button Clicked
-      context.read<NowPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-            musicIndex: index,
-            musicList: state.musicList,
-            musicThumbnail: state.musicList[index].artwork,
-            musicTitle: state.musicList[index].title,
-            musicArtist: state.musicList[index].artist,
-            uri: state.musicList[index].uri,
-            musicListLength: state.musicList.length,
-            musicId: state.musicList[index].id,
-          );
-
-      ///!-------  Change Selected Tile Index
-      context.read<ThemeModeCubit>().changeSelectedTileIndex(index: index);
-    }
+    context.read<MusicPlayerBloc>().add(MusicPlayerOfflinePreviousMusicEvent(
+        nowPlayingState: state, context: context));
   }
 
   _playNextMusicIfAvailable(BuildContext context,

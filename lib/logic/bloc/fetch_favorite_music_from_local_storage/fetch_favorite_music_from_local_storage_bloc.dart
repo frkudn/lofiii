@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lofiii/data/models/local_music_model.dart';
-import 'package:lofiii/base/services/app_permissions_service.dart';
+import 'package:lofiii/base/services/permissions/app_permissions_service.dart';
 import 'package:lofiii/di/dependency_injection.dart';
 import 'package:lofiii/base/services/hive/hive_services.dart';
 import 'package:on_audio_query/on_audio_query.dart';

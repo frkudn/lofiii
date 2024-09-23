@@ -1,4 +1,7 @@
+import 'package:lofiii/data/repositories/youtube_repository.dart';
 import 'package:lofiii/exports.dart';
+import 'package:lofiii/logic/bloc/youtube_videos_bloc/youtube_videos_bloc.dart';
+
 
 
 ///?----------------   B L O C   P R O V I D E R S   -------------///
@@ -70,6 +73,10 @@ List<SingleChildWidget> myBlocProviders() {
     ),
     BlocProvider(
       create: (context) => YoutubeCarouselIndicatorsIndexCubit(),
+    ),
+
+      BlocProvider(
+      create: (context) => YoutubeVideosBloc(ytRepository: locator<YouTubeDataRepository>()),
     ),
   ];
 }

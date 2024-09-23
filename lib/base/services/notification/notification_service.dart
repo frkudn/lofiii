@@ -30,6 +30,12 @@ class NotificationService {
         androidNotificationChannelId: 'com.lofiii.lyrilab',
         androidNotificationChannelName: 'Audio playback',
         androidNotificationOngoing: true,
+        androidResumeOnClick: true,
+        androidShowNotificationBadge: true,
+        preloadArtwork: true,
+        androidNotificationClickStartsActivity: true,
+        androidStopForegroundOnPause: true,
+        
       );
       log('initJustAUdioBackgroundNotification completed');
     } catch (e, stackTrace) {

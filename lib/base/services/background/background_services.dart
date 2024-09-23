@@ -9,7 +9,7 @@ Future<void> initializeBackgroundExecution() async {
   if (hasBackgroundPermissions) {
     // Configuration for Android background execution
     const androidConfig = FlutterBackgroundAndroidConfig(
-      notificationImportance: AndroidNotificationImportance.Default,
+      notificationImportance: AndroidNotificationImportance.max,
       notificationIcon: AndroidResource(
           name: 'background_icon', defType: 'drawable'), // Default is ic_launcher from folder mipmap
     );

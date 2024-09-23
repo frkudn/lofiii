@@ -12,8 +12,7 @@ class MusicPlayerInitializeEvent extends MusicPlayerEvent {
       required this.onlineMusicThumbnail,
       required this.musicId,
       required this.offlineMusicThumbnail,
-      this.artist
-      });
+      this.artist});
   final String url;
   final String musicTitle;
   final String musicAlbum;
@@ -68,7 +67,7 @@ class MusicPlayerSeekEvent extends MusicPlayerEvent {
 class MusicPlayerVolumeSetEvent extends MusicPlayerEvent {
   MusicPlayerVolumeSetEvent({this.volumeLevel});
 
-  final volumeLevel;
+  final  volumeLevel;
   @override
   List<Object?> get props => [volumeLevel];
 }
@@ -76,4 +75,40 @@ class MusicPlayerVolumeSetEvent extends MusicPlayerEvent {
 class MusicPlayerDisposeEvent extends MusicPlayerEvent {
   @override
   List<Object?> get props => [];
+}
+
+class MusicPlayerOfflineNextMusicEvent extends MusicPlayerEvent {
+  MusicPlayerOfflineNextMusicEvent({required this.nowPlayingState, required this.context});
+  final NowPlayingMusicDataToPlayerState nowPlayingState;
+  final BuildContext context;
+  @override
+  List<Object?> get props => [nowPlayingState];
+}
+
+class MusicPlayerOnlineNextMusicEvent extends MusicPlayerEvent {
+  MusicPlayerOnlineNextMusicEvent(
+      {required this.nowPlayingState, required this.context});
+  final NowPlayingMusicDataToPlayerState nowPlayingState;
+  final BuildContext context;
+  @override
+  List<Object?> get props => [nowPlayingState];
+}
+
+class MusicPlayerOfflinePreviousMusicEvent extends MusicPlayerEvent {
+  MusicPlayerOfflinePreviousMusicEvent(
+      {required this.nowPlayingState, required this.context});
+  final NowPlayingMusicDataToPlayerState nowPlayingState;
+  final BuildContext context;
+  @override
+  List<Object?> get props => [nowPlayingState];
+}
+
+
+class MusicPlayerOnlinePreviousMusicEvent extends MusicPlayerEvent {
+  MusicPlayerOnlinePreviousMusicEvent(
+      {required this.nowPlayingState, required this.context});
+  final NowPlayingMusicDataToPlayerState nowPlayingState;
+  final BuildContext context;
+  @override
+  List<Object?> get props => [nowPlayingState];
 }

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -11,13 +12,13 @@ class MyHive {
     try {
       log('Initializing Hive');
       //! Ensure Hive is initialized before using it
-      final appDocumentDirectory =
+      final Directory appDocumentDirectory =
           await path_provider.getApplicationDocumentsDirectory();
       Hive.init(appDocumentDirectory.path);
 
       await Future.wait([
-        //! Open the library box
-        Hive.openBox('library'),
+        //! Open the library box 
+        Hive.openBox('library'),   
         //! Open the setting box
         Hive.openBox('setting'),
         //! Open the cache box
@@ -57,10 +58,12 @@ class MyHiveKeys {
       "hive_online_favorite_list";
   static const String localFavoriteMusicListHiveKey =
       "hive_local_favorite_list";
-
   static const String cachedLocalMusicListHiveKey =
       "cached_hive_local_music_list";
-
+  static const String cachedOnlineMusicHiveKey =
+      "cached_hive_online_music_list";
+  static const String onlineMusicLastFetchedTimeHiveKey =
+      "hive_online_music_last_fetched_time";
   static const String profilePicHiveKey = "hive_profile_pic";
   static const String profileUsernameHiveKey = "hive_username";
   static const String darkModeHiveKey = "hive_dark_mode";
@@ -69,4 +72,26 @@ class MyHiveKeys {
   static const String showOnBoardingScreenHiveKey = "hive_show_on_boarding";
   static const String showMoreMusicMessageHiveKey =
       "hive_more_music_message_key";
+}
+
+class MyHiveClearCaches {
+  /// Manually clears the cache
+  /// Use this when you want to force a refresh of the data
+  static Future<void> onlineMusicCache() async {
+    final box = MyHiveBoxes.cachedManagerBox;
+    await box.delete(MyHiveKeys.cachedOnlineMusicHiveKey);
+    await box.delete(MyHiveKeys.onlineMusicLastFetchedTimeHiveKey);
+  }
+}
+
+class MyHiveCheckCachesExpires {
+  /// Checks if the cached data has expired
+  static bool isOnlineMusicCacheExpired({required Duration olderThan}) {
+    final box = MyHiveBoxes.cachedManagerBox;
+    final lastFetchTime =
+        box.get(MyHiveKeys.onlineMusicLastFetchedTimeHiveKey) as DateTime?;
+
+    return lastFetchTime == null ||
+        DateTime.now().difference(lastFetchTime) > olderThan;
+  }
 }

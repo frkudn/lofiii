@@ -11,13 +11,15 @@ class LocalPlayerMusicTitleWidget extends StatelessWidget {
     return BlocBuilder<NowPlayingMusicDataToPlayerCubit,
         NowPlayingMusicDataToPlayerState>(
       builder: (context, state) {
-        return TextAnimator(
-
-          incomingEffect: WidgetTransitionEffects.incomingOffsetThenScale(),
-          atRestEffect: WidgetRestingEffects.wave(),
-          state.musicTitle,
-          maxLines: 1,
-          style: TextStyle(fontSize: 25.sp, color: Colors.white),
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: TextAnimator(
+            incomingEffect: WidgetTransitionEffects.incomingSlideInFromRight(),
+            atRestEffect: WidgetRestingEffects.wave(),
+            state.musicTitle,
+            maxLines: 1,
+            style: TextStyle(fontSize: 25.sp, color: Colors.white),
+          ),
         );
       },
     );

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/base/router/app_routes.dart';
 
-import '../../../../base/services/app_permissions_service.dart';
+import '../../../../base/services/permissions/app_permissions_service.dart';
 import '../../../../base/services/hive/hive_services.dart';
 
 class OnBoardingSkipButton extends StatelessWidget {

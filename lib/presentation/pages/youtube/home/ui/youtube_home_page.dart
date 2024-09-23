@@ -1,6 +1,6 @@
 import 'package:lofiii/presentation/pages/downloads/exports.dart';
 import 'package:lofiii/presentation/pages/youtube/exports.dart';
-import 'package:lofiii/presentation/pages/youtube/home/widgets/you_tube_home_whats_hot_today_widget.dart';
+import 'package:lofiii/presentation/pages/youtube/home/widgets/youtube_home_whats_hot_today_widget.dart';
 import 'package:lofiii/presentation/pages/youtube/home/widgets/youtube_home_page_sliver_app_bar_widget.dart';
 import 'package:lofiii/presentation/pages/youtube/home/widgets/youtube_home_page_top_music_carousel_widget.dart';
 

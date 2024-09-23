@@ -779,59 +779,14 @@ class _OnlinePlayerPageState extends State<OnlinePlayerPage> {
   void _nextMusicButtonOnTap(
     NowPlayingMusicDataToPlayerState state,
   ) {
-    int index = state.musicIndex;
-    if (index < state.musicList.length) {
-      index++;
-      final MusicModel music = state.musicList[index];
-      context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: music.url,
-          isOnlineMusic: true,
-          musicAlbum: "LOFIII",
-          musicId: music.id,
-          musicTitle: music.title,
-          onlineMusicThumbnail: music.image,
-          offlineMusicThumbnail: null));
-      // context.read<CurrentlyPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-      //     musicIndex: index, fullMusicList: state.fullMusicList);
-      context.read<NowPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-          musicIndex: index,
-          musicList: state.musicList,
-          musicThumbnail: music.image,
-          musicTitle: music.title,
-          uri: music.url,
-          musicId: music.id,
-          musicArtist: music.artists,
-          musicListLength: state.musicList.length);
-    }
+    context.read<MusicPlayerBloc>().add(MusicPlayerOnlineNextMusicEvent(
+        nowPlayingState: state, context: context));
   }
 
   void _backwardMusicButtonOnTap(
     NowPlayingMusicDataToPlayerState state,
   ) {
-    int index = state.musicIndex;
-    if (index > 0) {
-      index--;
-      index++;
-      final MusicModel music = state.musicList[index];
-      context.read<MusicPlayerBloc>().add(MusicPlayerInitializeEvent(
-          url: music.url,
-          isOnlineMusic: true,
-          musicAlbum: "LOFIII",
-          musicId: music.id,
-          musicTitle: music.title,
-          onlineMusicThumbnail: music.image,
-          offlineMusicThumbnail: null));
-      // context.read<CurrentlyPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-      //     musicIndex: index, fullMusicList: state.fullMusicList);
-      context.read<NowPlayingMusicDataToPlayerCubit>().sendDataToPlayer(
-          musicIndex: index,
-          musicList: state.musicList,
-          musicThumbnail: music.image,
-          musicTitle: music.title,
-          uri: music.url,
-          musicId: music.id,
-          musicArtist: music.artists,
-          musicListLength: state.musicList.length);
-    }
+    context.read<MusicPlayerBloc>().add(MusicPlayerOnlinePreviousMusicEvent(
+        nowPlayingState: state, context: context));
   }
 }

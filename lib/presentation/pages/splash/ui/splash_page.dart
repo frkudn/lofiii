@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lofiii/base/router/app_routes.dart';
 import 'package:lofiii/logic/bloc/fetch_lofiii_music_from_internet/lofiii_music_bloc.dart';
-import '../../../../base/services/app_services.dart';
+import 'package:lofiii/logic/bloc/youtube_videos_bloc/youtube_videos_bloc.dart';
+import '../../../../base/services/app/app_services.dart';
 import '../../../../logic/cubit/greeting/greeting_cubit.dart';
 import '../../../../logic/cubit/theme_mode/theme_mode_cubit.dart';
 import '../../../../base/services/hive/hive_services.dart';
@@ -85,5 +86,7 @@ class _SplashPageState extends State<SplashPage> {
 
     //?-------------Update Home Page Greeting Message -------/////
     context.read<GreetingCubit>().updateGreeting();
+
+    context.read<YoutubeVideosBloc>().add(FetchYoutubeVideosEvent());
   }
 }

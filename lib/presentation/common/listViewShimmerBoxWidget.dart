@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lofiii/exports.dart';
-import 'package:lofiii/logic/cubit/theme_mode/theme_mode_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ListViewShimmerBoxWidget extends StatelessWidget {

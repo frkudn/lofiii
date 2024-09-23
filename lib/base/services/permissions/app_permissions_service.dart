@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:lofiii/base/services/notification_service.dart';
+import 'package:lofiii/base/services/notification/notification_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AppPermissionService {

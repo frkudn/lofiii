@@ -1,3 +1,4 @@
+import 'package:lofiii/base/services/hive/hive_services.dart';
 import 'package:lofiii/presentation/pages/downloads/exports.dart';
 
 import '../exports.dart';
@@ -199,6 +200,7 @@ class _HomePageState extends State<HomePage> {
   ///?---------------------------- M E T H O D S --------------------///
   ///----On Refreshing
   Future<void> _onRefreshMethod() async {
+    MyHiveClearCaches.onlineMusicCache();
     context.read<LofiiiMusicBloc>().add(LOFIIIMusicFetchEvent());
   }
 

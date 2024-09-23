@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:lofiii/base/router/app_routes.dart';
-import 'package:lofiii/base/services/app_permissions_service.dart';
+import 'package:lofiii/base/services/permissions/app_permissions_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../logic/bloc/user_profile/user_profile_bloc.dart';

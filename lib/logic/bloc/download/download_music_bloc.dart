@@ -6,12 +6,12 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:lofiii/base/services/app_permissions_service.dart';
+import 'package:lofiii/base/services/permissions/app_permissions_service.dart';
 import 'package:lofiii/di/dependency_injection.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../base/services/notification_service.dart';
+import '../../../base/services/notification/notification_service.dart';
 
 part 'download_music_event.dart';
 part 'download_music_state.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lofiii/base/assets/app_assets.dart';
 import 'package:lofiii/presentation/pages/player/exports.dart';
 
 class LocalPlayerMusicThumbnailWidget extends StatelessWidget {
@@ -26,10 +27,16 @@ class LocalPlayerMusicThumbnailWidget extends StatelessWidget {
                 )
               ],
               borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                  image: MemoryImage(state.musicThumbnail!),
-                  filterQuality: FilterQuality.high,
-                  fit: BoxFit.cover),
+              image: state.musicThumbnail != null
+                  ? DecorationImage(
+                      image: MemoryImage(state.musicThumbnail),
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.cover)
+                  : const DecorationImage(
+                      image:
+                          AssetImage(AppSvgsImages.userDefaultProfileImage),
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.cover),
             ),
           ),
         );
